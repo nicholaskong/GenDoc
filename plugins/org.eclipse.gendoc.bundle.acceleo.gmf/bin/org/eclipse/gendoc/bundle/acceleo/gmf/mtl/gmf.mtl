@@ -1,0 +1,54 @@
+[comment 
+  Copyright (c) 2010 Atos Origin.
+     
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+  http://www.eclipse.org/legal/epl-v10.html
+ 
+/]
+[module gmf('http://www.eclipse.org/gmf/runtime/1.0.2/notation')/]
+
+[comment - Get all elements containing in the diagram/]
+[query public getElementsInDiagram(arg0 : Diagram) : Sequence(OclAny)
+	= invoke('org.eclipse.gendoc.bundle.acceleo.gmf.service.GMFServices', 'getElementsInDiagram(org.eclipse.gmf.runtime.notation.Diagram)', Sequence{arg0}) /]
+
+[comment - Return if the diagram is empty/]	
+[query public isDiagramEmpty(arg0 : Diagram) : Boolean
+	= invoke('org.eclipse.gendoc.bundle.acceleo.gmf.service.GMFServices', 'isDiagramEmpty(org.eclipse.gmf.runtime.notation.Diagram)', Sequence{arg0}) /]
+
+[comment - Get the diagrams from relative path for an object/]
+[query public getDiagramsUsingRelativePath(arg0 : OclAny, arg1 : String) : Sequence(Diagram)
+	= invoke('org.eclipse.gendoc.bundle.acceleo.gmf.service.GMFServices', 'getDiagramsUsingRelativePath(org.eclipse.emf.ecore.EObject, java.lang.String)', Sequence{arg0, arg1}) /]
+
+[comment - Get the diagrams from absolute path for an object/]	
+[query public getDiagramsUsingAbsolutePath(arg0 : OclAny, arg1 : String) : Sequence(Diagram)
+	= invoke('org.eclipse.gendoc.bundle.acceleo.gmf.service.GMFServices', 'getDiagramsUsingAbsolutePath(org.eclipse.emf.ecore.EObject, java.lang.String)', Sequence{arg0, arg1}) /]
+
+[comment - Get the diagrams from resource with the arg1 extension for an object/]	
+[query public getDiagramsUsingExtension(arg0 : OclAny, arg1 : String) : Sequence(Diagram)
+	= invoke('org.eclipse.gendoc.bundle.acceleo.gmf.service.GMFServices', 'getDiagramsUsingExtension(org.eclipse.emf.ecore.EObject, java.lang.String)', Sequence{arg0, arg1}) /]
+	
+[comment - Get the diagrams from a .notation resource for an object/]	
+[query public getDiagramsUsingNotation(arg0 : OclAny) : Sequence(Diagram)
+	= invoke('org.eclipse.gendoc.bundle.acceleo.gmf.service.GMFServices', 'getDiagramsUsingNotation(org.eclipse.emf.ecore.EObject)', Sequence{arg0}) /]
+
+[comment - Get diagrams contained in the model file resource for an object/]	
+[query public getDiagramsInModel(arg0 : OclAny) : Sequence(Diagram)
+	= invoke('org.eclipse.gendoc.bundle.acceleo.gmf.service.GMFServices', 'getDiagramsInModel(org.eclipse.emf.ecore.EObject)', Sequence{arg0}) /]
+
+[comment - Get the diagram ID necessary for diagram object attribute /]
+[query public getDiagram(arg0 : Diagram) : String
+	= invoke('org.eclipse.gendoc.bundle.acceleo.gmf.service.GMFServices', 'getDiagram(org.eclipse.gmf.runtime.notation.Diagram)', Sequence{arg0}) /]
+
+[comment - Get the diagram ID necessary for diagram object attribute, it is possible to specify the elements visible in the diagram /]
+[query public getDiagram(arg0 : Diagram, arg1 : Sequence(OclAny)) : String
+	= invoke('org.eclipse.gendoc.bundle.acceleo.gmf.service.GMFServices', 'getDiagram(org.eclipse.gmf.runtime.notation.Diagram, java.util.List)', Sequence{arg0,arg1}) /]
+
+[comment - Get the diagram ID necessary for diagram object attribute, the format of the image exported is specify through arg1 /]
+[query public getDiagramExt(arg0 : Diagram, arg1 : String) : String
+	= invoke('org.eclipse.gendoc.bundle.acceleo.gmf.service.GMFServices', 'getDiagramExt(org.eclipse.gmf.runtime.notation.Diagram, java.lang.String)', Sequence{arg0, arg1}) /]
+
+[comment - Get the diagram ID necessary for diagram object attribute, the format of the image exported is specify through arg1, it is possible to specify the visible elements in the diagram /]
+[query public getDiagramExt(arg0 : Diagram, arg1 : String, arg2 : Sequence(OclAny)) : String
+	= invoke('org.eclipse.gendoc.bundle.acceleo.gmf.service.GMFServices', 'getDiagramExt(org.eclipse.gmf.runtime.notation.Diagram, java.lang.String, java.util.List)', Sequence{arg0, arg1, arg2}) /]

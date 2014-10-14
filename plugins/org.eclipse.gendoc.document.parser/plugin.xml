@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension-point id="factory" name="Factory" schema="schema/factory.exsd"/>
+   <extension
+         point="org.eclipse.gendoc.document.parser.factory">
+      <factory
+            class="org.eclipse.gendoc.document.parser.documents.docx.DocxFactory"
+            extension="docx">
+      </factory>
+      <factory
+            class="org.eclipse.gendoc.document.parser.documents.odt.ODTFactory"
+            extension="odt">
+      </factory>
+      <factory
+            class="org.eclipse.gendoc.document.parser.documents.xlsx.XLSXFactory"
+            extension="xlsx">
+      </factory>
+      <factory
+            class="org.eclipse.gendoc.document.parser.documents.ods.ODSFactory"
+            extension="ods">
+      </factory>
+      <factory
+            class="org.eclipse.gendoc.document.parser.documents.csv.CSVFactory"
+            extension="csv">
+      </factory>
+   </extension>
+
+</plugin>

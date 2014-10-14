@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension-point id="org.eclipse.gendoc.wizard.runner" name="GendocPoint" schema="schema/org.eclipse.gendoc.wizard.runner.exsd"/>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="org.eclipse.gendoc.wizard.popup.actions.GenerateDocumentationHandler"
+            description="generate the documentation"
+            id="org.eclipse.gendoc.wizard.GenerateDoc"
+            name="Generate documentation with Gendoc">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:org.eclipse.ui.popup.any">
+         <command
+               commandId="org.eclipse.gendoc.wizard.GenerateDoc"
+               label="Generate Documentation with Gendoc"
+               style="push"
+               tooltip="Use Gendoc to generate documentation from model">
+             <visibleWhen
+                   checkEnabled="false">
+                <iterate
+                      ifEmpty="false">
+                      <or>
+	                   <adapt
+	                         type="org.eclipse.core.resources.IFile">
+	                      <test
+	                            forcePluginActivation="true"
+	                            property="org.eclipse.gendoc.wizard.isEnabled">
+	                      </test>
+	                   </adapt>
+	                   <adapt
+	                         type="java.util.Collection">
+	                      <test
+	                            forcePluginActivation="true"
+	                            property="org.eclipse.gendoc.wizard.isCollectionEnabled">
+	                      </test>
+	                   </adapt>
+	                   </or>
+                </iterate>
+             </visibleWhen>
+         </command>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.core.expressions.propertyTesters">
+      <propertyTester
+            class="org.eclipse.gendoc.wizard.WizardPropertyTester"
+            id="org.eclipse.gendoc.wizard.propertytester"
+            namespace="org.eclipse.gendoc.wizard"
+            properties="isEnabled"
+            type="org.eclipse.core.resources.IFile">
+      </propertyTester>
+      <propertyTester
+            class="org.eclipse.gendoc.wizard.WizardPropertyTester"
+            id="org.eclipse.gendoc.wizard.propertytesterWizardFile"
+            namespace="org.eclipse.gendoc.wizard"
+            properties="isCollectionEnabled"
+            type="java.util.Collection">
+      </propertyTester>
+   </extension>
+   <extension
+         id="GendocWizardBatchMode"
+         point="org.eclipse.core.runtime.applications">
+         <application
+            cardinality="*"
+            thread="main"
+            visible="true">
+         <run
+               class="org.eclipse.gendoc.wizard.batch.GendocWizardBatchModeApplication">
+         </run>
+      </application>
+   </extension>
+
+</plugin>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            adaptable="false"
+            id="org.eclipse.gendoc.script"
+            nameFilter="*.docx"
+            objectClass="org.eclipse.core.resources.IFile">
+         <action
+               class="org.eclipse.gendoc.ui.actions.GenerateDocumentation"
+               enablesFor="1"
+               id="org.eclipse.gendoc.script.action2"
+               label="Generate documentation using Gendoc">
+         </action>
+      </objectContribution>
+      <objectContribution
+            adaptable="false"
+            id="org.eclipse.gendoc.script"
+            nameFilter="*.odt"
+            objectClass="org.eclipse.core.resources.IFile">
+         <action
+               class="org.eclipse.gendoc.ui.actions.GenerateDocumentation"
+               enablesFor="1"
+               id="org.eclipse.gendoc.script.action2"
+               label="Generate documentation using Gendoc">
+         </action>
+      </objectContribution>
+   </extension>
+
+
+</plugin>

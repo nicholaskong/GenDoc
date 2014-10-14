@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.gendoc.tags">
+      <category
+            name="org.eclipse.gendoc.tags.top">
+         <tag
+               handler="org.eclipse.gendoc.tags.hyperlink.impl.BookmarksTagHandler"
+               name="bookmarks">
+            <tag
+                  handler="org.eclipse.gendoc.tags.hyperlink.impl.AliasTagHandler"
+                  name="alias">
+               <attribute
+                     name="source"
+                     required="true"
+                     type="java.lang.String">
+               </attribute>
+               <attribute
+                     name="target"
+                     required="true"
+                     type="java.lang.String">
+               </attribute>
+            </tag>
+         </tag>
+      </category>
+   </extension>
+</plugin>

@@ -1,0 +1,22 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Gendoc HTML
+Bundle-SymbolicName: org.eclipse.gendoc.tags.html;singleton:=true
+Bundle-Version: 0.5.0.qualifier
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Require-Bundle: org.eclipse.acceleo.engine,
+ org.eclipse.core.runtime,
+ org.eclipse.ui,
+ org.eclipse.gendoc.document.parser,
+ org.eclipse.gendoc.documents,
+ org.eclipse.gendoc.services,
+ org.eclipse.gendoc.services.docx,
+ org.eclipse.gendoc.tags,
+ org.eclipse.gendoc.tags.handlers,
+ org.eclipse.gendoc.process
+Bundle-ActivationPolicy: lazy
+Bundle-Activator: org.eclipse.gendoc.tags.html.Activator
+Bundle-ClassPath: lib/jtidy-04aug2000r7.jar,
+ .
+Export-Package: org.eclipse.gendoc.tags.html,
+ org.eclipse.gendoc.tags.html.impl

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension-point id="org.eclipse.gendoc.tags" name="Gendoc Tags" schema="schema/tags.exsd"/>
+   <extension
+         point="org.eclipse.gendoc.serviceTypes">
+      <serviceType
+            id="TagExtensionService"
+            interface="org.eclipse.gendoc.tags.ITagExtensionService">
+      </serviceType>
+   </extension>
+   <extension
+         point="org.eclipse.gendoc.services">
+      <service
+            class="org.eclipse.gendoc.tags.impl.TagExtensionService"
+            default="true"
+            id="TagExtensionService"
+            serviceType="TagExtensionService">
+      </service>
+   </extension>
+   <extension
+         point="org.eclipse.gendoc.tags">
+      <category
+            name="org.eclipse.gendoc.tags.top">
+      </category>
+   </extension>
+
+</plugin>

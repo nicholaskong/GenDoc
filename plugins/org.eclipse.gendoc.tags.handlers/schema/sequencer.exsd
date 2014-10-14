@@ -1,0 +1,160 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Schema file written by PDE -->
+<schema targetNamespace="org.eclipse.gendoc.tags.handlers" xmlns="http://www.w3.org/2001/XMLSchema">
+<annotation>
+      <appinfo>
+         <meta.schema plugin="org.eclipse.gendoc.tags.handlers" id="sequencer" name="sequencer runnable"/>
+      </appinfo>
+      <documentation>
+         this extension point allows to sequence the execution of tags
+      </documentation>
+   </annotation>
+
+   <element name="extension">
+      <annotation>
+         <appinfo>
+            <meta.element />
+         </appinfo>
+      </annotation>
+      <complexType>
+         <choice minOccurs="1" maxOccurs="unbounded">
+            <element ref="post_tag_handler" minOccurs="1" maxOccurs="unbounded"/>
+            <element ref="pre_tag_handler" minOccurs="1" maxOccurs="unbounded"/>
+         </choice>
+         <attribute name="point" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="id" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="name" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appinfo>
+                  <meta.attribute translatable="true"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="pre_tag_handler">
+      <annotation>
+         <documentation>
+            All tags which registred in pre_tag_handler will excute first before the doRun() and postRun()
+         </documentation>
+      </annotation>
+      <complexType>
+         <attribute name="tag_name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  the name of the tag which registred in pre_tag_handler
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="priority" type="string" use="required">
+            <annotation>
+               <documentation>
+                  it&apos;s value of the priority execution of the tag handler. The priority is higher as the value is low
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="runnable" type="string" use="required">
+            <annotation>
+               <documentation>
+                  Runnable that will be executed before or after tag handling process for tag tag_name (depending on &quot;order&quot; specified : PRE)
+
+This runnable must implement method &quot;preRun&quot; from Interface IPreTagHandler
+               </documentation>
+               <appinfo>
+                  <meta.attribute kind="java" basedOn=":org.eclipse.gendoc.tags.IPreTagHandler"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="post_tag_handler">
+      <annotation>
+         <documentation>
+            All tags which registred in pre_tag_handler will excute first after doRun() and preRun()
+         </documentation>
+      </annotation>
+      <complexType>
+         <attribute name="tag_name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  the name of the tag which registred in post_tag_handler
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="priority" type="string" use="required">
+            <annotation>
+               <documentation>
+                  it&apos;s value of the priority of execution of the tag handler. The priority is higher as the value is low
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="runnable" type="string" use="required">
+            <annotation>
+               <documentation>
+                  Runnable that will be executed before or after tag handling process for tag tag_name (depending on &quot;order&quot; specified : POST)
+
+This runnable must implement method &quot;postRun&quot; from Interface IPostTagHandler
+               </documentation>
+               <appinfo>
+                  <meta.attribute kind="java" basedOn=":org.eclipse.gendoc.tags.IPostTagHandler"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <annotation>
+      <appinfo>
+         <meta.section type="since"/>
+      </appinfo>
+      <documentation>
+         [Enter the first release in which this extension point appears.]
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appinfo>
+         <meta.section type="examples"/>
+      </appinfo>
+      <documentation>
+         [Enter extension point usage example here.]
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appinfo>
+         <meta.section type="apiinfo"/>
+      </appinfo>
+      <documentation>
+         [Enter API information here.]
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appinfo>
+         <meta.section type="implementation"/>
+      </appinfo>
+      <documentation>
+         [Enter information about supplied implementation of this extension point.]
+      </documentation>
+   </annotation>
+
+
+</schema>

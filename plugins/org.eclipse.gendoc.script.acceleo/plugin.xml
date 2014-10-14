@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension-point id="services" name="Java services used in Acceleo templates" schema="schema/services.exsd"/>
+  
+	  <extension
+	         point="org.eclipse.gendoc.scriptLanguages">
+	      <scriptLanguage
+	            name="acceleo"
+	            processor="org.eclipse.gendoc.script.acceleo.AcceleoM2TProcess">
+	      </scriptLanguage>
+	   </extension>
+   <extension
+         point="org.eclipse.gendoc.serviceTypes">
+      <serviceType
+            id="ModuleManager"
+            interface="org.eclipse.gendoc.script.services.IModuleManagerService">
+      </serviceType>
+      <serviceType
+            id="FileAndMetaModelsRegistry"
+            interface="org.eclipse.gendoc.script.acceleo.IFileAndMMRegistry">
+      </serviceType>
+   </extension>
+   <extension
+         point="org.eclipse.gendoc.services">
+      <service
+            class="org.eclipse.gendoc.script.services.impl.ModuleManagerService"
+            default="true"
+            id="ModuleManager"
+            serviceType="ModuleManager">
+      </service>
+      <service
+            class="org.eclipse.gendoc.script.acceleo.impl.FileAndMMRegistry"
+            default="true"
+            id="FileAndMetaModelsRegistry"
+            serviceType="FileAndMetaModelsRegistry">
+      </service>
+   </extension>
+
+</plugin>

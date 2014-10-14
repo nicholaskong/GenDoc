@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension-point id="org.eclipse.gendoc.scriptLanguages" name="Gendoc Script Languages" schema="schema/scriptLanguages.exsd"/>
+   <extension
+         point="org.eclipse.gendoc.serviceTypes">
+      <serviceType
+            id="ScriptLanguageExtensionService"
+            interface="org.eclipse.gendoc.m2t.IScriptLanguageExtensionService">
+      </serviceType>
+      <serviceType
+            id="FragmentService"
+            interface="org.eclipse.gendoc.m2t.IFragmentService">
+      </serviceType>
+   </extension>
+   <extension
+         point="org.eclipse.gendoc.services">
+      <service
+            class="org.eclipse.gendoc.m2t.impl.ScriptLanguageExtensionService"
+            default="true"
+            id="ScriptLanguageExtensionService"
+            serviceType="ScriptLanguageExtensionService">
+      </service>
+      <service
+            class="org.eclipse.gendoc.m2t.impl.FragmentService"
+            default="true"
+            id="FragmentService"
+            serviceType="FragmentService">
+      </service>
+   </extension>
+
+</plugin>

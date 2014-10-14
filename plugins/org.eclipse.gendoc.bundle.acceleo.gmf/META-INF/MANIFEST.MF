@@ -1,0 +1,26 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Gendoc bundle for compatibility with Gmf
+Bundle-SymbolicName: org.eclipse.gendoc.bundle.acceleo.gmf;singleton:=true
+Bundle-Version: 0.5.0.qualifier
+Bundle-Activator: org.eclipse.gendoc.bundle.acceleo.gmf.Activator
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.uml2.uml,
+ org.eclipse.emf.ecore,
+ org.eclipse.emf.ecore.xmi,
+ org.eclipse.ocl,
+ org.eclipse.ocl.ecore,
+ org.eclipse.acceleo.model,
+ org.eclipse.acceleo.engine,
+ org.eclipse.gmf.runtime.diagram.ui,
+ org.eclipse.gendoc.script.acceleo,
+ org.eclipse.gmf.runtime.notation.edit,
+ org.eclipse.gendoc.documents,
+ org.eclipse.gendoc.services,
+ org.eclipse.gendoc.tags.handlers,
+ org.eclipse.gmf.runtime.diagram.ui.render
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-ActivationPolicy: lazy
+Eclipse-LazyStart: true
+Export-Package: org.eclipse.gendoc.bundle.acceleo.gmf.mtl,
+ org.eclipse.gendoc.bundle.acceleo.gmf.service

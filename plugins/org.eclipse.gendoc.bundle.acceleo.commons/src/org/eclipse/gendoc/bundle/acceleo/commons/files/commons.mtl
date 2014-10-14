@@ -1,0 +1,62 @@
+[comment encoding = Cp1252 
+  Copyright (c) 2010 AtosOrigin.
+ 
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+  http://www.eclipse.org/legal/epl-v10.html
+ 
+  Contributors:
+   Anne Haugommard (Atos Origin) anne.haugommard@atosorigin.com - Initial API and implementation
+ /]
+[module commons('http://www.eclipse.org/emf/2002/Ecore')/]
+
+[comment - Replace special characters inside the given String <, >, &, ', " and replace them by corresponding XML codes/]	
+[query public clean(arg0 : String) : String
+	= invoke('org.eclipse.gendoc.bundle.acceleo.commons.files.CommonService', 'removeSpecialCharacters(java.lang.String)', Sequence{arg0}) /]
+
+[comment - Gets a tab where string is separated on the new lines/]	
+[query public splitNewLine(arg0 : String) : Sequence(String)
+	= invoke('org.eclipse.gendoc.bundle.acceleo.commons.files.CommonService', 'splitNewLine(java.lang.String)', Sequence{arg0}) /]
+	
+[comment - Gendoc Put, share a variable through the Gendoc generation /] 
+[query public gPut(arg0 : OclAny, arg1 : OclAny) : String
+	= invoke('org.eclipse.gendoc.bundle.acceleo.commons.files.CommonService', 'gPut(java.lang.Object,java.lang.Object)', Sequence{arg0,arg1}) /]
+
+[comment - Gendoc Get, get a variable through the Gendoc generation /] 
+[query public gGet(arg0 : OclAny) : OclAny
+	= invoke('org.eclipse.gendoc.bundle.acceleo.commons.files.CommonService', 'gGet(java.lang.Object)', Sequence{arg0}) /]
+	
+	[comment - Gendoc Get, get a variable through the Gendoc generation /] 
+[query public getText(arg0 : OclAny) : String
+	= invoke('org.eclipse.gendoc.bundle.acceleo.commons.files.CommonService', 'getText(org.eclipse.emf.ecore.EObject)', Sequence{arg0}) /]
+
+[comment - returns an unique ID for the element in parameter/]
+[query public getId(arg0 : OclAny) : String
+	= invoke('org.eclipse.gendoc.bundle.acceleo.commons.files.CommonService', 'getId(org.eclipse.emf.ecore.EObject)', Sequence{arg0}) /]
+
+[comment - load (objet : OclAny, extensionReplacement : String) : String
+for a Package p contained in the file located at file://c:/test/file.uml
+the call : p.load('notation') will load the file located at file://c:/test/file.notation /]
+[query public load(object : OclAny, extensionReplacement : String) : String 
+	= invoke('org.eclipse.gendoc.bundle.acceleo.commons.files.CommonService', 'load(org.eclipse.emf.ecore.EObject, java.lang.String)', Sequence{object,extensionReplacement}) /]
+
+
+
+[comment - loadRelative (object : OclAny, relativePath : String) : String
+for a Package p contained in the file located at file://c:/test/file.uml
+the call : p.load('../file.notation') will load the file located at file://c:/file.notation /]
+[query public loadRelative(object : OclAny, relativePath : String) : String 
+	= invoke('org.eclipse.gendoc.bundle.acceleo.commons.files.CommonService', 'loadRelative(org.eclipse.emf.ecore.EObject, java.lang.String)', Sequence{object,relativePath}) /]
+
+
+
+[comment - loadURI (object : OclAny, uri : String) : String
+for a Package p contained in the file located at file://c:/test/file.uml
+the call : p.load('file://c:/test/file.notation') will load the file located at file://c:/test/file.notation/]
+[query public loadURI(uri : String) : String 
+	= invoke('org.eclipse.gendoc.bundle.acceleo.commons.files.CommonService', 'loadURI(java.lang.String)', Sequence{uri}) /]
+
+[query public getPluginImage(pluginId : String, path : String) : String 
+	= invoke('org.eclipse.gendoc.bundle.acceleo.commons.files.CommonService', 'getPluginImage(java.lang.String,java.lang.String)', Sequence{pluginId,path}) /]
+

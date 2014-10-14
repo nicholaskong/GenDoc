@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension-point id="org.eclipse.gendoc.serviceTypes" name="Service Types" schema="schema/serviceTypes.exsd"/>
+   <extension-point id="org.eclipse.gendoc.services" name="Services" schema="schema/services.exsd"/>
+   <extension
+         point="org.eclipse.gendoc.serviceTypes">
+      <serviceType
+            id="GendocDiagnostician"
+            interface="org.eclipse.gendoc.services.IGendocDiagnostician">
+      </serviceType>
+      <serviceType
+            id="Logger"
+            interface="org.eclipse.gendoc.services.ILogger">
+      </serviceType>
+      <serviceType
+            id="ProgressMonitorService"
+            interface="org.eclipse.gendoc.services.IProgressMonitorService">
+      </serviceType>
+      <serviceType
+            id="RegistryService"
+            interface="org.eclipse.gendoc.services.IRegistryService">
+      </serviceType>
+      <serviceType
+            id="BookmarkService"
+            interface="org.eclipse.gendoc.services.IBookmarkService">
+      </serviceType>
+   </extension>
+   <extension
+         point="org.eclipse.gendoc.services">
+      <service
+            class="org.eclipse.gendoc.services.impl.GendocDiagnostician"
+            default="true"
+            id="GendocDiagnostician"
+            serviceType="GendocDiagnostician">
+      </service>
+      <service
+            class="org.eclipse.gendoc.services.impl.Logger"
+            default="true"
+            id="Logger"
+            serviceType="Logger">
+      </service>
+      <service
+            class="org.eclipse.gendoc.services.impl.ProgressMonitorService"
+            default="true"
+            id="ProgressMonitorService"
+            serviceType="ProgressMonitorService">
+      </service>
+      <service
+            class="org.eclipse.gendoc.services.impl.RegistryService"
+            default="true"
+            id="RegistryService"
+            serviceType="RegistryService">
+      </service>
+      <service
+            class="org.eclipse.gendoc.services.impl.BookmarkService"
+            default="true"
+            id="BookmarkService"
+            serviceType="BookmarkService">
+      </service>
+   </extension>
+
+</plugin>

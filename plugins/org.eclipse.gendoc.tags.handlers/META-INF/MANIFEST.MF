@@ -1,0 +1,24 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Gendoc Tag Handlers
+Bundle-SymbolicName: org.eclipse.gendoc.tags.handlers;singleton:=true
+Bundle-Version: 0.5.0.qualifier
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.emf.common,
+ org.eclipse.gendoc.document.parser,
+ org.eclipse.gendoc.documents,
+ org.eclipse.gendoc.m2t,
+ org.eclipse.gendoc.process,
+ org.eclipse.gendoc.services,
+ org.eclipse.gendoc.tags,
+ org.eclipse.gendoc.tags.parsers,
+ org.eclipse.core.resources,
+ org.eclipse.ui
+Export-Package: org.eclipse.gendoc.tags.handlers,
+ org.eclipse.gendoc.tags.handlers.impl,
+ org.eclipse.gendoc.tags.handlers.impl.config,
+ org.eclipse.gendoc.tags.handlers.impl.context,
+ org.eclipse.gendoc.tags.handlers.impl.post,
+ org.eclipse.gendoc.tags.handlers.impl.scripts,
+ org.eclipse.gendoc.tags.handlers.process

@@ -1,24 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="org.eclipse.gendoc.feature"
-      label="Gendoc"
+      id="org.eclipse.gendoc.papyrus.feature"
+      label="Papyrus bundle for Gendoc "
       version="0.5.0.qualifier">
 
    <description url="http://www.eclipse.org/gendoc">
-      Gendoc extracts data from models and generates documents that
-fully respect the appearance of your document template.
-Gendoc supports DOCX and ODT generation formats and handles GMF
-diagrams generation
+      Connector between Gendoc and Papyrus.
+      Adds services dedicated to access to Papyrus models inside Gendoc scripts.
    </description>
 
    <copyright>
       (c) Copyright Eclipse contributors and others 2000, 2014.  All
 rights reserved.
 Visit http://www.eclipse.org/platform
-This product includes following third parties with associated
-licenses: 
-- JTidy : (license : http://jtidy.sourceforge.net/license.html )
-- Apache XMLGraphics : (license : http://www.apache.org/licenses/LICENSE-2.0 )
    </copyright>
 
    <license url="license.html">
@@ -147,147 +141,40 @@ re-export of encryption software, to see if this is permitted.
 Java and all Java-based trademarks are trademarks of Oracle Corporation in the United States, other countries, or both.
    </license>
 
+   <requires>
+      <import feature="org.eclipse.gendoc.feature" version="0.5.0.qualifier"/>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.uml2.uml"/>
+      <import plugin="org.eclipse.emf.ecore"/>
+      <import plugin="org.eclipse.emf.ecore.xmi"/>
+      <import plugin="org.eclipse.ocl"/>
+      <import plugin="org.eclipse.ocl.ecore"/>
+      <import plugin="org.eclipse.acceleo.model"/>
+      <import plugin="org.eclipse.acceleo.engine"/>
+      <import plugin="org.eclipse.gendoc.bundle.acceleo.gmf"/>
+      <import plugin="org.eclipse.gendoc.script.acceleo"/>
+      <import plugin="org.eclipse.gmf.runtime.notation"/>
+      <import plugin="org.eclipse.gendoc.services"/>
+      <import plugin="org.eclipse.gendoc.process"/>
+      <import plugin="org.eclipse.gendoc.tags.handlers"/>
+      <import plugin="org.eclipse.papyrus.infra.core" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.papyrus.infra.gmfdiag.common"/>
+      <import plugin="org.eclipse.papyrus.uml.tools"/>
+      <import plugin="org.eclipse.papyrus.infra.core.log"/>
+      <import plugin="org.eclipse.papyrus.infra.services.resourceloading"/>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.gendoc.wizard"/>
+   </requires>
+
    <plugin
-         id="org.eclipse.gendoc"
+         id="org.eclipse.gendoc.bundle.acceleo.papyrus"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.gendoc.batch"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.gendoc.bundle.acceleo.commons"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.gendoc.bundle.acceleo.gmf"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.gendoc.document.parser"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.gendoc.documents"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.gendoc.m2t"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.gendoc.process"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.gendoc.script.acceleo"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.gendoc.services"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.gendoc.services.docx"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.gendoc.services.odt"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.gendoc.tags"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.gendoc.tags.handlers"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.gendoc.tags.html"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.gendoc.tags.hyperlink"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.gendoc.tags.parsers"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.gendoc.ui"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.gendoc.wizard"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-   <plugin
-         id="org.eclipse.gendoc.wizard.gmf"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.apache.xmlgraphics"
+         id="org.eclipse.gendoc.wizard.papyrus"
          download-size="0"
          install-size="0"
          version="0.0.0"

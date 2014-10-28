@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Wizard for document generation from GMF diagrams
+Bundle-Name: Wizard for document generation from PAPYRUS diagrams
 Bundle-SymbolicName: org.eclipse.gendoc.wizard.papyrus;singleton:=true
 Bundle-Version: 0.5.0.qualifier
 Bundle-Activator: org.eclipse.gendoc.wizard.papyrus.Activator

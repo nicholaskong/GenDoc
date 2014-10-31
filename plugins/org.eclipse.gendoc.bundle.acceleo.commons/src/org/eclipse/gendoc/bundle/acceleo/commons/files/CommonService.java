@@ -8,7 +8,9 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *  Anne Haugommard (Atos Origin) anne.haugommard@atosorigin.com - Initial API and implementation
+ *  Anne Haugommard (Atos Origin) anne.haugommard@atosorigin.com 
+ *		- Initial API and implementation
+ *		- Add format service
  *
  *****************************************************************************/
 package org.eclipse.gendoc.bundle.acceleo.commons.files;
@@ -19,8 +21,10 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.eclipse.core.runtime.IStatus;
@@ -46,9 +50,12 @@ import org.eclipse.gendoc.tags.handlers.IEMFModelLoaderService;
 import org.osgi.framework.Bundle;
 
 public class CommonService {
+	
+	
 	private static final Pattern newLinePattern = Pattern
 			.compile("\\r\\n|\\n|\\r");
 
+	
 	/**
 	 * Compiles patterns of Gendoc tags
 	 * 
@@ -363,4 +370,61 @@ public class CommonService {
 		}
 		return null;
 	}
+	
+
+	/**
+	 * Replace the following format characters inside the given String :<ul>
+	 * <li> Line feed (\n or &#xA;)</li>
+	 * <li> Carriage return (\r or &#xD;)</li>
+	 * <li> Tabulation (\t or &#x9;)</li>
+	 * </ul>
+	 * @param input
+	 *            The input string to modify
+	 * 
+	 * @return the string cleaned and formatted
+	 */
+	public static String cleanAndFormat(String input) {
+		
+		
+		Map<String,String> SPECIAL_CHARACTERS = new LinkedHashMap<String, String>();
+		SPECIAL_CHARACTERS.put("<", "&lt;");
+		SPECIAL_CHARACTERS.put(">", "&gt;");
+		SPECIAL_CHARACTERS.put("'", "&apos;");
+		SPECIAL_CHARACTERS.put("\"", "&quot;");
+		IDocumentService documentService = GendocServices.getDefault().getService(IDocumentService.class);
+		
+		//  Handle specific case of replacement of '&xxx;' characters
+		Pattern p = Pattern.compile("&[^;]*;");
+		Matcher m = p.matcher(input);
+	    int index = 0;
+	    String cleanedInput = "";
+	    String substring ;
+	    int start = 0;
+	    int end =0;
+	    while (m.find())
+	    {
+            start = m.start();
+            end = m.end();
+            cleanedInput +=input.substring(index, start);
+            substring = input.substring(start, end);
+           
+            // "Regular" special characters are not modified
+            if(substring.matches("(&gt;)|(&lt;)|(&quot;)|(&amp;)|(&apos;)|(&#[^;]*;)") ){
+            	cleanedInput+= substring;
+            }
+            else{
+            	// Unknown special characters using & must be escaped.
+            	cleanedInput += (substring.replace("&","&amp;"));
+            }
+            index = end;
+        }
+	    cleanedInput +=(input.substring(index));
+		// Handle other special characters
+		for (String key : SPECIAL_CHARACTERS.keySet()){
+			cleanedInput = cleanedInput.replace(key, SPECIAL_CHARACTERS.get(key));
+		}
+		String result = documentService.format(cleanedInput);
+		return result;
+	}
+	
 }

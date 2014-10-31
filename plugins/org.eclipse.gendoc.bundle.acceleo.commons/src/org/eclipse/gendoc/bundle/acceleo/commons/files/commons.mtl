@@ -15,6 +15,11 @@
 [query public clean(arg0 : String) : String
 	= invoke('org.eclipse.gendoc.bundle.acceleo.commons.files.CommonService', 'removeSpecialCharacters(java.lang.String)', Sequence{arg0}) /]
 
+[comment - Replace formatting characters by correct document format characters /]	
+[query public cleanAndFormat(arg0 : String) : String
+	= invoke('org.eclipse.gendoc.bundle.acceleo.commons.files.CommonService', 'cleanAndFormat(java.lang.String)', Sequence{arg0}) /]
+
+
 [comment - Gets a tab where string is separated on the new lines/]	
 [query public splitNewLine(arg0 : String) : Sequence(String)
 	= invoke('org.eclipse.gendoc.bundle.acceleo.commons.files.CommonService', 'splitNewLine(java.lang.String)', Sequence{arg0}) /]

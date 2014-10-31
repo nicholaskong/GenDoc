@@ -21,33 +21,72 @@ import org.eclipse.gendoc.services.exception.ElementNotFoundException;
 import org.eclipse.gendoc.services.exception.GenDocException;
 import org.eclipse.gendoc.services.exception.ModelNotFoundException;
 
-/**
- * @author cbourdeu
- * 
- */
 public interface IContextService extends IService
 {
 
+
+
+    /**
+     * Set the model path
+     * @param model the model path
+     * @throws ModelNotFoundException when model is not found
+     */
+    void setModel(String model) throws GenDocException;
+    
+    /**
+     * Getter for modelPath
+     * @return the model path from the model given in setModel(..) method.
+     */
+    String getModelPath();
+    
+	/**
+	 * Get model from referenced IEMFModelLoaderService
+	 * @return EObject root of the model
+	 * @throws ModelNotFoundException if model cannot be found
+	 */
 	EObject getModel() throws ModelNotFoundException;
 
-    String getModelPath();
-
-    void setModel(String model) throws GenDocException;
-
+	 /**
+	  * Set element path to 
+	 * @param element the path of the element
+	 */
+	void setElementPath(String element);
+	
+    /**
+     * @return
+     * @throws ModelNotFoundException
+     * @throws ElementNotFoundException
+     */
     EObject getElement() throws ModelNotFoundException, ElementNotFoundException;
 
-    void setElementPath(String element);
-
-    List<String> getImportedBundles();
-
+    /**
+     * Optional method to set the feature label to use in elementPath
+     * default value : "name" 
+     * @param featureLabel the feature label
+     */
     void setFeatureLabel(String featureLabel);
     
-    boolean isSearchMetamodels();
-    
+    /**
+     * Set the attribute 'searchMetamodels' (default value if not set : false).
+     * @param searchMetamodels set to 'true' if multiple metamodels should be searched for
+     */
     void setSearchMetamodels(boolean searchMetamodels);
 
     /**
      * The bundles parameters are given as "bundleName1;bundleName2"
      */
     void setImportedBundles(String attributesBundles);
+    
+    /**
+     * Get the list of bundles to import
+     * @return the list of bundle identifiers
+     */
+    List<String> getImportedBundles();
+
+    /**
+     * Getter for searchMetamodels attribute	
+     * @return true if multiple meta-models should be searched for. False otherwise.
+     */
+    boolean isSearchMetamodels();
+    
 }

@@ -312,4 +312,25 @@ public class DOCXDocumentService extends XMLDocumentService
         return null;
     }
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.gendoc.documents.IDocumentService#format(java.lang.String)
+	 */
+	public String format(String input) {
+		
+		String formatted=  
+				input
+				// handle carriage return
+				.replace(CARRIAGE_RETURN,"</w:t></w:r></w:p><w:p><w:r><w:t>")
+				.replace("\r", "</w:t></w:r></w:p><w:p><w:r><w:t>")
+				
+				//handle line feed
+				.replace(LINE_FEED, "</w:t><w:br/><w:t>")
+				.replace("\n","</w:t><w:br/><w:t>")
+				
+				//handle tabulation
+				.replace(TABULATION,"</w:t><w:tab/><w:t>")
+				.replace("\t","</w:t><w:tab/><w:t>");
+		return formatted;
+	}
+
 }

@@ -116,4 +116,16 @@ public interface IDocumentService extends IService
      * @return a namespace context
      */
     NamespaceContext getNameSpaceContext();
+    
+    
+    /**
+     * Format the input string according to the following caracters : <ul>
+     * <li>Line feed</li>
+     * <li>Carriage return</li>
+     * <li>Tabulation</li>
+     * </ul>
+     * @param input
+     * @return
+     */
+    public String format(String input); 
 }

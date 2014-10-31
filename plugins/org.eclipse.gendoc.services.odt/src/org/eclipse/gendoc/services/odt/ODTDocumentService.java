@@ -435,4 +435,23 @@ public class ODTDocumentService extends XMLDocumentService implements IExecutabl
         return this.asText(currentNode);
     }
 
+    /* (non-Javadoc)
+	 * @see org.eclipse.gendoc.documents.IDocumentService#format(java.lang.String)
+	 */
+	public String format(String input) {
+		return 
+				input
+				// handle carriage return
+				.replace(CARRIAGE_RETURN,"</text:p><text:p>")
+				.replace("\r","</text:p><text:p>")
+				
+				//handle line feed
+				.replace(LINE_FEED, "<text:line-break/>")
+				.replace("\n","<text:line-break/>")
+				
+				//handle tabulation
+				.replace(TABULATION,"<text:tab/>")
+				.replace("\t","<text:tab/>");
+	}
+    
 }

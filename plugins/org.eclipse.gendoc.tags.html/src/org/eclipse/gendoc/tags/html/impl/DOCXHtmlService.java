@@ -95,33 +95,38 @@ public class DOCXHtmlService extends AbstractService implements IHtmlService {
 	public String convert(String content) {
 		
 		if (content.length() > 0) {
+			// clean DOCX
 			content = cleanDocxTagsFromHtml(content);
-			if ("HTML".equalsIgnoreCase(format) && use2003Compatibility) {
-				return generateDOCXTagsFromHtml(content);
-			} else if ("HTML".equalsIgnoreCase(format) || "RTF".equalsIgnoreCase(format)) {
-				String output = "";
-				DOCXDocumentService documentService = GendocServices
-						.getDefault().getService(IDocumentService.class);
-				DOCXAdditionalResourceService additonalResourceService = (DOCXAdditionalResourceService) documentService
-						.getAdditionalResourceService();
-
-				// Hack for RichText tag inside tables
-				final String filePath = this.createFile(content);
-				IRegistryService registry = GendocServices.getDefault()
-						.getService(IRegistryService.class);
-				registry.addCleaner(new DeleteFileRunnable(new File(filePath)));
-				if (filePath != null) {
-					String id = additonalResourceService.includeFile(filePath);
-					output += "&lt;drop/&gt;";
-					if (isInTable) {
-						output += "</w:t></w:r>";
+			// Fix cleaning tag problem
+			content = content.replace("richText&gt;", "").replaceAll("<cr>","<br>").replaceAll("<CR>","<BR>").replaceAll("<N>", "");
+			if (content.length() > 0) {
+				if ("HTML".equalsIgnoreCase(format) && use2003Compatibility) {
+					return generateDOCXTagsFromHtml(content);
+				} else if ("HTML".equalsIgnoreCase(format) || "RTF".equalsIgnoreCase(format)) {
+					String output = "";
+					DOCXDocumentService documentService = GendocServices
+							.getDefault().getService(IDocumentService.class);
+					DOCXAdditionalResourceService additonalResourceService = (DOCXAdditionalResourceService) documentService
+							.getAdditionalResourceService();
+	
+					// Hack for RichText tag inside tables
+					final String filePath = this.createFile(content);
+					IRegistryService registry = GendocServices.getDefault()
+							.getService(IRegistryService.class);
+					registry.addCleaner(new DeleteFileRunnable(new File(filePath)));
+					if (filePath != null) {
+						String id = additonalResourceService.includeFile(filePath);
+						output += "&lt;drop/&gt;";
+						if (isInTable) {
+							output += "</w:t></w:r>";
+						}
+						output += "</w:p><w:altChunk xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\" r:id=\""
+								+ id + "\" />";
+						if (isInTable) {
+							output += "<w:p><w:r><w:t>";
+						}
+						return output;
 					}
-					output += "</w:p><w:altChunk xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\" r:id=\""
-							+ id + "\" />";
-					if (isInTable) {
-						output += "<w:p><w:r><w:t>";
-					}
-					return output;
 				}
 			}
 		} 
@@ -225,6 +230,9 @@ public class DOCXHtmlService extends AbstractService implements IHtmlService {
 					writer.flush();
 				} else {
 					parse(tidy, is, baos);
+					writer.write(baos.toString());
+					writer.flush();
+					baos.close();
 				}
 			} else if ("RTF".equalsIgnoreCase(format)) {
 				writer.write(content);
@@ -291,7 +299,7 @@ public class DOCXHtmlService extends AbstractService implements IHtmlService {
 	}
 
 	private String cleanDocxTagsFromHtml(String htmlContent) {
-		return htmlContent.replaceAll("(<w:.*>|</w:.*>)", "");
+		return htmlContent.replaceAll("<w:[^<]*>","").replaceAll("</w:[^<]*>", "").replaceAll("<o:[^<]*>","").replaceAll("</o:[^<]*>", "");
 	}
 
 	public void setFormat(String format) {

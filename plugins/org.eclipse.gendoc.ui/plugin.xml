@@ -11,6 +11,7 @@
          <action
                class="org.eclipse.gendoc.ui.actions.GenerateDocumentation"
                enablesFor="1"
+               icon="icons/gendoc16.ico"
                id="org.eclipse.gendoc.script.action2"
                label="Generate documentation using Gendoc">
          </action>
@@ -23,6 +24,7 @@
          <action
                class="org.eclipse.gendoc.ui.actions.GenerateDocumentation"
                enablesFor="1"
+               icon="icons/gendoc16.ico"
                id="org.eclipse.gendoc.script.action2"
                label="Generate documentation using Gendoc">
          </action>

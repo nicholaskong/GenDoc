@@ -18,6 +18,7 @@
             locationURI="popup:org.eclipse.ui.popup.any">
          <command
                commandId="org.eclipse.gendoc.wizard.GenerateDoc"
+               icon="icons/gendoc16.ico"
                label="Generate Documentation with Gendoc"
                style="push"
                tooltip="Use Gendoc to generate documentation from model">

@@ -68,9 +68,6 @@ public class AcceleoM2TProcess implements IFragmentableM2TProcessor
         try
         {
         	formattedScript = scriptGenerator.formatScript(element, script);
-//FIXME does not work for TPC 5.2  
-//        	formattedScript = removeSpecialAcceleoCharactersFromXMLTags(script);
-//        	formattedScript = scriptGenerator.formatScript(element, formattedScript);
             result = generate(element, formattedScript);
         }
         catch (IOException e)
@@ -89,44 +86,6 @@ public class AcceleoM2TProcess implements IFragmentableM2TProcessor
         return result;
     }
 
-//	/**
-//	 * Remove special characters from XML tags : replace brackets by Acceleo special bracket 
-//	 * <ul>
-//	 * <li>replace <code>[</code> by <code>['['/]</code></li>
-//	 * <li>replace <code>]</code> by <code>[']'/]</code></li>
-//	 * </ul>
-//	 * @param script the initial script
-//	 * @return the script without special characters
-//	 */
-//	private String removeSpecialAcceleoCharactersFromXMLTags(
-//			String script) {
-//		/* Pattern for brackets inside an xml tag : <.a.[.b.].c.> 
-//		 * where .a. has no [ or ] or >
-//		 * where .b. has no ] or >
-//		 * where .c. has no >
-//		*/
-//		Pattern bracketsInsideXML = Pattern.compile("<[^>\\[\\]]*[[^>\\]]*][^>]*>");
-//		StringBuffer resultBuffer = new StringBuffer();
-//		Matcher bracketsInXML = bracketsInsideXML.matcher(script);
-//		int index = 0;
-//		// For each <.a.[.b.].c.> found
-//		while(bracketsInXML.find()){
-//			
-//			// append what is before
-//			resultBuffer.append(script.substring(index, bracketsInXML.start()));
-//			//replace and append <.a.['['/].b.[']'/].c.>
-//			String tag = script.substring(bracketsInXML.start(), bracketsInXML.end());
-//			//FIXME find a better way to do that in 2 replace only...
-//			tag = tag.replaceAll("\\[","____ENTERING_BRACKETS");
-//			tag = tag.replaceAll("\\]","[']'/]");
-//			tag = tag.replaceAll("____ENTERING_BRACKETS","['['/]");
-//			resultBuffer.append(tag);
-//			// set index to end of >
-//			index = bracketsInXML.end();
-//		}
-//		script = resultBuffer.toString();
-//		return script;
-//	}
 
     protected String generate(EObject element, String formattedScript) throws IOException, ParsingException, GenerationException
     {

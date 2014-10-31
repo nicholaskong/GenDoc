@@ -15,6 +15,9 @@
 package org.eclipse.gendoc.tags.handlers.process;
 
 import java.util.LinkedList;
+import org.eclipse.gendoc.tags.handlers.process.TagAnalyserFileBuffer;
+import org.eclipse.gendoc.tags.handlers.process.buffers.ITagAnalyserBuffer;
+
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -152,16 +155,18 @@ public abstract class TagAnalyserProcess extends AbstractStepProcess {
 
     protected void injectTagsExecuted(Document document, IDocumentService documentService, List<Node> nodesList, Node currentNode, StringBuffer finalText) throws InvalidContentException
     {
+    	ITagAnalyserBuffer buffer = GendocServices.getDefault().getService(ITagAnalyserBuffer.class);
         // Inject the text in nodes
-        Node sibling = documentService.injectNode(currentNode, finalText.toString());
-        // Remove old Node
-        for (Node node : nodesList)
-        {
-            node.getParentNode().removeChild(node);
-        }
-        document.getXMLParser().setCurrentNode(sibling);
+    	buffer.bufferize (document, currentNode, finalText, nodesList);
     }
 
+    @Override
+    protected void postRun() {
+    	super.postRun();
+    	ITagAnalyserBuffer buffer = GendocServices.getDefault().getService(ITagAnalyserBuffer.class);
+    	buffer.flush();
+    }
+    
     /**
      * Check if one of the tag is present in the given string
      * 

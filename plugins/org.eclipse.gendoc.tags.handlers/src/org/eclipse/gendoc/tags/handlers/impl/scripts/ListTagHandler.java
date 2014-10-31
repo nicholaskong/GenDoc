@@ -85,7 +85,7 @@ public class ListTagHandler extends AbstractPrePostTagHandler
         String nodes = "<document>" + listText + "</document>";
 
         nodes = documentService.addNamingSpaces(nodes, "document");
-        nodes = documentService.cleanTextTag(nodes);
+        nodes = documentService.cleanTextTag(nodes).toString();
 
         Node listNode = documentService.asNode(nodes).getFirstChild();
 

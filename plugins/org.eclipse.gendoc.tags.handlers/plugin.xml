@@ -89,6 +89,11 @@
             id="TagHandlerService"
             interface="org.eclipse.gendoc.tags.handlers.ITagHandlerService">
       </serviceType>
+      <serviceType
+            id="TagAnalyserBuffer"
+            interface="org.eclipse.gendoc.tags.handlers.process.buffers.ITagAnalyserBuffer">
+      </serviceType>
+      
    </extension>
    <extension
          point="org.eclipse.gendoc.services">
@@ -115,6 +120,18 @@
             default="true"
             id="TagHandlerService"
             serviceType="TagHandlerService">
+      </service>
+      <service
+            class="org.eclipse.gendoc.tags.handlers.process.buffers.StringTagAnalyserBuffer"
+            default="true"
+            id="StringAnalyserBuffer"
+            serviceType="TagAnalyserBuffer">
+      </service>
+      <service
+            class="org.eclipse.gendoc.tags.handlers.process.buffers.FileAnalyserBuffer"
+            default="false"
+            id="TagFileBuffer"
+            serviceType="TagAnalyserBuffer">
       </service>
    </extension>
    <extension

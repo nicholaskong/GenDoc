@@ -14,11 +14,16 @@
  *****************************************************************************/
 package org.eclipse.gendoc.documents;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -54,6 +59,7 @@ import org.w3c.dom.NodeList;
  */
 public abstract class XMLDocumentService implements IDocumentService
 {
+	
     /**
      * Character that is the start of a tag in XML language (<code>&lt;</code>)
      */
@@ -88,6 +94,23 @@ public abstract class XMLDocumentService implements IDocumentService
      * Regex that matched a single tag <myTag/>
      */
     private final Pattern patternTagSingle = Pattern.compile("<[^<>]+/>");
+    
+    
+	/**
+	 * Line feed special character 
+	 */
+	public static final String LINE_FEED="&#xA;";
+	
+	/**
+	 * Carriage return special character
+	 */
+	public static final String CARRIAGE_RETURN="&#xD;";
+	
+	/**
+	 * Tabulation special character
+	 */
+	public static final String TABULATION="&#x9;";
+
 
     /**
      * Create a new XML Document service
@@ -176,17 +199,24 @@ public abstract class XMLDocumentService implements IDocumentService
     public String asText(Node nodeBegin) throws InvalidContentException
     {
         StringWriter stringOut = new StringWriter();
-
+        BufferedWriter writer = new BufferedWriter(stringOut);
         String xml = "";
         try
         {
-            trans.transform(new DOMSource(nodeBegin), new StreamResult(stringOut));
+            trans.transform(new DOMSource(nodeBegin), new StreamResult(writer));
             xml = pattern.matcher(stringOut.toString()).replaceFirst("");
             xml = Pattern.compile(" " + getNamingSpaceURL()).matcher(xml).replaceAll("");
         }
         catch (TransformerException e)
         {
             throw new InvalidContentException("Node " + nodeBegin.getLocalName() + " can not be transform", e);
+        }
+        finally {
+        	try {
+				writer.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
         }
         return xml;
     }
@@ -239,24 +269,26 @@ public abstract class XMLDocumentService implements IDocumentService
     {
         ILogger logger = GendocServices.getDefault().getService(ILogger.class);
 
-        String newNodeContent = nodeContent;
-        newNodeContent = addNamingSpaces("<document>" + newNodeContent + "</document>", "document");
-        newNodeContent = cleanTextTag(newNodeContent);
+        nodeContent = addNamingSpaces(nodeContent, "document");
+        StringBuffer newNodeContentBuf = new StringBuffer();
+        newNodeContentBuf.append("<document " + getNamingSpaceURL() + ">");
+        newNodeContentBuf.append(nodeContent);
+        newNodeContentBuf.append("</document>");
 
-        logger.log("INJECT Node :" + newNodeContent, ILogger.DEBUG);
+        newNodeContentBuf = cleanTextTag(newNodeContentBuf.toString());
+
+//        logger.log("INJECT Node :" + newNodeContent, ILogger.DEBUG);
 
         // Transform "newNodeContent" text into a DOMResult
         DOMResult outputTarget = null;
         try
         {
             outputTarget = new DOMResult(nodeToBeReplaced);
-            trans.transform(new StreamSource(new StringReader(newNodeContent)), outputTarget);
+            trans.transform(new StreamSource(new StringReader(newNodeContentBuf.toString())), outputTarget);
 
         }
         catch (TransformerException e)
         {
-            logger.log("Node can not be created.\n" + e.toString(), IStatus.ERROR);
-            logger.log("Node in error :\n" + newNodeContent + "|||||||", IStatus.ERROR);
             throw new InvalidContentException("Your text seems to contain special characters. Try using method 'clean' from external bundle 'commons' for the different model elements found", e);
         }
 
@@ -373,20 +405,30 @@ public abstract class XMLDocumentService implements IDocumentService
 
     protected String cleanXMLContent(String content)
     {
-        String newContent =content;
-        for (String invalidQuote : TagParserConfig.INVALID_QUOTES){
-            newContent =newContent.replace(invalidQuote, TagParserConfig.VALID_QUOTE);
-        }
-        
-        for (char invalidDoubleQuote : TagParserConfig.INVALID_DOUBLE_QUOTES){
-            newContent =newContent.replace(invalidDoubleQuote, TagParserConfig.VALID_DOUBLE_QUOTE);
-        }
-        return newContent;
+    	StringBuffer result = new StringBuffer();
+    	Set<String> invalidQuotes = new HashSet<String>(Arrays.asList(TagParserConfig.INVALID_QUOTES));
+    	Set<Character> invalidDoubleQuotes = new HashSet<Character>();
+    	for (Character aChar : TagParserConfig.INVALID_DOUBLE_QUOTES){
+    		invalidDoubleQuotes.add(aChar);
+    	}
+    	for (int i = 0 ; i < content.length() ; i++){
+    		char c = content.charAt(i);
+    		if (invalidQuotes.contains(String.valueOf(c))){
+    			result.append(TagParserConfig.VALID_QUOTE);
+    		}
+    		else if (invalidDoubleQuotes.contains(c)){
+    			result.append(TagParserConfig.VALID_DOUBLE_QUOTE);
+    		}
+    		else {
+    			result.append(c);
+    		}
+    		
+    	}
+        return result.toString();
     }
 
     public String cleanContent(String text, List<Pattern> patternsToClean)
     {
-
         StringBuffer result = new StringBuffer();
         String patterns = "";
         for (Pattern p : patternsToClean)
@@ -399,9 +441,11 @@ public abstract class XMLDocumentService implements IDocumentService
         int index = 0;
         while (m.find())
         {
-            result.append(text.substring(index, m.start()));
-            result.append(removeXMLTag(text.substring(m.start(), m.end())));
-            index = m.end();
+            int start = m.start();
+            int end = m.end();
+			result.append(text.substring(index, start));
+			result.append(removeXMLTag(text.substring(start, end)));
+            index = end;
         }
         result.append(text.substring(index));
         return result.toString();
@@ -857,7 +901,7 @@ public abstract class XMLDocumentService implements IDocumentService
      * @param textTag the text tag to clean
      * @return a node content
      */
-    public String cleanTextTag(String textTag)
+    public StringBuffer cleanTextTag(String textTag)
     {
 
         StringBuffer cleaned = new StringBuffer("");
@@ -963,8 +1007,7 @@ public abstract class XMLDocumentService implements IDocumentService
             cleaned.append("</" + tagStack.pop() + ">");
         }
 
-        return cleaned.toString();
-
+        return cleaned;
     }
 
     /**

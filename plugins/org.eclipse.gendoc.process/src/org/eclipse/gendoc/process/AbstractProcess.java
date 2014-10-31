@@ -68,11 +68,21 @@ public abstract class AbstractProcess implements IExecutableExtension, IProcess
     {
         final IProgressMonitorService progressMonitorService = GendocServices.getDefault().getService(IProgressMonitorService.class);
         this.progressMonitor = SubMonitor.convert(progressMonitorService.subMonitor(1, this.getLabel()), this.getTotalWork());
+        this.preRun();
         this.doRun();
+        this.postRun();
         this.progressMonitor.done();
     }
 
-    /*
+    protected void postRun() {
+		// DO NOTHING
+	}
+
+    protected void preRun() {
+    	// DO NOTHING
+	}
+
+	/*
      * (non-Javadoc)
      * 
      * @see org.eclipse.gendoc.process.IProcess#run(java.util.concurrent.Semaphore)

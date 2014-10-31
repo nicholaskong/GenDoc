@@ -211,7 +211,7 @@ public abstract class AbstractTagHandler implements ITagHandler, IExecutableExte
         String cleanedTagContent = documentService.cleanTagContent(value, subTagNames);
         List<ITag> tags = tagParserService.parse(tag, cleanedTagContent, subTagNames);
 
-        StringBuffer tagValue = new StringBuffer();
+        StringBuffer tagValue = new StringBuffer(cleanedTagContent.length());
 
         IGendocDiagnostician diagnostician = GendocServices.getDefault().getService(IGendocDiagnostician.class);
 

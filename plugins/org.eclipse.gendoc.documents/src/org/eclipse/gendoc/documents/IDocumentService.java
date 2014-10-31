@@ -73,7 +73,12 @@ public interface IDocumentService extends IService
 
     void setDocument(Document document);
 
-    String cleanTextTag(String textTag);
+    /**
+     * Clean a Text tag from special tag characters.
+     * @param textTag the tag text
+     * @return cleaned StringBuffer
+     */
+    StringBuffer cleanTextTag(String textTag);
 
     String cleanTagContent(String text, List<String> labels);
 

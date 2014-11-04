@@ -8,7 +8,7 @@
   <relativePath>../../pom.xml</relativePath>
   </parent>
 
-  <artifactId>org.eclipse.gendoc.update-site</artifactId>
+  <artifactId>org.eclipse.gendoc.incubation.update-site</artifactId>
   <packaging>eclipse-repository</packaging>
   
 </project> 

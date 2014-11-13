@@ -319,6 +319,11 @@ public class DOCXDocumentService extends XMLDocumentService
 		
 		String formatted=  
 				input
+				
+				// handle carriage return mixed with line feed as carriage returns
+				.replace(CARRIAGE_RETURN+"\n","</w:t></w:r></w:p><w:p><w:r><w:t>")
+				.replace("\r\n","</w:t></w:r></w:p><w:p><w:r><w:t>")
+				
 				// handle carriage return
 				.replace(CARRIAGE_RETURN,"</w:t></w:r></w:p><w:p><w:r><w:t>")
 				.replace("\r", "</w:t></w:r></w:p><w:p><w:r><w:t>")

@@ -441,6 +441,11 @@ public class ODTDocumentService extends XMLDocumentService implements IExecutabl
 	public String format(String input) {
 		return 
 				input
+				
+				// handle carriage return mixed with line feed as carriage returns
+				.replace(CARRIAGE_RETURN+"\n","</text:p><text:p>")
+				.replace("\r\n","</text:p><text:p>")
+				
 				// handle carriage return
 				.replace(CARRIAGE_RETURN,"</text:p><text:p>")
 				.replace("\r","</text:p><text:p>")

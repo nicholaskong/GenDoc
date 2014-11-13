@@ -386,7 +386,7 @@ public class CommonService {
 	public static String cleanAndFormat(String input) {
 		
 		
-		Map<String,String> SPECIAL_CHARACTERS = new LinkedHashMap<String, String>();
+ 		Map<String,String> SPECIAL_CHARACTERS = new LinkedHashMap<String, String>();
 		SPECIAL_CHARACTERS.put("<", "&lt;");
 		SPECIAL_CHARACTERS.put(">", "&gt;");
 		SPECIAL_CHARACTERS.put("'", "&apos;");
@@ -401,8 +401,10 @@ public class CommonService {
 	    String substring ;
 	    int start = 0;
 	    int end =0;
+	    boolean no_tag_found = true;
 	    while (m.find())
 	    {
+	    	no_tag_found = false;
             start = m.start();
             end = m.end();
             cleanedInput +=input.substring(index, start);
@@ -418,6 +420,9 @@ public class CommonService {
             }
             index = end;
         }
+	    if( no_tag_found){
+	    	SPECIAL_CHARACTERS.put("&", "&amp;");
+	    }
 	    cleanedInput +=(input.substring(index));
 		// Handle other special characters
 		for (String key : SPECIAL_CHARACTERS.keySet()){

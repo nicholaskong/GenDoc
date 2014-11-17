@@ -317,24 +317,30 @@ public class DOCXDocumentService extends XMLDocumentService
 	 */
 	public String format(String input) {
 		
+		// Do not use paragraph break : styles are lost
+		String PARAGRAPH_BREAK = "</w:t></w:r></w:p><w:p><w:r><w:t>";
+		
+		String LINE_BREAK = "</w:t><w:br/><w:t>";
+		String TAB = "</w:t><w:tab/><w:t>";
+		
 		String formatted=  
 				input
 				
 				// handle carriage return mixed with line feed as carriage returns
-				.replace(CARRIAGE_RETURN+"\n","</w:t></w:r></w:p><w:p><w:r><w:t>")
-				.replace("\r\n","</w:t></w:r></w:p><w:p><w:r><w:t>")
+				.replace(CARRIAGE_RETURN+"\n",LINE_BREAK)
+				.replace("\r\n",LINE_BREAK)
 				
 				// handle carriage return
-				.replace(CARRIAGE_RETURN,"</w:t></w:r></w:p><w:p><w:r><w:t>")
-				.replace("\r", "</w:t></w:r></w:p><w:p><w:r><w:t>")
+				.replace(CARRIAGE_RETURN,LINE_BREAK)
+				.replace("\r", LINE_BREAK)
 				
 				//handle line feed
-				.replace(LINE_FEED, "</w:t><w:br/><w:t>")
-				.replace("\n","</w:t><w:br/><w:t>")
+				.replace(LINE_FEED,LINE_BREAK)
+				.replace("\n",LINE_BREAK)
 				
 				//handle tabulation
-				.replace(TABULATION,"</w:t><w:tab/><w:t>")
-				.replace("\t","</w:t><w:tab/><w:t>");
+				.replace(TABULATION,TAB)
+				.replace("\t",TAB);
 		return formatted;
 	}
 

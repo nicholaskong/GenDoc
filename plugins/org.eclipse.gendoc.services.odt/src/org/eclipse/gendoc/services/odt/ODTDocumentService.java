@@ -439,24 +439,29 @@ public class ODTDocumentService extends XMLDocumentService implements IExecutabl
 	 * @see org.eclipse.gendoc.documents.IDocumentService#format(java.lang.String)
 	 */
 	public String format(String input) {
+		// Do not use paragraph break : styles are lost
+		String PARAGRAPH_BREAK = "</text:p><text:p>";
+		String LINE_BREAK = "<text:line-break/>";
+		String TAB = "<text:tab/>";
+		
 		return 
 				input
 				
 				// handle carriage return mixed with line feed as carriage returns
-				.replace(CARRIAGE_RETURN+"\n","</text:p><text:p>")
-				.replace("\r\n","</text:p><text:p>")
+				.replace(CARRIAGE_RETURN+"\n",LINE_BREAK)
+				.replace("\r\n",LINE_BREAK)
 				
 				// handle carriage return
-				.replace(CARRIAGE_RETURN,"</text:p><text:p>")
-				.replace("\r","</text:p><text:p>")
+				.replace(CARRIAGE_RETURN,LINE_BREAK)
+				.replace("\r",LINE_BREAK)
 				
 				//handle line feed
-				.replace(LINE_FEED, "<text:line-break/>")
-				.replace("\n","<text:line-break/>")
+				.replace(LINE_FEED, LINE_BREAK)
+				.replace("\n",LINE_BREAK)
 				
 				//handle tabulation
-				.replace(TABULATION,"<text:tab/>")
-				.replace("\t","<text:tab/>");
+				.replace(TABULATION,TAB)
+				.replace("\t",TAB);
 	}
     
 }

@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature  id="org.eclipse.gendoc.feature" version="0.0.0">
+   <feature id="org.eclipse.gendoc.feature" version="0.0.0">
       <category name="org.eclipse.gendoc"/>
    </feature>
-   <feature id="org.eclipse.gendoc.papyrus.feature" version="0.0.0">
+   <feature url="features/org.eclipse.gendoc.papyrus.feature_0.5.0.qualifier.jar" id="org.eclipse.gendoc.papyrus.feature" version="0.5.0.qualifier">
+      <category name="org.eclipse.gendoc"/>
+   </feature>
+   <feature url="features/org.eclipse.gendoc.sirius.feature_0.5.0.qualifier.jar" id="org.eclipse.gendoc.sirius.feature" version="0.5.0.qualifier">
       <category name="org.eclipse.gendoc"/>
    </feature>
    <category-def name="org.eclipse.gendoc" label="Gendoc">

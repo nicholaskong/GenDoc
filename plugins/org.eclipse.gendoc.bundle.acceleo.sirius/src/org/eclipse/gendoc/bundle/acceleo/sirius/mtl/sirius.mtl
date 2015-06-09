@@ -1,0 +1,19 @@
+[comment 
+  Copyright (c) 2015 Atos.
+     
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+  http://www.eclipse.org/legal/epl-v10.html
+ 
+/]
+[module sirius('http://www.eclipse.org/gmf/runtime/1.0.2/notation', 'http://www.eclipse.org/sirius/diagram/1.1.0')/]
+
+[comment - get the diagrams of an object /]
+[query public getSiriusDiagrams(arg0 : ecore::EObject) : Sequence(Diagram)
+	= invoke('org.eclipse.gendoc.bundle.acceleo.sirius.service.SiriusServices', 'getSiriusDiagrams(org.eclipse.emf.ecore.EObject)', Sequence{arg0}) /]
+
+	
+[query public getSiriusDiagramName(di : Diagram) : String
+	=  di.eContainer().eContainer().oclAsType(diagram::DSemanticDiagram).name /]
+	 

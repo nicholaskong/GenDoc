@@ -12,6 +12,7 @@
   	<module>plugins/org.eclipse.gendoc.bundle.acceleo.commons</module>
   	<module>plugins/org.eclipse.gendoc.bundle.acceleo.gmf</module>
   	<module>plugins/org.eclipse.gendoc.bundle.acceleo.papyrus</module>
+  	<module>plugins/org.eclipse.gendoc.bundle.acceleo.sirius</module>
   	<module>plugins/org.eclipse.gendoc.document.parser</module>
   	<module>plugins/org.eclipse.gendoc.documents</module>
   	<module>plugins/org.eclipse.gendoc.m2t</module>
@@ -31,6 +32,7 @@
   	<module>plugins/org.eclipse.gendoc.wizard.papyrus</module>
   	<module>features/org.eclipse.gendoc.feature</module>
   	<module>features/org.eclipse.gendoc.papyrus.feature</module>
+  	<module>features/org.eclipse.gendoc.sirius.feature</module>
   </modules>
   
   <properties>

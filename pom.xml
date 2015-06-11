@@ -52,7 +52,11 @@
       <url>http://download.eclipse.org/tools/orbit/downloads/drops/R20140525021250/repository/</url>
       <layout>p2</layout>
     </repository>
-
+     <repository>
+      <id>sirius</id>
+      <url>http://download.eclipse.org/sirius/updates/releases/2.0.4/luna</url>
+      <layout>p2</layout>
+    </repository>
   </repositories>
 
    <build>

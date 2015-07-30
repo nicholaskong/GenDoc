@@ -15,6 +15,7 @@ package org.eclipse.gendoc.document.parser.documents;
 
 import java.io.File;
 import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Map;
 
@@ -83,7 +84,11 @@ public abstract class AbstractDocument implements Document
 
     public String getPath()
     {
-        return file.getPath();
+        try {
+			return file.toURI().getPath();
+		} catch (URISyntaxException e) {
+			return file.getPath();
+		}
     }
 
 }

@@ -20,10 +20,12 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IPathVariableManager;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.gendoc.documents.IDocumentService;
 import org.eclipse.gendoc.process.AbstractProcess;
 import org.eclipse.gendoc.services.GendocServices;
+import org.eclipse.gendoc.services.ILogger;
 import org.eclipse.gendoc.services.exception.GenDocException;
 import org.eclipse.gendoc.tags.handlers.IConfigurationService;
 
@@ -51,7 +53,7 @@ public class RegisterVariableProcess extends AbstractProcess
                 IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
                 URI workspaceURI = root.getLocationURI();
                 URI relative = workspaceURI.relativize(documentURI);
-                IFile file = root.getFile(new Path(relative.toString()));
+                IFile file = root.getFile(new Path(relative.getPath()));
                 IConfigurationService configService = GendocServices.getDefault().getService(IConfigurationService.class);
                 IPathVariableManager manager = file.getPathVariableManager();
                 String[] keys = manager.getPathVariableNames();
@@ -67,7 +69,14 @@ public class RegisterVariableProcess extends AbstractProcess
             catch (URISyntaxException e)
             {
                 e.printStackTrace();
+                ILogger logger = GendocServices.getDefault().getService(ILogger.class);
+                logger.log(e.getMessage(), IStatus.WARNING);
             }
+            catch (IllegalArgumentException e) {
+            	e.printStackTrace();
+                ILogger logger = GendocServices.getDefault().getService(ILogger.class);
+                logger.log(e.getMessage(), IStatus.WARNING);
+       		}
         }
     }
 

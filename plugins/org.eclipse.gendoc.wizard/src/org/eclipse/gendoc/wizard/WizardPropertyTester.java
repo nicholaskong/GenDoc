@@ -21,20 +21,16 @@ public class WizardPropertyTester extends PropertyTester
 
     public boolean test(Object receiver, String property, Object[] args, Object expectedValue)
     {
-    	IFile[] part = null ;
+    	boolean result = false ;
     	if ("isCollectionEnabled".equals(property))
     	{
-    		part = Utils.getIFiles(receiver);
+    		result = Utils.matches(receiver);
     	}
     	else if ("isEnabled".equals(property))
     	{
-    		part = Utils.getIFiles(receiver);
+    		result = Utils.matches(receiver);
     	}
-    	if (part != null)
-    	{
-    		return Utils.matches(part);
-    	}
-    	return false ;
+    	return result ;
     	
     }
 

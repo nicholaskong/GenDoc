@@ -39,17 +39,10 @@ public class GenerateDocumentationHandler extends org.eclipse.core.commands.Abst
         if (selection instanceof IStructuredSelection)
         {
             IStructuredSelection selec = (IStructuredSelection) selection;
-            IFile[] files = null ;
-            files = Utils.getIFiles(selec.getFirstElement());
-        	List<IGendocRunner> runners = null;
-        	if (files == null)
-        	{
-        		// ERROR
-        	}
-            runners = Utils.getRunners(files);
+            List<IGendocRunner> runners = Utils.getRunners(selec.getFirstElement());
             if (runners != null)
             {
-                GendocWizard wizard = new GendocWizard(runners, files);
+                GendocWizard wizard = new GendocWizard(runners, Utils.getIFiles(selec.getFirstElement()));
                 WizardDialog wizardDialog = new WizardDialog(HandlerUtil.getActiveShell(event), wizard);
                 wizardDialog.open();
             }

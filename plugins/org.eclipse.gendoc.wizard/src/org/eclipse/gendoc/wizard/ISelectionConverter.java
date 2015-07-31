@@ -19,5 +19,4 @@ public interface ISelectionConverter {
 	public boolean matches(Object selectedObject);
 	
 	public IFile getFile(Object selectedObject);
-	
 }

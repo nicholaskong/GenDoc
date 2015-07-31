@@ -18,12 +18,10 @@ import org.eclipse.core.runtime.Platform;
 
 public class DefaultSelectionConverter implements ISelectionConverter {
 
-	@Override
 	public boolean matches(Object selectedObject) {
 		return getFile(selectedObject) != null;
 	}
 
-	@Override
 	public IFile getFile(Object selectedObject) {
 		IFile result = null;
 		if (selectedObject instanceof IFile){

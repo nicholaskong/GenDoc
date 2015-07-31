@@ -23,10 +23,14 @@ import java.util.StringTokenizer;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.ui.dialogs.WorkspaceResourceDialog;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.gendoc.services.GendocServiceActivator;
+import org.eclipse.gendoc.services.GendocServices;
+import org.eclipse.gendoc.services.ILogger;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.ILabelProvider;
@@ -208,7 +212,9 @@ public class GendocWizardPage extends WizardPage
         fd_btnNewButton_1.right = new FormAttachment(100);
         saveButton.setLayoutData(fd_btnNewButton_1);
         saveButton.setText("Save");
-        this.setDescription(this.getSelected().getDescription());
+        if (this.getSelected() != null){
+        	this.setDescription(this.getSelected().getDescription());
+        }
         saveButton.addSelectionListener(new SelectionListener()
         {
 
@@ -467,6 +473,11 @@ public class GendocWizardPage extends WizardPage
                 if (inputElement instanceof IGendocRunner)
                 {
                     IGendocRunner runner = (IGendocRunner) inputElement;
+                    if (runner.getGendocTemplates() == null){
+                    	ILogger log = GendocServices.getDefault().getService(ILogger.class);
+                    	log.log("runner does not have a template " + runner.getLabel(), IStatus.ERROR);
+                    	return new Object[]{};
+                    }
                     return runner.getGendocTemplates().toArray();
                 }
                 return null;

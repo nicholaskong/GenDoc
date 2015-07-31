@@ -7,5 +7,64 @@
             Instance="org.eclipse.gendoc.wizard.papyrus.PapyrusGendocRunner">
       </GendocElement>
    </extension>
-
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            description="generate the documentation"
+            id="org.eclipse.papyrus.gendoc2.wizard.GenerateDocModelExplorer"
+            name="Generate documentation with Gendoc">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="true"
+            locationURI="popup:org.eclipse.papyrus.views.modelexplorer.modelexplorer.popup">
+         <command
+               commandId="org.eclipse.papyrus.gendoc2.wizard.GenerateDocModelExplorer"
+               icon="icons/gendoc16.ico"
+               label="Generate Documentation with Gendoc"
+               style="push"
+               tooltip="Use Gendoc to generate documentation from model">
+                <visibleWhen
+                   checkEnabled="false">
+                <iterate
+                      ifEmpty="false">
+                      <or>
+	                  	 <adapt
+	                         type="org.eclipse.emf.ecore.EObject">
+	                      <test
+	                            forcePluginActivation="true"
+	                            property="org.eclipse.gendoc.wizard.isEnabled">
+	                      </test>
+	                   </adapt>
+	                  
+	                     
+	                   </or>
+                </iterate>
+             </visibleWhen>
+         </command>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            class="org.eclipse.gendoc.wizard.papyrus.popup.actions.GenerateDocumentationModelExplorerHandler"
+            commandId="org.eclipse.papyrus.gendoc2.wizard.GenerateDocModelExplorer">
+         <activeWhen>
+            <iterate
+                  ifEmpty="false">
+               <or>
+                  <adapt
+                        type="org.eclipse.emf.ecore.EObject">
+                     <test
+                           forcePluginActivation="true"
+                           property="org.eclipse.gendoc.wizard.isEnabled">
+                     </test>
+                  </adapt>
+               </or>
+            </iterate>
+         </activeWhen>
+      </handler>
+   </extension>
 </plugin>

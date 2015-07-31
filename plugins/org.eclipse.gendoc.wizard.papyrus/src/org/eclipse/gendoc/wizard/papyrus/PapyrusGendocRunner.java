@@ -18,13 +18,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import org.eclipse.gendoc.bundle.acceleo.papyrus.utils.OneFileUMLSelectionConverter;
 import org.eclipse.gendoc.wizard.IGendocRunner;
+import org.eclipse.gendoc.wizard.IGendocSelectionConverterRunner;
 import org.eclipse.gendoc.wizard.IGendocTemplate;
+import org.eclipse.gendoc.wizard.ISelectionConverter;
 
 /**
  * The Class represent the loader for papyrus diagrams document generation.
  */
-public class PapyrusGendocRunner implements IGendocRunner
+public class PapyrusGendocRunner implements IGendocSelectionConverterRunner
 {
     List<IGendocTemplate> templates = new ArrayList<IGendocTemplate>();
 
@@ -42,6 +45,14 @@ public class PapyrusGendocRunner implements IGendocRunner
         return Pattern.compile(".*\\.di");
     }
 
+    /**
+     * @return the selection converter
+     */
+    public ISelectionConverter getSelectionConverter()
+    {
+        return new OneFileUMLSelectionConverter();
+    }
+    
     /**
      * @return all the template format associated to this runner
      */

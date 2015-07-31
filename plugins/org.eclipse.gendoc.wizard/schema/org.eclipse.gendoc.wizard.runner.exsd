@@ -10,6 +10,8 @@
 org.eclipse.gendoc.wizard. 
 
 it permit to all other plugin to contribute to this plug-in regarding generation documentation.
+
+
       </documentation>
    </annotation>
 
@@ -55,7 +57,7 @@ it permit to all other plugin to contribute to this plug-in regarding generation
          <attribute name="Instance" type="string" use="required">
             <annotation>
                <documentation>
-                  
+                  For this element you can also use the interface IGendocSelectionConverterRunner
                </documentation>
                <appinfo>
                   <meta.attribute kind="java" basedOn=":org.eclipse.gendoc.wizard.IGendocRunner"/>

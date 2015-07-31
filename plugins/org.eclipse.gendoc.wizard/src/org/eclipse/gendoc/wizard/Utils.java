@@ -14,6 +14,7 @@
 package org.eclipse.gendoc.wizard;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -112,6 +113,7 @@ public class Utils
     /**
      * @param fileName name with extension of file on witch user has click
      * @return return true, if the fileName has one of the good extension
+     * @deprecated
      */
     public static boolean matches(IFile[] files)
     {
@@ -132,8 +134,18 @@ public class Utils
     }
 
     /**
+     * @param selectedObject the object on witch user has click
+     * @return return true, if the selectedObject has one associated runner
+     */
+    public static boolean matches(Object selectedObject)
+    {
+        return ! getRunners(selectedObject).isEmpty();
+    }
+    
+    /**
      * @param fileName name of the model selected in order to generate its documentation
-     * @return the list of all the template possible for document generation .
+     * @return the list of all the template possible for document generation.
+     * @deprecated
      */
     public static List<IGendocRunner> getRunners(IFile[] files)
     {
@@ -149,6 +161,45 @@ public class Utils
         	}
         }
         return result;
+    }
+    
+    /**
+     * @param selectedObject object selected in order to generate its documentation
+     * @return the list of all the template possible for document generation.
+     */
+    public static List<IGendocRunner> getRunners(Object selectedObject)
+    {
+    	List<IGendocRunner> runners = new ArrayList<IGendocRunner>();
+    	for (IGendocRunner runner : getAllRunners()) {
+    		if (runner instanceof IGendocSelectionConverterRunner){
+    			if (((IGendocSelectionConverterRunner) runner).getSelectionConverter().matches(selectedObject)) {
+    				IFile selectedFile = ((IGendocSelectionConverterRunner) runner).getSelectionConverter().getFile(selectedObject);
+    				if (runner.getPattern().matcher(selectedFile.getName()).matches()) {
+    					runners.add(runner);
+    				} else {
+    					// invalid runner
+    				}
+    			} else {
+    				// invalid runner
+    			}
+    		}
+    		else{
+    			List<IFile> files = new LinkedList<IFile>();
+    			if (selectedObject instanceof IFile[]) {
+					files.addAll(Arrays.asList((IFile[])selectedObject));
+				}
+    			else if (selectedObject instanceof IFile){
+    				files.add((IFile) selectedObject);
+    			}
+    			for(IFile f : files) {
+            		if (runner.getPattern().matcher(f.getName()).matches())
+            		{
+            			runners.add(runner);
+            		}
+            	}
+    		}
+    	}
+    	return runners;
     }
 
 }

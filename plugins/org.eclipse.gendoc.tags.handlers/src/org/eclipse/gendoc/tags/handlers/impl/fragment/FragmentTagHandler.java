@@ -36,7 +36,7 @@ import org.eclipse.gendoc.tags.handlers.impl.RegisteredTags;
 public class FragmentTagHandler extends AbstractScriptTagHandler
 {
 
-    private static final String delimiter = ";";
+    private static final String delimiter = "\\s*;\\s*";
 
     protected String runAttributes(ITag tag, String value) throws GenDocException
     {
@@ -74,7 +74,7 @@ public class FragmentTagHandler extends AbstractScriptTagHandler
         if (imported != null && imported.length() > 0)
         {
             // Add the new bundles
-            String[] toImport = imported.split(delimiter);
+            String[] toImport = imported.trim().split(delimiter);
             for (String bundle : toImport)
             {
                 run.add(name, bundle);

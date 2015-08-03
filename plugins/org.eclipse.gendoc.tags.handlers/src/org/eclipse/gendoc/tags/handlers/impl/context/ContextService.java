@@ -60,7 +60,7 @@ public class ContextService extends AbstractService implements IContextService
     private static final String ELEMENT_DEFAULT_PATH = "{0}";
 
 	/** Delimiter use to separate bundles in bundles declaration. */
-    private static String delimiter = ";";
+    private static String delimiter = "\\s*;\\s*";
 
     /** The current model (absolute path) used for the next generations. */
     private URI model;
@@ -246,7 +246,7 @@ public class ContextService extends AbstractService implements IContextService
         importedBundles.clear();
 
         // Add the new bundles
-        String[] bundles = attributesBundles.split(delimiter);
+        String[] bundles = attributesBundles.trim().split(delimiter);
         for (String bundle : bundles)
         {
             importedBundles.add(bundle);

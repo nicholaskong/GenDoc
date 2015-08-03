@@ -26,7 +26,7 @@ import org.eclipse.gendoc.tags.handlers.AbstractPrePostTagHandler;
 public abstract class AbstractServicesTagHandler extends AbstractPrePostTagHandler{
 
     /** Delimiter use to separate services. */
-    private static final String delimiter = ";";
+    private static final String delimiter = "\\s*;\\s*";
 
     /*
      * (non-Javadoc)
@@ -42,7 +42,7 @@ public abstract class AbstractServicesTagHandler extends AbstractPrePostTagHandl
             if (RegisteredTags.CONFIG_SERVICES.equalsIgnoreCase(key))
             {
                 String services = tag.getAttributes().get(key);
-                String[] serviceIds = services.split(AbstractServicesTagHandler.delimiter);
+                String[] serviceIds = services.trim().split(AbstractServicesTagHandler.delimiter);
                 for (String serviceId : serviceIds)
                 {
                     GendocServices.getDefault().setService(serviceId);

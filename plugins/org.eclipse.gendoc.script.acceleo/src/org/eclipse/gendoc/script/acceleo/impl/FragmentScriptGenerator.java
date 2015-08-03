@@ -12,12 +12,14 @@
  *****************************************************************************/
 package org.eclipse.gendoc.script.acceleo.impl;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Pattern;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gendoc.m2t.model.Argument;
 import org.eclipse.gendoc.m2t.model.Fragment;
+import org.eclipse.gendoc.script.acceleo.ServicesExtension;
 import org.eclipse.gendoc.services.exception.GenDocException;
 
 /**
@@ -79,7 +81,15 @@ public class FragmentScriptGenerator extends ScriptGenerator
     @Override
     protected List<String> getImportedBundlesForScript()
     {
-        return f.getImportedBundles();
+    	List<String> importedBundles =  new LinkedList<String>(f.getImportedBundles());
+        for (String bundleName : ServicesExtension.getInstance().getBundlesImportedByDefault())
+        {
+            if (!importedBundles.contains(bundleName))
+            {
+                importedBundles.add(bundleName);
+            }
+        }
+        return importedBundles;
     }
 
     @Override

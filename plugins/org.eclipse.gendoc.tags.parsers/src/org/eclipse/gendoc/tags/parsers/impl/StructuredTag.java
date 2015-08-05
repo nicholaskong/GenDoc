@@ -245,7 +245,7 @@ public class StructuredTag extends AbstractTag
             String attributeValue = text.substring(iCurrent, iNameEnd);
 
             // Add the attribute to the list
-            this.attributes.put(attributeName, attributeValue);
+            this.attributes.put(attributeName, attributeValue.trim());
 
             iCurrent = iNameEnd + 1;
 

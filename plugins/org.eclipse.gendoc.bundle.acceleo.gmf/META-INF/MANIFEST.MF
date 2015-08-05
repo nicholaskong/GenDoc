@@ -18,7 +18,8 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.gendoc.documents,
  org.eclipse.gendoc.services,
  org.eclipse.gendoc.tags.handlers,
- org.eclipse.gmf.runtime.diagram.ui.render
+ org.eclipse.gmf.runtime.diagram.ui.render,
+ org.eclipse.core.resources
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
 Eclipse-LazyStart: true

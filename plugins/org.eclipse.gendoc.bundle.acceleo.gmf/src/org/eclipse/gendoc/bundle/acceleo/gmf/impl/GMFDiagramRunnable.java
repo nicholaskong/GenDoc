@@ -22,12 +22,14 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Stack;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.TreeIterator;
@@ -38,12 +40,14 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.TransactionalEditingDomain.Factory;
 import org.eclipse.emf.transaction.util.TransactionUtil;
+import org.eclipse.emf.workspace.util.WorkspaceSynchronizer;
 import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gendoc.documents.FileRunnable;
 import org.eclipse.gendoc.services.GendocServices;
 import org.eclipse.gendoc.services.IGendocDiagnostician;
+import org.eclipse.gendoc.services.ILogger;
 import org.eclipse.gendoc.tags.handlers.Activator;
 import org.eclipse.gmf.runtime.common.core.util.Trace;
 import org.eclipse.gmf.runtime.diagram.core.preferences.PreferencesHint;
@@ -51,6 +55,7 @@ import org.eclipse.gmf.runtime.diagram.core.util.ViewUtil;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.DiagramEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.image.ImageFileFormat;
 import org.eclipse.gmf.runtime.diagram.ui.parts.DiagramEditor;
+import org.eclipse.gmf.runtime.diagram.ui.render.clipboard.DiagramGenerator;
 import org.eclipse.gmf.runtime.diagram.ui.render.internal.DiagramUIRenderPlugin;
 import org.eclipse.gmf.runtime.diagram.ui.render.util.CopyToImageUtil;
 import org.eclipse.gmf.runtime.diagram.ui.util.DiagramEditorUtil;
@@ -179,32 +184,90 @@ public class GMFDiagramRunnable implements FileRunnable {
 	public class MultiElementsCopytoImageUtils extends CopyToImageUtil {
 
 		public List copyToImage(Diagram diagram, IPath destination,
-				List<EObject> visibleElements, ImageFileFormat format,
-				NullProgressMonitor monitor, PreferencesHint preferencesHint)
-				throws CoreException {
-			Shell shell = null ;
-			try {
+				ImageFileFormat format, NullProgressMonitor monitor,
+				PreferencesHint preferencesHint)
+						throws CoreException {
+
 			Trace.trace(DiagramUIRenderPlugin.getInstance(),
 					"Copy diagram to Image " + destination + " as " + format); //$NON-NLS-1$ //$NON-NLS-2$
 
 			List partInfo = Collections.EMPTY_LIST;
 
-			DiagramEditor openedDiagramEditor = DiagramEditorUtil
-					.findOpenedDiagramEditorForID(ViewUtil.getIdStr(diagram));
-			DiagramEditPart diagramEditPart = null ;
-			
+			DiagramEditor openedDiagramEditor = findOpenedDiagramEditor(diagram);
 			if (openedDiagramEditor != null) {
-				diagramEditPart = openedDiagramEditor.getDiagramEditPart(); 
+				DiagramGenerator generator = copyToImage(openedDiagramEditor.getDiagramEditPart(),
+						destination, format, monitor);
+				partInfo = generator.getDiagramPartInfo(openedDiagramEditor.getDiagramEditPart());
 			} else {
-				shell = new Shell();
+				Shell shell = new Shell();
+				try {
+					DiagramEditPart diagramEditPart = createDiagramEditPart(diagram,
+							shell, preferencesHint);
+					Assert.isNotNull(diagramEditPart);
+					DiagramGenerator generator = copyToImage(diagramEditPart,
+							destination, format, monitor);
+					partInfo = generator.getDiagramPartInfo(diagramEditPart);
+				} finally {
+					shell.dispose();
+				}
+			}
+
+			return partInfo;
+		}
+
+		private DiagramEditor findOpenedDiagramEditor(Diagram diagram) {
+			DiagramEditor result = DiagramEditorUtil.findOpenedDiagramEditorForID(ViewUtil.getIdStr(diagram));
+			if (result != null){
+				IPath iPathDiagEditor =getIPath(result.getDiagram());
+				IPath iPathDiag = getIPath(diagram) ;
+
+				if (iPathDiagEditor == null || iPathDiag == null || !iPathDiag.equals(iPathDiagEditor)){
+					((ILogger) GendocServices.getDefault().getService(ILogger.class)).log("Two diagrams in separate files " + iPathDiagEditor + " and " + iPathDiag + " have the same identifier", Status.WARNING);
+					return null ;
+				}
+			}
+			return result ;
+		}
+
+		private IPath getIPath(Diagram diagram) {
+			if (diagram != null){
+				Resource resource = diagram.eResource();
+				if (resource != null){
+					IFile file = WorkspaceSynchronizer.getUnderlyingFile(resource);
+					if (file != null){
+						return file.getFullPath();
+					}
+				}
+			}
+			return null;
+		}
+
+		public List copyToImage(Diagram diagram, IPath destination,
+				List<EObject> visibleElements, ImageFileFormat format,
+				NullProgressMonitor monitor, PreferencesHint preferencesHint)
+						throws CoreException {
+			Shell shell = null ;
+			try {
+				Trace.trace(DiagramUIRenderPlugin.getInstance(),
+						"Copy diagram to Image " + destination + " as " + format); //$NON-NLS-1$ //$NON-NLS-2$
+
+				List partInfo = Collections.EMPTY_LIST;
+
+				DiagramEditor openedDiagramEditor = findOpenedDiagramEditor(diagram);
+				DiagramEditPart diagramEditPart = null ;
+
+				if (openedDiagramEditor != null) {
+					diagramEditPart = openedDiagramEditor.getDiagramEditPart(); 
+				} else {
+					shell = new Shell();
 					diagramEditPart = createDiagramEditPart(
 							diagram, shell, preferencesHint);
-			}
-			Assert.isNotNull(diagramEditPart);
-			copyToImage(diagramEditPart,
-					getEditParts(visibleElements, diagramEditPart),
-					destination, format, monitor);
-			return partInfo;
+				}
+				Assert.isNotNull(diagramEditPart);
+				copyToImage(diagramEditPart,
+						getEditParts(visibleElements, diagramEditPart),
+						destination, format, monitor);
+				return partInfo;
 			} finally {
 				if (shell != null && !shell.isDisposed())
 				{

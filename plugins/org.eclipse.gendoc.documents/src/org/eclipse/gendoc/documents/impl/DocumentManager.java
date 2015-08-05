@@ -110,14 +110,14 @@ public class DocumentManager extends AbstractService implements IDocumentManager
 
     public Document getDocument(URL url)
     {
-        Document result = this.documents.get(url);
+        Document result = this.documents.get(url.toString());
         if (result == null)
         {
             // Create a Document from template
             DocumentFactory factory = Activator.getFactoryFromExtension(url.getPath());
             Map<CONFIGURATION, Boolean> conf = this.initConf();
             result = factory.loadDocument(url, conf);
-            this.documents.put(url, result);
+            this.documents.put(url.toString(), result);
         }
         return result;
     }

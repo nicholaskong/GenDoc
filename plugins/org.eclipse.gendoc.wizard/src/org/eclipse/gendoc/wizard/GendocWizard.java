@@ -15,6 +15,7 @@ package org.eclipse.gendoc.wizard;
 
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -47,7 +48,7 @@ public class GendocWizard extends Wizard
 {
 
     /** The runners. */
-    private final List<IGendocRunner> runners;
+    private final List<IGendocRunner> runners = new ArrayList<IGendocRunner>();
 
     /** The file. */
     private final IFile[] files;
@@ -66,7 +67,9 @@ public class GendocWizard extends Wizard
      */
     public GendocWizard(List<IGendocRunner> runners, IFile[] files)
     {
-        this.runners = runners;
+        if (runners != null){
+        	this.runners.addAll(runners);
+        }
         Collections.sort(this.runners, new Comparator<IGendocRunner>()
         {
             public int compare(IGendocRunner o1, IGendocRunner o2)
@@ -229,6 +232,10 @@ public class GendocWizard extends Wizard
     @Override
     public boolean canFinish()
     {
+    	if (getRunners().size() == 0){
+    		 ((WizardPage) getContainer().getCurrentPage()).setErrorMessage("no gendoc templates registered to this platform for the current selection");
+    		 return false;
+    	}
         boolean state = true;
         int cpteur = 1;
 
@@ -246,14 +253,12 @@ public class GendocWizard extends Wizard
             state = false;
             cpteur += 1;
         }
-
         if (!page.isCorrectExtension())
         {
             message.append(" " + cpteur + " : OutPut file extension is not correct\n ");
             cpteur += 1;
             state = false;
         }
-
         if (!page.allIsFilled())
         {
             message.append(" " + cpteur + " : Please Fill all parameters fields \n ");

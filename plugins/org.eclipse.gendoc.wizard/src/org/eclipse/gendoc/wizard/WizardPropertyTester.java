@@ -14,7 +14,6 @@
 package org.eclipse.gendoc.wizard;
 
 import org.eclipse.core.expressions.PropertyTester;
-import org.eclipse.core.resources.IFile;
 
 public class WizardPropertyTester extends PropertyTester
 {

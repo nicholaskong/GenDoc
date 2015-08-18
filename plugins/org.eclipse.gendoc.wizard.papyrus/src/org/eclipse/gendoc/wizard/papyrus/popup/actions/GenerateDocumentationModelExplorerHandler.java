@@ -52,7 +52,7 @@ public class GenerateDocumentationModelExplorerHandler extends org.eclipse.core.
             files.add((IFile) selectedObject);
             
             List<IGendocRunner> runners = (selectedObject != null) ? Utils.getRunners(selectedObject) : null;
-            if (runners != null)
+            if (runners != null && !runners.isEmpty())
             {
                 GendocWizard wizard = new GendocWizard(runners, files.toArray(new IFile[]{}));
                 WizardDialog wizardDialog = new WizardDialog(HandlerUtil.getActiveShell(event), wizard);

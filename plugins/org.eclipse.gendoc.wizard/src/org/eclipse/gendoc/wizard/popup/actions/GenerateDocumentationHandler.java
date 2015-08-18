@@ -17,6 +17,8 @@ import java.util.List;
 
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.gendoc.wizard.GendocWizard;
 import org.eclipse.gendoc.wizard.IGendocRunner;
 import org.eclipse.gendoc.wizard.Utils;
@@ -39,13 +41,28 @@ public class GenerateDocumentationHandler extends org.eclipse.core.commands.Abst
         if (selection instanceof IStructuredSelection)
         {
             IStructuredSelection selec = (IStructuredSelection) selection;
-            List<IGendocRunner> runners = Utils.getRunners(selec.getFirstElement());
-            if (runners != null)
+            Object firstElement = selec.getFirstElement();
+			List<IGendocRunner> runners = Utils.getRunners(firstElement);
+            if (runners == null || runners.isEmpty()){
+            	IFile adapted = null;
+            	if (firstElement instanceof IAdaptable) {
+					IAdaptable iada = (IAdaptable) firstElement;
+					adapted = (IFile) iada.getAdapter(IFile.class);
+				}
+            	if (adapted == null){
+            		adapted = (IFile) Platform.getAdapterManager().getAdapter(firstElement, IFile.class);
+            	}
+            	if (adapted != null){
+            		runners = Utils.getRunners(adapted);
+            	}
+            }
+            if (runners != null && !runners.isEmpty())
             {
-                GendocWizard wizard = new GendocWizard(runners, Utils.getIFiles(selec.getFirstElement()));
+                GendocWizard wizard = new GendocWizard(runners, Utils.getIFiles(firstElement));
                 WizardDialog wizardDialog = new WizardDialog(HandlerUtil.getActiveShell(event), wizard);
                 wizardDialog.open();
             }
+
         }
         return null;
     }

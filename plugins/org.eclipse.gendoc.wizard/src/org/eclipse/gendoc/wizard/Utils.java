@@ -41,10 +41,11 @@ public class Utils
 		}
     	else 
     	{
+    		Collection<IFile> files = new LinkedList<IFile>();
     		IFile f = (IFile) Platform.getAdapterManager().getAdapter(o, IFile.class);
     		if (f != null)
     		{
-    			return new IFile[] {f} ;
+    			files.add(f) ;
     		}
     		Collection<?> collec = (Collection<?>) Platform.getAdapterManager().getAdapter(o, Collection.class);
     		if (collec != null)
@@ -60,11 +61,11 @@ public class Utils
     			}
     			if (ok)
     			{
-    				return collec.toArray(new IFile[]{});
+    				files.addAll((Collection<? extends IFile>) collec);
     			}
     		}
+    		return files.toArray(new IFile[]{});
     	}
-    	return null ;
     }
     
     /**

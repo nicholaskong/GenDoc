@@ -17,14 +17,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.Stack;
 
 import org.eclipse.acceleo.model.mtl.Module;
 import org.eclipse.emf.common.util.URI;
@@ -38,6 +36,7 @@ import org.eclipse.gendoc.script.acceleo.Generator;
 import org.eclipse.gendoc.script.acceleo.IFileAndMMRegistry;
 import org.eclipse.gendoc.script.acceleo.Messages;
 import org.eclipse.gendoc.script.services.IModuleManagerService;
+import org.eclipse.gendoc.script.services.impl.TopologicalSort.CycleException;
 import org.eclipse.gendoc.services.AbstractService;
 import org.eclipse.gendoc.services.GendocServices;
 import org.eclipse.gendoc.services.exception.GenDocException;
@@ -102,14 +101,17 @@ public class ModuleManagerService extends AbstractService implements IModuleMana
             // dependency analysis for compilation
             try
             {
-                Collections.sort(fragments, new FragmentComparator());
+                fragments = topologicalSort(fragments);
+                // tim sort has some problems with dependencies so a second try to fix it : 
+//                Collections.sort(fragments, fragmentComparator);
+                
             }
             // the fragment comparator throws a runtime exception
             // as the method compare declare any
-            catch (DependencyCycleRuntimeException e)
+            catch (CycleException e)
             {
                 // if the exception is catched a gendoc Exception is catched
-                throw new GenDocException(e.getMessage())
+                throw new GenDocException("fragment dependency error from " +  (e.getNode() != null ? e.getNode().toString() : ""))
                 {
                     private static final long serialVersionUID = 1L;
                 };
@@ -158,7 +160,14 @@ public class ModuleManagerService extends AbstractService implements IModuleMana
         return toReturn;
     }
 
-    private Map<String, Fragment> getFragmentsMap()
+	private List<Fragment> topologicalSort(List<Fragment> fragments) throws CycleException {
+		FragmentEdge edge = new FragmentEdge(getFragmentsMap());
+		List<Fragment> result = TopologicalSort.sort(fragments, edge);
+		Collections.reverse(result);
+		return result;
+	}
+
+	Map<String, Fragment> getFragmentsMap()
     {
         IFragmentService service = GendocServices.getDefault().getService(IFragmentService.class);
         Map<String, Fragment> allFragments = new HashMap<String, Fragment>();
@@ -309,75 +318,7 @@ public class ModuleManagerService extends AbstractService implements IModuleMana
         return null;
     }
 
-    /**
-     * A comparator analysing the tree of dependencies
-     * 
-     * @author tfaure
-     * 
-     */
-    public class FragmentComparator implements Comparator<Fragment>
-    {
-        public int compare(Fragment o1, Fragment o2)
-        {
-        	int result; 
-        	if ((o1.getImportedFragments().size() == 0) && (o2.getImportedFragments().size() == 0)){
-        			result = 0;	// none has fragment : no order.
-            }
-        	else if (o1.getImportedFragments().size() == 0){
-        		// ONLY o2 has fragments
-        		result = -1;
-        	}
-        	else if (o2.getImportedFragments().size() == 0){
-        		// ONLY o1 has fragments
-        		result = 1;
-        	}
-        	else{
-	            Map<String, Fragment> allFragments = getFragmentsMap();
-	            // to manage dependency link
-	            boolean found = isDependant(o1, o2, allFragments);
-        	
-	            if( !found){
-	            	if( isDependant(o2, o1, allFragments)){
-	            	result = -1; /* o1 and o2 have fragments. o2 depends on o1*/
-	            	}
-	            	else{
-	            		result = 0 ;/* o1 and o2 have fragments and do not depend on each other*/
-	            	}
-	            }
-	            else{
-	            	result = 1; // o1 and o2 have fragments. o1 depends on o2
-	            }
-        	}
-            return result;
-        }
-
-		private boolean isDependant(Fragment o1, Fragment o2,
-				Map<String, Fragment> allFragments) {
-			Stack<String> deps = new Stack<String>();
-            deps.addAll(o1.getImportedFragments());
-            boolean found = false;
-            while (!deps.isEmpty() && !found)
-            {
-                String aDep = deps.pop();
-                if (aDep.equals(o1.getName()))
-                {
-                    throw new DependencyCycleRuntimeException(String.format("a cycle has been detected for fragment <<%s>> please check the attribute 'importedFragments'", o1.getName()));
-                }
-                found |= (o2 != null && o2.getName().equals(aDep));
-                Fragment f = allFragments.get(aDep);
-                if (f != null)
-                {
-                    for (String s : f.getImportedFragments())
-                    {
-                        deps.push(s);
-                    }
-                }
-            }
-			return found;
-		}
-    }
-
-    private class DependencyCycleRuntimeException extends RuntimeException
+    class DependencyCycleRuntimeException extends RuntimeException
     {
         private static final long serialVersionUID = 1L;
 

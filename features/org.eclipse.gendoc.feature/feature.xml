@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.gendoc.feature"
       label="Gendoc"
-      version="0.5.0.qualifier">
+      version="0.5.1.qualifier">
 
    <description url="http://www.eclipse.org/gendoc">
       Gendoc extracts data from models and generates documents that

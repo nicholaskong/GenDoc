@@ -28,7 +28,6 @@ public class FragmentEdge implements Edge<Fragment> {
 		this.map = map;
 	}
 
-	@Override
 	public List<? super Fragment> from(Fragment n) {
 		List<Fragment> result = new LinkedList<Fragment>();
 		List<String> importedFragments = n.getImportedFragments();

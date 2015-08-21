@@ -95,7 +95,11 @@ public abstract class XMLDocumentService implements IDocumentService
      */
     private final Pattern patternTagSingle = Pattern.compile("<[^<>]+/>");
     
-    
+    /**
+     * Regex that not contains &lt;
+     */	  		
+    private final String NO_LT_OR_GT_INSIDE = "(?:(?!&lt;)(?!&gt;).)*";
+
 	/**
 	 * Line feed special character 
 	 */
@@ -357,11 +361,11 @@ public abstract class XMLDocumentService implements IDocumentService
         List<Pattern> patternsToMatch = new ArrayList<Pattern>(labels.size() * 2);
         for (String label : labels)
         {
-            patternsToClean.add(Pattern.compile("(&lt;" + label + "[^&;]*&gt;[^&]&lt;/" + label + "[^&;]*&gt;)"));
-            patternsToClean.add(Pattern.compile("&lt;" + label + "[^&;]*/&gt;"));
+            patternsToClean.add(Pattern.compile("(&lt;" + label + NO_LT_OR_GT_INSIDE + "&gt;[^&]&lt;/" + label +  NO_LT_OR_GT_INSIDE + "&gt;)"));
+            patternsToClean.add(Pattern.compile("&lt;" + label + NO_LT_OR_GT_INSIDE + "/&gt;"));
             
-            patternsToMatch.add(Pattern.compile("(&lt;" + label + "[^&;]*&gt;|&lt;/" + label + "[^&;]*&gt;)"));
-            patternsToMatch.add(Pattern.compile("&lt;" + label + "[^&;]*/&gt;"));
+            patternsToMatch.add(Pattern.compile("(&lt;" + label + NO_LT_OR_GT_INSIDE + "&gt;|&lt;/" + label + NO_LT_OR_GT_INSIDE + "&gt;)"));
+            patternsToMatch.add(Pattern.compile("&lt;" + label + NO_LT_OR_GT_INSIDE + "/&gt;"));
         }
         
         // Get a full regex with all patterns
@@ -373,7 +377,7 @@ public abstract class XMLDocumentService implements IDocumentService
         patternToMatch = patternToMatch.substring(0, patternToMatch.length() - 1);
         
         // Clean all values contained between &lt; &gt ;  
-        Pattern globalTagPattern = Pattern.compile("&lt;[^&;]*&gt;");
+        Pattern globalTagPattern = Pattern.compile("&lt;" + NO_LT_OR_GT_INSIDE + "&gt;");
         StringBuffer resultBuffer = new StringBuffer();
         Matcher m = globalTagPattern.matcher(text);
         int index = 0;
@@ -402,7 +406,7 @@ public abstract class XMLDocumentService implements IDocumentService
 
         return result;
     }
-
+    
     protected String cleanXMLContent(String content)
     {
     	StringBuffer result = new StringBuffer();

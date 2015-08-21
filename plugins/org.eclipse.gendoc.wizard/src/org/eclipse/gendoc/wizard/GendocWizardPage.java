@@ -168,8 +168,13 @@ public class GendocWizardPage extends WizardPage {
 		IFile[] files = getGWizard().getInputFiles();
 		IGendocRunner selectedRunner = null;
 		if (getGWizard().getRunners().size() == 1) {
-			fileForTemplate = files[0];
 			selectedRunner = getGWizard().getRunners().get(0);
+			for (IFile f : files) {
+				if (selectedRunner.getPattern().matcher(f.getName())
+						.matches()) {
+					fileForTemplate = f;
+				}
+			}
 		} else {
 			if (comboViewer_1 != null
 					&& comboViewer_1.getSelection() instanceof StructuredSelection) {

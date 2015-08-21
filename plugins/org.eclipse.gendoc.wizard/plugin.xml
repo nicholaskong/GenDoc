@@ -27,6 +27,10 @@
                 <iterate
                       ifEmpty="false">
                       <or>
+                       <test
+	                            forcePluginActivation="true"
+	                            property="org.eclipse.gendoc.wizard.isEnabled">
+                      </test>
 	                   <adapt
 	                         type="org.eclipse.core.resources.IFile">
 	                      <test

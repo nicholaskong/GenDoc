@@ -85,9 +85,12 @@ public class FragmentTagHandler extends AbstractScriptTagHandler
     @Override
     protected String doRun(ITag tag) throws GenDocException
     {
-        String result = super.doRun(tag);
+        StringBuffer result = new StringBuffer(super.doRun(tag));
         IFragmentService service = GendocServices.getDefault().getService(IFragmentService.class);
-        service.addFragmentScriptContent(tag.getAttributes().get(RegisteredTags.FRAGMENT_NAME), result);
+        if(result.length() > 0 && Boolean.TRUE.equals(Boolean.valueOf(tag.getAttributes().get("removeClosingLine")))){
+        	result.append("&lt;drop/&gt;");
+        }
+        service.addFragmentScriptContent(tag.getAttributes().get(RegisteredTags.FRAGMENT_NAME), result.toString());
         return "";
     }
 

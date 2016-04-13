@@ -683,7 +683,7 @@ public class GendocWizardPage extends WizardPage {
 	 */
 	public String getModel() {
 		return URI.createURI(fileForTemplate.getLocationURI().toString())
-				.toString().replace(".di", ".notation");
+				.toString().replaceAll(".di\\z", ".notation");
 	}
 
 	public List<AdditionnalParameterItem> getAdditionnalParameters() {

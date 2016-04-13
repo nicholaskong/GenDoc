@@ -122,7 +122,6 @@ public class GMFDiagramRunnable implements FileRunnable {
 	public void run(final String resourceId, final String outputResourceFolder) {
 		if (Realm.getDefault() == null) {
 			Realm.runWithDefault(DisplayRealm.getRealm(Display.getDefault()), new Runnable() {
-				@Override
 				public void run() {
 					doRun(resourceId, outputResourceFolder);
 				}

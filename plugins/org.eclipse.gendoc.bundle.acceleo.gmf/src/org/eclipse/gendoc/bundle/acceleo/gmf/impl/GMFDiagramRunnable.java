@@ -22,6 +22,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Stack;
 
+import org.eclipse.core.databinding.observable.Realm;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.CoreException;
@@ -61,6 +62,8 @@ import org.eclipse.gmf.runtime.diagram.ui.render.util.CopyToImageUtil;
 import org.eclipse.gmf.runtime.diagram.ui.util.DiagramEditorUtil;
 import org.eclipse.gmf.runtime.notation.Diagram;
 import org.eclipse.gmf.runtime.notation.View;
+import org.eclipse.jface.databinding.swt.DisplayRealm;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
 public class GMFDiagramRunnable implements FileRunnable {
@@ -116,8 +119,22 @@ public class GMFDiagramRunnable implements FileRunnable {
 	 * @param diagram
 	 *            the diagram
 	 */
-
-	public void run(String resourceId, String outputResourceFolder) {
+	public void run(final String resourceId, final String outputResourceFolder) {
+		if (Realm.getDefault() == null) {
+			Realm.runWithDefault(DisplayRealm.getRealm(Display.getDefault()), new Runnable() {
+				@Override
+				public void run() {
+					doRun(resourceId, outputResourceFolder);
+				}
+			});
+		}
+		else {
+			doRun(resourceId, outputResourceFolder);
+		}
+		
+	}
+	
+	protected void doRun(String resourceId, String outputResourceFolder) {
 		if (extension != null) {
 			MultiElementsCopytoImageUtils c = new MultiElementsCopytoImageUtils();
 			new File(outputResourceFolder).mkdirs();

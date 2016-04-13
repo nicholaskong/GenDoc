@@ -121,7 +121,6 @@ public class RegisterVariableProcess extends AbstractProcess {
 			return result;
 		}
 		
-		@Override
 		public boolean visit(IResource resource) throws CoreException {
 			if (resource instanceof IWorkspaceRoot){
 				return true;

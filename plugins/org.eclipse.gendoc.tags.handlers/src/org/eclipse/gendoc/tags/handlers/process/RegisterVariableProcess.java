@@ -41,6 +41,8 @@ import org.eclipse.gendoc.tags.handlers.IConfigurationService;
  */
 public class RegisterVariableProcess extends AbstractProcess {
 
+	private static final String PROJECT_NAME = "project_name";
+
 	@Override
 	protected void doRun() throws GenDocException {
 		// get the document service, and the current document used
@@ -82,6 +84,9 @@ public class RegisterVariableProcess extends AbstractProcess {
 							configService.addParameter(s, resolveURI.getPath());
 						}
 					}
+					
+					// register other variables
+					configService.addParameter(PROJECT_NAME,file.getProject().getName());
 				}
 			} catch (URISyntaxException e) {
 				e.printStackTrace();

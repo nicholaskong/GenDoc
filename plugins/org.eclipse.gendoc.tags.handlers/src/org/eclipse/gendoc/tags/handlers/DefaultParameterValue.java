@@ -33,6 +33,7 @@ import org.eclipse.gendoc.tags.handlers.impl.config.IDeferredValue;
 public class DefaultParameterValue implements IDeferredParameterValue
 {
     private static final String KEY_INPUT = "input";
+    private static final String KEY_INPUT_EXT = "input_ext";
 
     private static final String KEY_DATE = "date";
 
@@ -61,25 +62,50 @@ public class DefaultParameterValue implements IDeferredParameterValue
             {
                 if (documentName == null)
                 {
-                    try
-                    {
-                        IDocumentService docService = GendocServices.getDefault().getService(IDocumentService.class);
-                        if (docService != null)
-                        {
-                            String name = docService.getDocument().getPath().substring(docService.getDocument().getPath().lastIndexOf('/') + 1, docService.getDocument().getPath().length());
-                            documentName = name.substring(0, name.lastIndexOf("."));
-                        }
-                    }
-                    catch (RuntimeException e)
-                    {
-                    }
+                	String  document = getDocument();
+                    return document.substring(0, document.lastIndexOf("."));
                 }
                 return documentName;
             }
 
+
         };
         // fill document name
         result.put(KEY_INPUT, documentDeferred);
+        IDeferredValue documentDeferred2 = new IDeferredValue()
+        {
+            String documentName = null;
+
+            public String get()
+            {
+                if (documentName == null)
+                {
+                	String  document = getDocument();
+                    return document;
+                }
+                return documentName;
+            }
+
+
+        };
+        // fill document name with extension
+        result.put(KEY_INPUT_EXT, documentDeferred2);
         return result;
+    }
+    
+    private String getDocument() {
+    	try
+    	{
+    		IDocumentService docService = GendocServices.getDefault().getService(IDocumentService.class);
+    		if (docService != null)
+    		{
+    			String name = docService.getDocument().getPath().substring(docService.getDocument().getPath().lastIndexOf('/') + 1, docService.getDocument().getPath().length());
+    			return name;
+    		}
+    	}
+    	catch (RuntimeException e)
+    	{
+    	}
+    	return "";
     }
 }

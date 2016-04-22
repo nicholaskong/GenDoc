@@ -17,11 +17,13 @@ package org.eclipse.gendoc.services.docx;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.gendoc.documents.AbstractImageService;
 import org.eclipse.gendoc.documents.ImageDimension;
 import org.eclipse.gendoc.services.GendocServices;
 import org.eclipse.gendoc.services.IGendocDiagnostician;
+import org.eclipse.gendoc.services.ILogger;
 import org.eclipse.gendoc.services.exception.AdditionalResourceException;
 import org.eclipse.gendoc.tags.ITag;
 import org.eclipse.gendoc.tags.handlers.impl.RegisteredTags;
@@ -63,7 +65,24 @@ public class DOCXImageService extends AbstractImageService
 			Matcher mDraw = pDraw.matcher(newTagContent);
 			if (mDraw.find())
 			{
-				newTagContent = new StringBuffer(newTagContent.toString().replaceAll("(<wpc:bg/>)", toInsertDraw));
+				// determines if there are wpc:bg
+				if (newTagContent.toString().contains("(<wpc:bg/>)")){
+					newTagContent = new StringBuffer(newTagContent.toString().replaceAll("(<wpc:bg/>)", toInsertDraw));
+				}
+				else {
+					// in some cases the wordprocessor or the user fills some properties of the wpc tag and the document
+					// does not contain <wpc:bg/>
+					Pattern openWpcTag = Pattern.compile("<wpc:bg>.*</wpc:bg>", Pattern.MULTILINE | Pattern.DOTALL);
+					Matcher matcherOpenWpcTag = openWpcTag.matcher(newTagContent.toString());
+					if (matcherOpenWpcTag.find()){
+						newTagContent = new StringBuffer(matcherOpenWpcTag.replaceAll(toInsertDraw));
+					}
+					else {
+						ILogger logger = GendocServices.getDefault().getService(ILogger.class);
+						String tagIdDocx = tag.getAttributes().get(RegisteredTags.ID);
+						logger.log("The execution of tag with id '"+ tagIdDocx +"' is maybe erroneous : problems with insertion\n\tcould not replace <wpc:bg>\n" + newTagContent.toString(), IStatus.WARNING);
+					}
+				}
 			}
 			
 			// Manage size for Office 2010 embedded image definition
@@ -72,7 +91,7 @@ public class DOCXImageService extends AbstractImageService
 		}
 		catch (AdditionalResourceException e)
 		{
-			IGendocDiagnostician diagnostician =(IGendocDiagnostician)GendocServices.getDefault().getService(IGendocDiagnostician.class);
+			IGendocDiagnostician diagnostician = (IGendocDiagnostician)GendocServices.getDefault().getService(IGendocDiagnostician.class);
 			String tagIdDocx = tag.getAttributes().get(RegisteredTags.ID);
 
 			if (null == tagIdDocx)

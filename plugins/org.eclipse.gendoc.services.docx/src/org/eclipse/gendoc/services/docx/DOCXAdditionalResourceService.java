@@ -1,5 +1,5 @@
 /*****************************************************************************
- * Copyright (c) 2010 Atos Origin.
+ * Copyright (c) 2016 Atos Origin.
  *
  *    
  * All rights reserved. This program and the accompanying materials
@@ -10,6 +10,7 @@
  * Contributors:
  *  Anne Haugommard (Atos Origin) anne.haugommard@atosorigin.com - Initial API and implementation
  *  Papa Malick Wade (Atos Origin) papa-malick.wade@atosorigin.com - extension the format of diagrams 
+ *  Antonio Campesino Robles (Ericsson) antonio.campesino.robles@ericsson.com - Bug 455640
  *****************************************************************************/
 package org.eclipse.gendoc.services.docx;
 
@@ -149,15 +150,16 @@ public class DOCXAdditionalResourceService extends AdditionalResourceService {
 									relationShipsToAdd.toString());
 							writeFileContent(rels, relsContent);
 						}
-					} else
+					} else {
 						// handle case when header or footer rels file do not
 						// exist : create it and insert relationships
 						rels.createNewFile();
-					relsContent = new StringBuffer(
-							"<?xml version=\"1.0\" encoding=\"windows-1250\"?> <Relationships xmlns=\"http://schemas.openxmlformats.org/package/2006/relationships\">");
-					relsContent.append(relationShipsToAdd);
-					relsContent.append("</Relationships>");
-					writeFileContent(rels, relsContent);
+						relsContent = new StringBuffer(
+								"<?xml version=\"1.0\" encoding=\"windows-1250\"?> <Relationships xmlns=\"http://schemas.openxmlformats.org/package/2006/relationships\">");
+						relsContent.append(relationShipsToAdd);
+						relsContent.append("</Relationships>");
+						writeFileContent(rels, relsContent);
+					}
 				}
 			}
 

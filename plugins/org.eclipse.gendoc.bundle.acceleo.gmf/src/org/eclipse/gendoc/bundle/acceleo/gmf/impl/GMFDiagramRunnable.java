@@ -46,6 +46,8 @@ import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gendoc.documents.FileRunnable;
+import org.eclipse.gendoc.documents.IImageManipulationService;
+import org.eclipse.gendoc.documents.IImageManipulationServiceFactory;
 import org.eclipse.gendoc.services.GendocServices;
 import org.eclipse.gendoc.services.IGendocDiagnostician;
 import org.eclipse.gendoc.services.ILogger;
@@ -71,9 +73,16 @@ public class GMFDiagramRunnable implements FileRunnable {
 	private Diagram diagram;
 
 	private enum FileFormat {
-		PNG, JPEG, GIF, BMP, JPG;
+		PNG, JPEG, GIF, BMP, JPG, SVG, EMF;
+		
+		public FileFormat getExtension(){
+			IImageManipulationServiceFactory imageManipulationServiceFactory = GendocServices.getDefault().getService(IImageManipulationServiceFactory.class);
+        	IImageManipulationService imageManipulationService = imageManipulationServiceFactory.getService(name().toLowerCase()) ;
+			return transformToFormat(imageManipulationService.renameExtension(name()));
+		}
+		
 		public String getFullExtension() {
-			return "." + name().toLowerCase();
+        	return "." + getExtension().name().toLowerCase();
 		}
 	}
 
@@ -97,7 +106,7 @@ public class GMFDiagramRunnable implements FileRunnable {
 
 	}
 
-	private FileFormat transformToFormat(String ext) {
+	private static FileFormat transformToFormat(String ext) {
 		FileFormat format;
 		try {
 			format = FileFormat.valueOf(ext.toUpperCase());
@@ -155,15 +164,19 @@ public class GMFDiagramRunnable implements FileRunnable {
 					}
 				}
 				if (visibleElements == null || visibleElements.isEmpty()) {
-					c.copyToImage(diagram, path, getImageFileFormat(extension),
+					c.copyToImage(diagram, path, getImageFileFormat(extension.getExtension()),
 							new NullProgressMonitor(),
 							PreferencesHint.USE_DEFAULTS);
 				} else {
 					c.copyToImage(diagram, path, visibleElements,
-							getImageFileFormat(extension),
+							getImageFileFormat(extension.getExtension()),
 							new NullProgressMonitor(),
 							PreferencesHint.USE_DEFAULTS);
 				}
+				IImageManipulationServiceFactory imageManipulationServiceFactory = GendocServices.getDefault().getService(IImageManipulationServiceFactory.class);
+	        	IImageManipulationService imageManipulationService = imageManipulationServiceFactory.getService(extension.name().toLowerCase()) ;
+	        	imageManipulationService.transform(path);
+				
 			} catch (CoreException e) {
 				IGendocDiagnostician diag = GendocServices.getDefault().getService(IGendocDiagnostician.class);
 				if (diag != null)

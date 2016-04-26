@@ -2,6 +2,7 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension-point id="org.eclipse.gendoc.documentTypes" name="Gendoc Document Types" schema="schema/documentTypes.exsd"/>
+   <extension-point id="org.eclipse.gendoc.imageTypes" name="Gendoc Image Types" schema="schema/imageTypes.exsd"/>
    <extension
          point="org.eclipse.gendoc.serviceTypes">
       <serviceType
@@ -11,6 +12,10 @@
       <serviceType
             id="DocumentService"
             interface="org.eclipse.gendoc.documents.IDocumentService">
+      </serviceType>
+      <serviceType
+            id="IImageInfoServiceFactory"
+            interface="org.eclipse.gendoc.documents.IImageManipulationServiceFactory">
       </serviceType>
    </extension>
    <extension
@@ -26,6 +31,12 @@
             default="true"
             id="DocumentService"
             serviceType="DocumentService">
+      </service>
+      <service
+            class="org.eclipse.gendoc.documents.impl.ImageManipulationServiceFactory"
+            default="true"
+            id="ImageInfoServiceFactory"
+            serviceType="IImageInfoServiceFactory">
       </service>
    </extension>
 

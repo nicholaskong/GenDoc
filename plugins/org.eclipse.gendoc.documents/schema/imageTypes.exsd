@@ -3,10 +3,10 @@
 <schema targetNamespace="org.eclipse.gendoc.documents" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appinfo>
-         <meta.schema plugin="org.eclipse.gendoc.documents" id="org.eclipse.gendoc.documentTypes" name="Gendoc Document Types"/>
+         <meta.schema plugin="org.eclipse.gendoc.documents" id="org.eclipse.gendoc.imageTypes" name="Gendoc Image Types"/>
       </appinfo>
       <documentation>
-         The documentTypes extension point allows third-party plug-ins to define new document types for Gendoc.
+         The imagesTypes extension point allows third-party plug-ins to define images manipulation types for Gendoc.
       </documentation>
    </annotation>
 
@@ -18,7 +18,7 @@
       </annotation>
       <complexType>
          <sequence>
-            <element ref="documentType" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="imageType" minOccurs="0" maxOccurs="unbounded"/>
          </sequence>
          <attribute name="point" type="string" use="required">
             <annotation>
@@ -47,22 +47,22 @@
       </complexType>
    </element>
 
-   <element name="documentType">
+   <element name="imageType">
       <complexType>
          <attribute name="extension" type="string" use="required">
             <annotation>
                <documentation>
-                  a file extension that identifies this document type.
+                  a file extension that identifies this image type.
                </documentation>
             </annotation>
          </attribute>
-         <attribute name="documentService" type="string" use="required">
+         <attribute name="imageManipulationService" type="string" use="required">
             <annotation>
                <documentation>
-                  the fully qualified name of a class that implements &lt;samp&gt;org.eclipse.gendoc.services.IDocumentService&lt;/samp&gt;.
+                  the fully qualified name of a class that implements &lt;samp&gt;org.eclipse.gendoc.documents.IImageManipulationService&lt;/samp&gt;.
                </documentation>
                <appinfo>
-                  <meta.attribute kind="java" basedOn=":org.eclipse.gendoc.services.IDocumentService"/>
+                  <meta.attribute kind="java" basedOn=":org.eclipse.gendoc.documents.IImageManipulationService"/>
                </appinfo>
             </annotation>
          </attribute>
@@ -74,7 +74,7 @@
          <meta.section type="since"/>
       </appinfo>
       <documentation>
-         1.1.0
+         [Enter the first release in which this extension point appears.]
       </documentation>
    </annotation>
 
@@ -83,20 +83,7 @@
          <meta.section type="examples"/>
       </appinfo>
       <documentation>
-         The following is an example of the scriptLanguages extension point usage:
-&lt;p&gt;
-&lt;pre&gt;
-   &lt;extension
-         point=&quot;org.eclipse.gendoc.documentTypes&quot;&gt;
-      &lt;documentType
-            documentService=&quot;com.example.Gendoc.ExampleDocumentService&quot;
-            extension=&quot;example&quot;&gt;
-      &lt;/documentType&gt;
-   &lt;/extension&gt;
-&lt;/pre&gt;
-&lt;/p&gt;
-&lt;p&gt;
-This defines document type identified by a .&lt;samp&gt;example&lt;/samp&gt; file extension that is processed using the &lt;samp&gt;com.example.Gendoc.ExampleDocumentService&lt;/samp&gt; class.
+         [Enter extension point usage example here.]
       </documentation>
    </annotation>
 
@@ -105,7 +92,7 @@ This defines document type identified by a .&lt;samp&gt;example&lt;/samp&gt; fil
          <meta.section type="apiinfo"/>
       </appinfo>
       <documentation>
-         Plug-ins that want to extend this extension point must provide a class that implements the the &lt;samp&gt;org.eclipse.gendoc.services.IDocumentService&lt;/samp&gt; interface.
+         [Enter API information here.]
       </documentation>
    </annotation>
 
@@ -114,17 +101,8 @@ This defines document type identified by a .&lt;samp&gt;example&lt;/samp&gt; fil
          <meta.section type="implementation"/>
       </appinfo>
       <documentation>
-         Gendoc provides and document services for .&lt;samp&gt;docx&lt;/samp&gt; and .&lt;samp&gt;odt&lt;/samp&gt; documents.
+         [Enter information about supplied implementation of this extension point.]
       </documentation>
    </annotation>
 
-   <annotation>
-      <appinfo>
-         <meta.section type="copyright"/>
-      </appinfo>
-      <documentation>
-         Copyright (c) 2010 Atos Origin.&lt;br&gt;
-All rights reserved. This program and the accompanying materials are made available under the terms of the Eclipse Public License v1.0 which accompanies this distribution, and is available at &lt;a href=&quot;http://www.eclipse.org/legal/epl-v10.html&quot;&gt;http://www.eclipse.org/legal/epl-v10.html&lt;/a&gt;
-      </documentation>
-   </annotation>
 </schema>

@@ -30,6 +30,8 @@
   	<module>plugins/org.eclipse.gendoc.wizard</module>
   	<module>plugins/org.eclipse.gendoc.wizard.gmf</module>
   	<module>plugins/org.eclipse.gendoc.wizard.papyrus</module>
+  	<module>plugins/org.eclipse.gendoc.documents.image.svg</module>
+  	
   	<module>features/org.eclipse.gendoc.feature</module>
   	<module>features/org.eclipse.gendoc.papyrus.feature</module>
   	<module>features/org.eclipse.gendoc.sirius.feature</module>

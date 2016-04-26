@@ -16,12 +16,6 @@ package org.eclipse.gendoc.documents;
 import java.awt.Toolkit;
 import java.io.IOException;
 
-import org.apache.xmlgraphics.image.loader.ImageException;
-import org.apache.xmlgraphics.image.loader.ImageInfo;
-import org.apache.xmlgraphics.image.loader.ImageManager;
-import org.apache.xmlgraphics.image.loader.ImageSessionContext;
-import org.apache.xmlgraphics.image.loader.impl.DefaultImageContext;
-import org.apache.xmlgraphics.image.loader.impl.DefaultImageSessionContext;
 import org.eclipse.gendoc.services.AbstractService;
 import org.eclipse.gendoc.services.GendocServices;
 import org.eclipse.gendoc.services.exception.AdditionalResourceException;
@@ -84,7 +78,9 @@ public abstract class AbstractImageService extends AbstractService implements II
 
         try
         {
-            ImageDimension initialSize = getImageDimension(imagePath);
+        	IImageManipulationServiceFactory imageManipulationServiceFactory =(IImageManipulationServiceFactory)GendocServices.getDefault().getService(IImageManipulationServiceFactory.class);
+        	IImageManipulationService imageInfoService = imageManipulationServiceFactory.getService(getExtension(imagePath)) ;
+            ImageDimension initialSize = imageInfoService.getImageDimension(imagePath);
             double imageHeight = initialSize.getHeight();
             double imageWidth = initialSize.getWidth();
 
@@ -130,25 +126,14 @@ public abstract class AbstractImageService extends AbstractService implements II
         return result;
     }
 
-	public ImageDimension getImageDimension(String imagePath) throws IOException, AdditionalResourceException {
-		ImageDimension initialSize = new ImageDimension();
-		// READ image and extract size
-		ImageManager imageManager = new ImageManager(new DefaultImageContext());
-		ImageSessionContext sessionContext = new DefaultImageSessionContext(
-				imageManager.getImageContext(), null);
+    private String getExtension(String imagePath) {
+    	String extension = "";
 
-		ImageInfo info;
-		try {
-			info = imageManager.getImageInfo(imagePath, sessionContext);
-		
-		initialSize.setWidth(info.getSize().getWidthPx());
-		initialSize.setHeight(info.getSize().getHeightPx());
-		} catch (ImageException e) {
-			throw new AdditionalResourceException("Cannot load image '"+imagePath+"'.", e);
-		}
-		
-		
-		return initialSize;
-	}
+    	int i = imagePath.lastIndexOf('.');
+    	if (i >= 0) {
+    	    extension = imagePath.substring(i+1);
+    	}
+    	return extension;
+    }
 
 }

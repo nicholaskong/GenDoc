@@ -1,5 +1,5 @@
 /*****************************************************************************
- * Copyright (c) 2011 Atos Origin.
+ * Copyright (c) 2015 Atos Origin.
  *
  *    
  * All rights reserved. This program and the accompanying materials
@@ -7,16 +7,17 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
+ * Contributors:
+ * Jean-François Rolland (ATOS) - Initial API and implementation
+ * Tristan Faure (ATOS)
  *
  *****************************************************************************/
 
-package org.eclipse.gendoc.wizard;
+package org.eclipse.gendoc.documents;
 
-public interface IGendocSelectionConverterRunner extends IGendocRunner {
+import org.eclipse.gendoc.services.IService;
 
-    /**
-     * @return the selection converter
-     */
-    ISelectionConverter getSelectionConverter();
-	
+public interface IImageManipulationServiceFactory extends IService{
+
+	public  IImageManipulationService getService(String ext);
 }

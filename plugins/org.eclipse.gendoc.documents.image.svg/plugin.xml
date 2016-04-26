@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.gendoc.imageTypes">
+      <imageType
+            extension="svg"
+            imageManipulationService="org.eclipse.gendoc.documents.image.svg.impl.SVGImageManipulationService">
+      </imageType>
+   </extension>
+
+</plugin>

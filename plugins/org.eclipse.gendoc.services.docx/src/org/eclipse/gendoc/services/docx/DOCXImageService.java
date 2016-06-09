@@ -66,8 +66,8 @@ public class DOCXImageService extends AbstractImageService
 			if (mDraw.find())
 			{
 				// determines if there are wpc:bg
-				if (newTagContent.toString().contains("(<wpc:bg/>)")){
-					newTagContent = new StringBuffer(newTagContent.toString().replaceAll("(<wpc:bg/>)", toInsertDraw));
+				if (newTagContent.toString().contains("<wpc:bg/>")){
+					newTagContent = new StringBuffer(newTagContent.toString().replaceAll("<wpc:bg/>", toInsertDraw));
 				}
 				else {
 					// in some cases the wordprocessor or the user fills some properties of the wpc tag and the document

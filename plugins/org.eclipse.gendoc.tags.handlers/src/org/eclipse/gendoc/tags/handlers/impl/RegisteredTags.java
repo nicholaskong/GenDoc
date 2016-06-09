@@ -119,6 +119,10 @@ public class RegisteredTags extends NLS
     public static String FRAGMENT_IMPORTED_BUNDLES;
     public static String FRAGMENT_IMPORTED_FRAGMENTS;
     
+    // properties
+    public static String PROPERTIES;
+    public static String PROPERTIES_PATH;
+    
     // initialize message bundle
     static
     {

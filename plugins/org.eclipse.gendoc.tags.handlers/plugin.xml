@@ -93,6 +93,10 @@
             id="TagAnalyserBuffer"
             interface="org.eclipse.gendoc.tags.handlers.process.buffers.ITagAnalyserBuffer">
       </serviceType>
+      <serviceType
+            id="PropertiesService"
+            interface="org.eclipse.gendoc.tags.handlers.IPropertiesService">
+      </serviceType>
       
    </extension>
    <extension
@@ -132,6 +136,12 @@
             default="false"
             id="TagFileBuffer"
             serviceType="TagAnalyserBuffer">
+      </service>
+      <service
+            class="org.eclipse.gendoc.tags.handlers.impl.properties.PropertiesServices"
+            default="true"
+            id="DefaultPropertiesService"
+            serviceType="PropertiesService">
       </service>
    </extension>
    <extension
@@ -282,6 +292,15 @@
             <attribute
                   name="importedFragments"
                   required="false"
+                  type="java.lang.String">
+            </attribute>
+         </tag>
+         <tag
+               handler="org.eclipse.gendoc.tags.handlers.impl.properties.PropertiesTagHandler"
+               name="properties">
+            <attribute
+                  name="path"
+                  required="true"
                   type="java.lang.String">
             </attribute>
          </tag>

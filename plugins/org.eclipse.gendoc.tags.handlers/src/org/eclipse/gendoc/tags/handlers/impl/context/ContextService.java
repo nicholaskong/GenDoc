@@ -17,10 +17,7 @@ package org.eclipse.gendoc.tags.handlers.impl.context;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.regex.Pattern;
 
-import org.eclipse.emf.common.util.BasicDiagnostic;
-import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.ContentHandler;
@@ -31,11 +28,8 @@ import org.eclipse.emf.ecore.resource.impl.ExtensibleURIConverterImpl;
 import org.eclipse.emf.ecore.resource.impl.URIHandlerImpl;
 import org.eclipse.gendoc.services.AbstractService;
 import org.eclipse.gendoc.services.GendocServices;
-import org.eclipse.gendoc.services.IGendocDiagnostician;
-import org.eclipse.gendoc.services.ILogger;
 import org.eclipse.gendoc.services.exception.ElementNotFoundException;
 import org.eclipse.gendoc.services.exception.ModelNotFoundException;
-import org.eclipse.gendoc.tags.handlers.Activator;
 import org.eclipse.gendoc.tags.handlers.IContextService;
 import org.eclipse.gendoc.tags.handlers.IEMFModelLoaderService;
 
@@ -79,9 +73,6 @@ public class ContextService extends AbstractService implements IContextService
     
     /** Defines if the potential multiple metamodels associated to model elements must be searched or not (false by default)*/
     private boolean searchMetamodels = false;
-
-    private static Pattern patternForManySlash = Pattern.compile(".*//+.*");
-
 
     /**
      * Constructor.
@@ -135,16 +126,6 @@ public class ContextService extends AbstractService implements IContextService
     {
         try
         {
-            if (patternForManySlash.matcher(modelPath).matches())
-           {
-               // WARNING
-                ILogger logger = GendocServices.getDefault().getService(ILogger.class);
-                IGendocDiagnostician diagnostician = GendocServices.getDefault().getService(IGendocDiagnostician.class);
-                
-                String message = "There is more than one '/' in your model path : "+modelPath;
-                diagnostician.addDiagnostic(new BasicDiagnostic(Diagnostic.ERROR,Activator.PLUGIN_ID, 0,message, new Object[]{modelPath}));
-                logger.log(message, ILogger.DEBUG);  
-            }
             try 
             {
             	model = URI.createURI(modelPath);

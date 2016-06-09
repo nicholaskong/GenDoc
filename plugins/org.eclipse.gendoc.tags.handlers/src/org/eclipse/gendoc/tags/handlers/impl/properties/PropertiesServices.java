@@ -31,7 +31,6 @@ import org.eclipse.gendoc.tags.handlers.IPropertiesService;
 
 public class PropertiesServices extends AbstractService implements IPropertiesService {
 
-	@Override
 	public void setPropertiesFile(File file) {
 		if (file.getPath() != null && file.getPath().endsWith("properties")){
 			managePropertiesFile(file);

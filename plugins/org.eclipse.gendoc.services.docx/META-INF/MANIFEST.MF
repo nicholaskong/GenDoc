@@ -11,7 +11,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.gendoc.services,
  org.eclipse.gendoc.tags,
  org.eclipse.gendoc.tags.handlers
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.gendoc.services.docx
 Eclipse-RegisterBuddy: org.eclipse.gendoc.services

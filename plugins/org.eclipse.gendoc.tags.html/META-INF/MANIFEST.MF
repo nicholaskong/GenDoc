@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Gendoc HTML
 Bundle-SymbolicName: org.eclipse.gendoc.tags.html;singleton:=true
 Bundle-Version: 0.6.0.qualifier
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Require-Bundle: org.eclipse.acceleo.engine,
  org.eclipse.core.runtime,
  org.eclipse.ui,

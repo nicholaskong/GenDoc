@@ -18,10 +18,18 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 import java.util.Map.Entry;
 import java.util.Properties;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.gendoc.services.AbstractService;
 import org.eclipse.gendoc.services.GendocServices;
 import org.eclipse.gendoc.services.ILogger;
@@ -43,7 +51,24 @@ public class PropertiesServices extends AbstractService implements IPropertiesSe
 		try {
 			Properties p = new Properties();
 			inStream = new BufferedInputStream(new FileInputStream(file));
-			p.load(inStream);
+			// if the file is contained in the workspace
+			IWorkspace workspace = ResourcesPlugin.getWorkspace(); 
+			IPath location = Path.fromOSString(file.getAbsolutePath()); 
+			IFile ifile = workspace.getRoot().getFileForLocation(location); 
+			Charset charset = null;
+			if (ifile != null && ifile.exists()){
+				try {
+					charset = Charset.forName(ifile.getCharset());
+					InputStreamReader reader = new InputStreamReader(inStream,charset);
+					p.load(reader);
+				} catch (CoreException e1) {
+					p.load(inStream);
+				}
+			}
+			// other wise default charset
+			else {
+				p.load(inStream);
+			}
 			for (Entry<Object,Object> e : p.entrySet()){
 				if (e.getKey() instanceof String && e.getValue() instanceof String){
 					config.addParameter((String)e.getKey(), config.replaceParameters((String)e.getValue()));

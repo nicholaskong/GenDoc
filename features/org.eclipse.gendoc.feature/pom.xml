@@ -4,7 +4,7 @@
     <groupId>org.eclipse.gendoc</groupId>
     <artifactId>parent</artifactId>
     <relativePath>../../pom.xml</relativePath>
-    <version>0.5.1-SNAPSHOT</version>
+    <version>0.5.1-juno-SNAPSHOT</version>
   </parent>
   
   <artifactId>org.eclipse.gendoc.feature</artifactId>

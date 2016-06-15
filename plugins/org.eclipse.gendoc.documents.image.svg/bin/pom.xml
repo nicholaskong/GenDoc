@@ -4,9 +4,9 @@
     <groupId>org.eclipse.gendoc</groupId>
     <artifactId>parent</artifactId>
     <relativePath>../../pom.xml</relativePath>
-    <version>0.5.1-juno-SNAPSHOT</version>
+    <version>0.6.0-SNAPSHOT</version>
   </parent>
   
-  <artifactId>org.eclipse.gendoc.document.parser</artifactId>
+  <artifactId>org.eclipse.gendoc.documents.image.svg</artifactId>
   <packaging>eclipse-plugin</packaging>
 </project>

@@ -1,11 +1,10 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Gendoc bundle for compatibility with Papyrus
-Bundle-SymbolicName: org.eclipse.gendoc.bundle.acceleo.papyrus;singleton:=true
+Bundle-Name: Gendoc bundle for compatibility with Sirius
+Bundle-SymbolicName: org.eclipse.gendoc.bundle.acceleo.sirius;singleton:=true
 Bundle-Version: 0.5.1.qualifier
-Bundle-Activator: org.eclipse.gendoc.bundle.acceleo.papyrus.Activator
+Bundle-Activator: org.eclipse.gendoc.bundle.acceleo.sirius.Activator
 Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.uml2.uml,
  org.eclipse.emf.ecore,
  org.eclipse.emf.ecore.xmi,
  org.eclipse.ocl,
@@ -18,13 +17,11 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.gendoc.services,
  org.eclipse.gendoc.process,
  org.eclipse.gendoc.tags.handlers,
- org.eclipse.papyrus.editor,
- org.eclipse.papyrus.infra.core,
- org.eclipse.papyrus.infra.gmfdiag.common,
- org.eclipse.papyrus.uml.tools,
- org.eclipse.papyrus.uml.tools.utils
+ org.eclipse.sirius.diagram,
+ org.eclipse.gendoc.bundle.acceleo.commons
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
 Eclipse-LazyStart: true
-Export-Package: org.eclipse.gendoc.bundle.acceleo.papyrus.mtl,
- org.eclipse.gendoc.bundle.acceleo.papyrus.service
+Export-Package: org.eclipse.gendoc.bundle.acceleo.sirius,
+ org.eclipse.gendoc.bundle.acceleo.sirius.mtl,
+ org.eclipse.gendoc.bundle.acceleo.sirius.service

@@ -29,12 +29,12 @@ import org.eclipse.papyrus.infra.core.resource.IModel;
 import org.eclipse.papyrus.infra.core.resource.ModelIdentifiers;
 import org.eclipse.papyrus.infra.core.resource.ModelMultiException;
 import org.eclipse.papyrus.infra.core.resource.ModelSet;
+import org.eclipse.papyrus.infra.core.resource.notation.NotationModel;
 import org.eclipse.papyrus.infra.core.resource.sasheditor.SashModel;
+import org.eclipse.papyrus.infra.core.resource.uml.UmlModel;
 import org.eclipse.papyrus.infra.core.services.ExtensionServicesRegistry;
 import org.eclipse.papyrus.infra.core.services.ServiceException;
 import org.eclipse.papyrus.infra.core.services.ServicesRegistry;
-import org.eclipse.papyrus.infra.gmfdiag.common.model.NotationModel;
-import org.eclipse.papyrus.uml.tools.model.UmlModel;
 
 
 /**
@@ -62,7 +62,7 @@ public class PapyrusModelLoaderService extends EMFModelLoaderService
         if (resourceSet == null)
         {
             try {
-            	resourceSet = getPapyrusModelSet(modelURI);
+            	resourceSet = getPapyrusModelSet(getFile(modelURI));
             	
 			} catch (ServiceException e) {
 				// TODO Auto-generated catch block
@@ -95,21 +95,8 @@ public class PapyrusModelLoaderService extends EMFModelLoaderService
             ModelSet modelSet = (ModelSet) resourceSet;
             String ext = uri.fileExtension();
 
-            String fileName = uri.toFileString();
-            IFile file = null;
-            // get IFile to load in model set
-            if (fileName != null)
-            {
-                file = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(new Path(fileName));
-            }
-            else if (uri.toString().startsWith("platform:/resource")) { //$NON-NLS-1$
-                String path = uri.toString().substring("platform:/resource".length()); //$NON-NLS-1$
-                IResource workspaceResource = ResourcesPlugin.getWorkspace().getRoot().findMember(new Path(path));
-                if (workspaceResource instanceof IFile)
-                {
-                    file = (IFile) workspaceResource;
-                }
-            }
+            
+            IFile file = getFile(uri);
             if (file != null)
             {
                 // try loading the model
@@ -118,7 +105,7 @@ public class PapyrusModelLoaderService extends EMFModelLoaderService
                 {
                     try
                     {
-                    	modelSet = getPapyrusModelSet(uri);
+                    	modelSet = getPapyrusModelSet(file);
                 		
                 		// After model loading, get model
                         IModel model = modelSet.getModel(modelId);
@@ -134,7 +121,27 @@ public class PapyrusModelLoaderService extends EMFModelLoaderService
         return super.getResource(uri);
     }
 
-	private ModelSet getPapyrusModelSet(URI modelUri) throws ServiceException  {
+
+	private IFile getFile(URI uri) {
+		String fileName = uri.toFileString();
+		IFile file = null;
+		// get IFile to load in model set
+		if (fileName != null)
+		{
+		    file = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(new Path(fileName));
+		}
+		else if (uri.toString().startsWith("platform:/resource")) { //$NON-NLS-1$
+		    String path = uri.toString().substring("platform:/resource".length()); //$NON-NLS-1$
+		    IResource workspaceResource = ResourcesPlugin.getWorkspace().getRoot().findMember(new Path(path));
+		    if (workspaceResource instanceof IFile)
+		    {
+		        file = (IFile) workspaceResource;
+		    }
+		}
+		return file;
+	}
+
+	private ModelSet getPapyrusModelSet(IFile file) throws ServiceException  {
 		ModelSet modelSet = null;
 		
 		// Start services registry and ModelSet service.
@@ -145,9 +152,10 @@ public class PapyrusModelLoaderService extends EMFModelLoaderService
 			servicesRegistry.startServices(Collections.singletonList(ModelSet.class
 				.getName()));
 			modelSet = servicesRegistry.getService(ModelSet.class);
-			if (modelSet != null && modelUri != null) {
+			if (modelSet != null && file != null) {
 				// load models
-				modelSet.loadModels(modelUri);
+				
+				modelSet.loadModels(file);
 			}
 			// start remaining services
 			servicesRegistry.startRegistry();

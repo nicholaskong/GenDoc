@@ -20,6 +20,7 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.workspace.util.WorkspaceSynchronizer;
 import org.eclipse.gendoc.wizard.GendocWizard;
 import org.eclipse.gendoc.wizard.IGendocRunner;
 import org.eclipse.gendoc.wizard.Utils;
@@ -41,10 +42,7 @@ public class GenerateDocumentationModelExplorerHandler extends org.eclipse.core.
             if(selectedElement == null) {
                   return null;
             }
-            URI resourceURI = selectedElement.eResource().getURI();
-            //URI s = resourceURI.trimFileExtension();
-            
-            IFile selectedObject = org.eclipse.papyrus.infra.emf.utils.EMFFileUtil.getIFile(resourceURI.toString());
+            IFile selectedObject = WorkspaceSynchronizer.getFile(selectedElement.eResource());
             
             //IFile diFile = ((IPapyrusFile)selectedObject).getMainFile();
             //IFile selectedObject = ((IPapyrusFile)org.eclipse.papyrus.infra.emf.utils.EMFFileUtil.getIFile(resourceURI.toString())).getMainFile();

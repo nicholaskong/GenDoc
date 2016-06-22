@@ -19,6 +19,7 @@ import org.eclipse.gendoc.services.GendocServices;
 import org.eclipse.gendoc.services.exception.GenDocException;
 import org.eclipse.gendoc.tags.ITag;
 import org.eclipse.gendoc.tags.handlers.AbstractPrePostTagHandler;
+import org.eclipse.gendoc.tags.handlers.IConfigurationService;
 import org.eclipse.gendoc.tags.handlers.impl.RegisteredTags;
 
 /**
@@ -45,7 +46,9 @@ public class ImageTagHandler extends AbstractPrePostTagHandler
             boolean maxH = Boolean.parseBoolean(tag.getAttributes().get(RegisteredTags.IMAGE_MAX_H));
             boolean maxW = Boolean.parseBoolean(tag.getAttributes().get(RegisteredTags.IMAGE_MAX_W));
 
-            String filePath = tag.getAttributes().get(RegisteredTags.IMAGE_FILE_PATH);
+            IConfigurationService configService = GendocServices.getDefault().getService(IConfigurationService.class);
+
+            String filePath = configService.replaceParameters(tag.getAttributes().get(RegisteredTags.IMAGE_FILE_PATH));
             String object = tag.getAttributes().get(RegisteredTags.IMAGE_OBJECT);
 
             IDocumentService documentService = GendocServices.getDefault().getService(IDocumentService.class);

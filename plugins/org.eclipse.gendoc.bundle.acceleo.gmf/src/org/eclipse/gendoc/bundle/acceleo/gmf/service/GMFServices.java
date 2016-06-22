@@ -179,7 +179,7 @@ public class GMFServices
      * @param e the eobject
      * @return the diagram list
      */
-    public List<Diagram> getDiagramInModel(EObject e)
+    public List<Diagram> getDiagramsInModel(EObject e)
     {
         if (e == null || e.eResource() == null)
         {

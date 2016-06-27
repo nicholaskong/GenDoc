@@ -30,11 +30,11 @@ import org.eclipse.gendoc.services.IGendocDiagnostician;
 import org.eclipse.gendoc.services.IProgressMonitorService;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IMemento;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.application.IWorkbenchConfigurer;
 import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
 import org.eclipse.ui.application.WorkbenchAdvisor;
 import org.eclipse.ui.application.WorkbenchWindowAdvisor;
-import org.eclipse.ui.internal.Workbench;
 import org.eclipse.ui.statushandlers.AbstractStatusHandler;
 
 public class GendocBatchModeRunnableApplication implements IApplication
@@ -163,7 +163,7 @@ public class GendocBatchModeRunnableApplication implements IApplication
 
     private void setupWorkbench()
     {
-        Workbench.createAndRunWorkbench(Display.getDefault(), new WorkbenchAdvisor()
+        PlatformUI.createAndRunWorkbench(Display.getDefault(), new WorkbenchAdvisor()
         {
             @Override
             public String getInitialWindowPerspectiveId()

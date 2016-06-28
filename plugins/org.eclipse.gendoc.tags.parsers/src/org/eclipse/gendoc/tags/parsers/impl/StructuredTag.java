@@ -232,7 +232,7 @@ public class StructuredTag extends AbstractTag
             iCurrent++;
 
             // Get the end of the word (attribute value) => end at the next quote
-            iNameEnd = text.indexOf(TagParserConfig.VALID_QUOTE.charAt(0), iCurrent + 1);
+            iNameEnd = text.indexOf(TagParserConfig.VALID_QUOTE.charAt(0), iCurrent);
             if (iNameEnd == -1)
             {
                if( attributes.get("id") != null){

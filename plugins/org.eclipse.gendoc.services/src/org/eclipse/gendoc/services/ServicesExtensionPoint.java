@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * Kris Robertson (Atos Origin) kris.robertson@atosorigin.com - Initial API and implementation
+ * Antonio Campesino (Ericsson) - Adding priorities to the org.eclipse.gendoc.services extension point
  * 
  *****************************************************************************/
 package org.eclipse.gendoc.services;
@@ -42,6 +43,8 @@ public final class ServicesExtensionPoint extends NLS
 
     public static String SERVICE_DEFAULT;
 
+    public static String SERVICE_PRIORITY;
+    
     static
     {
         NLS.initializeMessages(ServicesExtensionPoint.class.getName(), ServicesExtensionPoint.class);

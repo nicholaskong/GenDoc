@@ -73,6 +73,9 @@
             <annotation>
                <documentation>
                   Is this the default service instance for it&apos;s serviceType? One service must be declared as the default for each serviceType.
+If there are a service with a higher priority, that service will be choosen as default instead.
+
+This attribute should be deprecated and use priority, with a 0 value instead,
                </documentation>
             </annotation>
          </attribute>
@@ -84,6 +87,14 @@
                <appinfo>
                   <meta.attribute kind="identifier" basedOn="org.eclipse.gendoc.serviceTypes/serviceType/@id"/>
                </appinfo>
+            </annotation>
+         </attribute>
+         <attribute name="priority" type="string">
+            <annotation>
+               <documentation>
+                  The priority of the service. The service with higher priority will be load as default service.
+This value is a numeric value.
+               </documentation>
             </annotation>
          </attribute>
       </complexType>

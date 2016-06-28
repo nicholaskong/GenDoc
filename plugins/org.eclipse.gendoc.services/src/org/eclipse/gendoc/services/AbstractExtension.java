@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * Kris Robertson (Atos Origin) kris.robertson@atosorigin.com - Initial API and implementation
+ * Antonio Campesino (Ericsson) - Adding priorities to the org.eclipse.gendoc.services extension point
  * 
  *****************************************************************************/
 package org.eclipse.gendoc.services;
@@ -58,4 +59,17 @@ class AbstractExtension
         return value;
     }
 
+    protected int parseIntegerAttribute(IConfigurationElement configElement, String attributeName, int defaultValue)
+    {
+        String value = configElement.getAttribute(attributeName);
+        if (value != null)
+        {
+            try {
+				return Integer.parseInt(value);
+			} catch (NumberFormatException e) {
+				return defaultValue;
+			}
+        }
+        return defaultValue;
+    }
 }

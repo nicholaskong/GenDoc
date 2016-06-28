@@ -9,6 +9,7 @@
  * 
  * Contributors:
  * Kris Robertson (Atos Origin) kris.robertson@atosorigin.com - Initial API and implementation
+ * Antonio Campesino (Ericsson) - Adding priorities to the org.eclipse.gendoc.services extension point
  * 
  *****************************************************************************/
 package org.eclipse.gendoc.services;
@@ -26,6 +27,8 @@ class ServiceExtension extends AbstractExtension
 
     private final boolean isDefaultService;
 
+    private final int priority;
+    
     /**
      * Constructs a new ServiceExtension from a configuration element.
      * 
@@ -37,6 +40,7 @@ class ServiceExtension extends AbstractExtension
         this.id = this.parseStringAttribute(configElement, ServicesExtensionPoint.SERVICE_ID, true);
         this.serviceTypeId = this.parseStringAttribute(configElement, ServicesExtensionPoint.SERVICE_SERVICE_TYPE, true);
         this.isDefaultService = this.parseBooleanAttribute(configElement, ServicesExtensionPoint.SERVICE_DEFAULT, true);
+        this.priority = this.parseIntegerAttribute(configElement, ServicesExtensionPoint.SERVICE_PRIORITY, 0);
 
         // we don't need to store the class name but it's a required attribute...
         this.parseStringAttribute(configElement, ServicesExtensionPoint.SERVICE_CLASS, true);
@@ -101,4 +105,7 @@ class ServiceExtension extends AbstractExtension
         return this.isDefaultService;
     }
 
+	public int getPriority() {
+		return priority;
+	}
 }

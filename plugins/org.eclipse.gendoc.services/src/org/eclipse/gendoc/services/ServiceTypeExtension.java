@@ -9,11 +9,14 @@
  * 
  * Contributors:
  * Kris Robertson (Atos Origin) kris.robertson@atosorigin.com - Initial API and implementation
+ * Antonio Campesino (Ericsson) - Adding priorities to the org.eclipse.gendoc.services extension point
  * 
  *****************************************************************************/
 package org.eclipse.gendoc.services;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -58,9 +61,15 @@ class ServiceTypeExtension extends AbstractExtension
         if (this.defaultServiceExtension == null)
         {
             boolean found = false;
+            int prio = 0;
             for (ServiceExtension serviceExtension : this.getServiceExtensions())
             {
-                if (serviceExtension.isDefault())
+            	if (serviceExtension.getPriority() > prio) {
+            		prio = serviceExtension.getPriority();
+            		this.defaultServiceExtension = serviceExtension;
+            	} 
+
+            	if (prio == 0 && serviceExtension.isDefault())
                 {
                     if (!found)
                     {
@@ -73,7 +82,7 @@ class ServiceTypeExtension extends AbstractExtension
                     }
                 }
             }
-            if (!found)
+            if (prio == 0 && !found)
             {
                 throw new ServiceException("No default service found for serviceType " + this.getId());
             }
@@ -153,6 +162,12 @@ class ServiceTypeExtension extends AbstractExtension
                 }
             }
         }
+        Collections.sort(this.serviceExtensions, new Comparator<ServiceExtension>() {
+			@Override
+			public int compare(ServiceExtension o1, ServiceExtension o2) {
+				return Integer.compare(o2.getPriority(), o1.getPriority());
+			}
+		});
         return this.serviceExtensions;
     }
 

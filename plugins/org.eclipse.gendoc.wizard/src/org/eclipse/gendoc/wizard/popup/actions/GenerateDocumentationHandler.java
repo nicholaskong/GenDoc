@@ -13,7 +13,10 @@
  *****************************************************************************/
 package org.eclipse.gendoc.wizard.popup.actions;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.resources.IFile;
@@ -21,6 +24,7 @@ import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.gendoc.wizard.GendocWizard;
 import org.eclipse.gendoc.wizard.IGendocRunner;
+import org.eclipse.gendoc.wizard.IGendocSelectionConverterRunner;
 import org.eclipse.gendoc.wizard.Utils;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -52,13 +56,26 @@ public class GenerateDocumentationHandler extends org.eclipse.core.commands.Abst
             	if (adapted == null){
             		adapted = (IFile) Platform.getAdapterManager().getAdapter(firstElement, IFile.class);
             	}
+            	
             	if (adapted != null){
             		runners = Utils.getRunners(adapted);
             	}
             }
             if (runners != null && !runners.isEmpty())
             {
-                GendocWizard wizard = new GendocWizard(runners, Utils.getIFiles(firstElement));
+            	// this part collects all the runners as the IFiles from any
+            	// implementation of IGendocSelectionConverterRunner
+            	Set<IFile> files = new HashSet<IFile>(Arrays.asList(Utils.getIFiles(firstElement)));
+            	for (IGendocRunner r : runners){
+            		if (r instanceof IGendocSelectionConverterRunner) {
+						IGendocSelectionConverterRunner converterRunner = (IGendocSelectionConverterRunner) r;
+						if (converterRunner.getSelectionConverter() != null){
+							files.add(converterRunner.getSelectionConverter().getFile(firstElement));
+						}
+					}
+            	}
+                IFile[] iFiles = files.toArray(new IFile[]{});
+				GendocWizard wizard = new GendocWizard(runners, iFiles);
                 WizardDialog wizardDialog = new WizardDialog(HandlerUtil.getActiveShell(event), wizard);
                 wizardDialog.open();
             }

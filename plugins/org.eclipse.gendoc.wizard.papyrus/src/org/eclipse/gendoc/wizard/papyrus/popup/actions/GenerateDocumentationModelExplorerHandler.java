@@ -29,6 +29,10 @@ import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.papyrus.infra.emf.utils.EMFHelper;
 import org.eclipse.ui.handlers.HandlerUtil;
 
+/**
+ * @deprecated, menu not used anymore
+ *
+ */
 public class GenerateDocumentationModelExplorerHandler extends org.eclipse.core.commands.AbstractHandler
 {
 

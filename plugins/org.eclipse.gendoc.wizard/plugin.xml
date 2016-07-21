@@ -45,6 +45,13 @@
 	                            property="org.eclipse.gendoc.wizard.isCollectionEnabled">
 	                      </test>
 	                   </adapt>
+	                   <adapt
+	                         type="org.eclipse.emf.ecore.EObject">
+	                      <test
+	                            forcePluginActivation="true"
+	                            property="org.eclipse.gendoc.wizard.isEnabled">
+	                      </test>
+	                   </adapt>
 	                   </or>
                 </iterate>
              </visibleWhen>

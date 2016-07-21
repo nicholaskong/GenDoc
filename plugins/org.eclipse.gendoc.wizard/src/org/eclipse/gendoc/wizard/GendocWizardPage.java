@@ -191,15 +191,17 @@ public class GendocWizardPage extends WizardPage {
 				}
 			}
 		}
-		StringTokenizer token = new StringTokenizer(fileForTemplate.getName(),
-				".");
-		String nomFile = token.nextToken();
-		text.setText(fileForTemplate.getName());
-		String directory = getUriText(URI.createURI(fileForTemplate
-				.getLocationURI().toString()));
-		directory = replacePercentBySpace(directory, OFFSET);
-		text_1.setText(directory);
-		text_2.setText(nomFile);
+		if (fileForTemplate != null){
+			StringTokenizer token = new StringTokenizer(fileForTemplate.getName(),
+					".");
+			String nomFile = token.nextToken();
+			text.setText(fileForTemplate.getName());
+			String directory = getUriText(URI.createURI(fileForTemplate
+					.getLocationURI().toString()));
+			directory = replacePercentBySpace(directory, OFFSET);
+			text_1.setText(directory);
+			text_2.setText(nomFile);
+		}
 
 		manageListeners(outputFormatComboViewer, btnNewButton);
 

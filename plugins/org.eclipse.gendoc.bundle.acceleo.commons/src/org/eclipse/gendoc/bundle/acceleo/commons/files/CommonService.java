@@ -46,6 +46,7 @@ import org.eclipse.gendoc.services.GendocServices;
 import org.eclipse.gendoc.services.IGendocDiagnostician;
 import org.eclipse.gendoc.services.IRegistryService;
 import org.eclipse.gendoc.tags.ITagExtensionService;
+import org.eclipse.gendoc.tags.handlers.IConfigurationService;
 import org.eclipse.gendoc.tags.handlers.IEMFModelLoaderService;
 import org.osgi.framework.Bundle;
 
@@ -158,7 +159,16 @@ public class CommonService {
 		IRegistryService registry = GendocServices.getDefault().getService(
 				IRegistryService.class);
 		if (registry != null) {
-			return registry.get(key);
+			Object result = registry.get(key);
+			if (result == null && key instanceof String){
+				// fix problems using deferred values
+				IConfigurationService conf = GendocServices.getDefault().getService(IConfigurationService.class);
+				String tmp = conf.getParameter((String) key);
+				if (tmp instanceof String) {
+					result = (String)tmp;
+				}
+			}
+			return result;
 		}
 		return null;
 	}

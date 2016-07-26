@@ -34,7 +34,8 @@ public class DefaultParameterValue implements IDeferredParameterValue
 {
     private static final String KEY_INPUT = "input";
     private static final String KEY_INPUT_EXT = "input_ext";
-
+    private static final String KEY_INPUT_DIRECTORY = "input_directory";
+    
     private static final String KEY_DATE = "date";
 
     public Map<String, String> getValue()
@@ -52,44 +53,39 @@ public class DefaultParameterValue implements IDeferredParameterValue
     public Map<String, IDeferredValue> getDeferredValues()
     {
         // these values are deferred to be sure that the document service is
-        // already loaded
+        // already loaded    	
         Map<String, IDeferredValue> result = new HashMap<String, IDeferredValue>();
         IDeferredValue documentDeferred = new IDeferredValue()
         {
-            String documentName = null;
-
             public String get()
             {
-                if (documentName == null)
-                {
-                	String  document = getDocument();
-                    return document.substring(0, document.lastIndexOf("."));
-                }
-                return documentName;
+            	String  document = getDocument();
+                return document.substring(0, document.lastIndexOf("."));
             }
-
-
         };
         // fill document name
         result.put(KEY_INPUT, documentDeferred);
         IDeferredValue documentDeferred2 = new IDeferredValue()
         {
-            String documentName = null;
-
             public String get()
             {
-                if (documentName == null)
-                {
-                	String  document = getDocument();
-                    return document;
-                }
-                return documentName;
+            	String  document = getDocument();
+                return document;
             }
-
-
         };
         // fill document name with extension
         result.put(KEY_INPUT_EXT, documentDeferred2);
+        IDeferredValue documentDeferred3 = new IDeferredValue()
+        {
+            public String get()
+            {
+        		IDocumentService docService = GendocServices.getDefault().getService(IDocumentService.class);
+            	String pathFile = docService.getDocument().getPath().substring(0, docService.getDocument().getPath().lastIndexOf('/'));
+                return pathFile;
+            }
+        };
+        // fill document name with extension
+        result.put(KEY_INPUT_DIRECTORY, documentDeferred3);                
         return result;
     }
     
@@ -99,7 +95,7 @@ public class DefaultParameterValue implements IDeferredParameterValue
     		IDocumentService docService = GendocServices.getDefault().getService(IDocumentService.class);
     		if (docService != null)
     		{
-    			String name = docService.getDocument().getPath().substring(docService.getDocument().getPath().lastIndexOf('/') + 1, docService.getDocument().getPath().length());
+    			String name = docService.getDocument().getPath().substring(docService.getDocument().getPath().lastIndexOf('/') + 1);
     			return name;
     		}
     	}

@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Svg
+Bundle-Name: Gendoc SVG
 Bundle-SymbolicName: org.eclipse.gendoc.documents.image.svg;singleton:=true
 Bundle-Version: 0.6.0.qualifier
 Bundle-Activator: org.eclipse.gendoc.documents.image.svg.Activator

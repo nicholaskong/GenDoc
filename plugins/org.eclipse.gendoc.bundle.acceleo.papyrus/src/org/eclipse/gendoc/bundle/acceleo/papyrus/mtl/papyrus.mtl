@@ -21,4 +21,7 @@
 [query public getDocumentationResources(arg0 : ecore::EObject) : Sequence(String)
 	= invoke('org.eclipse.gendoc.bundle.acceleo.papyrus.service.PapyrusServices', 'getDocumentationResources(org.eclipse.emf.ecore.EObject)', Sequence{arg0}) /]
 
+[query public replaceLinksByNameOrLabel(arg0 : String, arg1 : ecore::EObject) : String
+	= invoke('org.eclipse.gendoc.bundle.acceleo.papyrus.service.PapyrusServices', 'replaceLinksByNameOrLabel(java.lang.String, org.eclipse.emf.ecore.EObject)', Sequence{arg0, arg1}) /]
+
 [comment - virtual order methods must be implemented if the module is integrated to papyrus/]

@@ -45,7 +45,7 @@ import org.eclipse.gmf.runtime.notation.View;
 
 public class GMFServices
 {
-    private static final String KEY_DIAGRAM_MAP = "key";
+    private static final String KEY_DIAGRAM_MAP = Activator.PLUGIN_ID+":key_diagram_map";
 
     /**
      * Gets the information whether the diagram is empty or not

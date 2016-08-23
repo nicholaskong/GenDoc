@@ -35,7 +35,7 @@ import org.eclipse.gendoc.tags.parsers.TagParserConfig;
  */
 public class TagParserService extends AbstractService implements ITagParserService
 {
-
+	private final String TAG_REG_SRV_PREFIX = ITagParserService.class.getName()+":";
     /**
      * Instantiates a new TagParserService.
      */
@@ -272,7 +272,7 @@ public class TagParserService extends AbstractService implements ITagParserServi
     public int increaseTagIndex(String tagName)
     {
         IRegistryService registryService = GendocServices.getDefault().getService(IRegistryService.class);
-        int currentTagIndex = getTagIndex(tagName);
+        int currentTagIndex = getTagIndex(TAG_REG_SRV_PREFIX+tagName);
         registryService.put(tagName, currentTagIndex+1);
         return currentTagIndex+1;
     }
@@ -285,7 +285,7 @@ public class TagParserService extends AbstractService implements ITagParserServi
     {
         int currentTagIndex = 0;
         IRegistryService registryService = GendocServices.getDefault().getService(IRegistryService.class);
-        Object value = (Integer) registryService.get(tagName);
+        Object value = (Integer) registryService.get(TAG_REG_SRV_PREFIX+tagName);
         if (value != null)
         {
             currentTagIndex = (Integer) value;

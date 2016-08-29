@@ -33,6 +33,7 @@ import org.eclipse.acceleo.model.mtl.VisibilityKind;
 import org.eclipse.acceleo.model.mtl.resource.AcceleoResourceFactoryRegistry;
 import org.eclipse.acceleo.parser.AcceleoParser;
 import org.eclipse.acceleo.parser.AcceleoSourceBuffer;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.emf.common.util.Monitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClassifier;
@@ -45,6 +46,8 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.gendoc.script.acceleo.exception.AcceleoParsingException;
+import org.eclipse.gendoc.services.GendocServices;
+import org.eclipse.gendoc.services.ILogger;
 import org.eclipse.gendoc.services.exception.GenerationException;
 import org.eclipse.gendoc.services.exception.ParsingException;
 import org.eclipse.ocl.ecore.EcoreEnvironment;
@@ -123,7 +126,9 @@ public class Generator
 		parser.parse(source, r, resources);
         if (!source.getProblems().getList().isEmpty())
         {
-            throw new AcceleoParsingException(source.getProblems().toString());
+            ILogger logger = GendocServices.getDefault().getService(ILogger.class);
+            logger.log(source.getProblems().toString()+":\n"+source.getBuffer().toString(), IStatus.ERROR);
+        	throw new AcceleoParsingException(source.getProblems().toString());
         }
         if (r.getContents().size() > 0)
         {

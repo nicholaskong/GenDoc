@@ -13,6 +13,9 @@
  *****************************************************************************/
 package org.eclipse.gendoc.tags.handlers;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.gendoc.documents.IDocumentService;
 import org.eclipse.gendoc.m2t.IM2TProcessor;
@@ -72,7 +75,10 @@ public abstract class AbstractScriptTagHandler extends AbstractPrePostTagHandler
             // ok
             gendocDiagnostician.addDiagnostic(Diagnostic.ERROR, message, tag);
             e.printStackTrace();
-            return " --- ERROR DURING GENERATION OF THIS PART \n Error message: " + this.removeSpecialCharacters(e.getUIMessage()) + " --- " + tag.getRawText() + " --- END ERROR --- ";
+            StringWriter wr = new StringWriter();
+            e.printStackTrace(new PrintWriter(wr,true));
+            return " --- ERROR DURING GENERATION OF THIS PART \n Error message: " + this.removeSpecialCharacters(e.getUIMessage()) + " --- "  
+            	+ wr.toString() + "---" + tag.getRawText() + " --- END ERROR --- ";
         }
         logger.log("Script result :" + resultBuffer.toString(), ILogger.DEBUG);
         return resultBuffer.toString();

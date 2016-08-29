@@ -172,6 +172,17 @@ public class GendocWizard extends Wizard
     										+ resultFilePath);
     							}
     						});
+    					} else if (resultDiagnostic.getSeverity() == Diagnostic.WARNING) {
+    						Display.getDefault().syncExec(new Runnable()
+    						{
+    							public void run()
+    							{
+    								ErrorDialog.openError(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Document generator", 
+    										"The document has been generated successfully:\n"
+    										+ resultFilePath +"\n but contains some warnings:\n",
+    										BasicDiagnostic.toIStatus(resultDiagnostic));
+    							}
+    						});    						
     					}
     					else
     					{

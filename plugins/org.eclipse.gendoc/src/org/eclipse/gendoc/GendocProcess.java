@@ -63,7 +63,7 @@ public class GendocProcess
         }
         catch (RuntimeException e)
         {
-            throw new GenerationException("Document " + source.toString() + " can not be loaded",e);
+            throw new GenerationException("Document " + source.toString() + " can not be loaded: " + e.getMessage(),e);
         }
         documentManager.setDocTemplate(document);
         // run each registered process

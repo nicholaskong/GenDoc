@@ -56,7 +56,7 @@ public class SaveProcess extends AbstractProcess
         catch (DocumentServiceException e)
         {
             final IGendocDiagnostician diagnostician = GendocServices.getDefault().getService(IGendocDiagnostician.class);
-            diagnostician.addDiagnostic(new BasicDiagnostic(Diagnostic.WARNING, Activator.PLUGIN_ID, 0, "Error during document save", new Object[] {document}));
+            diagnostician.addDiagnostic(new BasicDiagnostic(Diagnostic.WARNING, Activator.PLUGIN_ID, 0, "Error during document save: " + e.getMessage(), new Object[] {document}));
 
             final ILogger logger = GendocServices.getDefault().getService(ILogger.class);
             logger.log("Error during document save", ILogger.DEBUG);

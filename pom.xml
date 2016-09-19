@@ -17,6 +17,7 @@
   	<module>plugins/org.eclipse.gendoc.documents</module>
   	<module>plugins/org.eclipse.gendoc.documents.metadata</module>
   	<module>plugins/org.eclipse.gendoc.m2t</module>
+  	<module>plugins/org.eclipse.gendoc.preferences</module>
   	<module>plugins/org.eclipse.gendoc.process</module>
   	<module>plugins/org.eclipse.gendoc.script.acceleo</module>
   	<module>plugins/org.eclipse.gendoc.services</module>

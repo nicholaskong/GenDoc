@@ -10,8 +10,6 @@
 org.eclipse.gendoc.wizard. 
 
 it permit to all other plugin to contribute to this plug-in regarding generation documentation.
-
-
       </documentation>
    </annotation>
 
@@ -23,7 +21,10 @@ it permit to all other plugin to contribute to this plug-in regarding generation
       </annotation>
       <complexType>
          <sequence>
-            <element ref="GendocElement" minOccurs="1" maxOccurs="unbounded"/>
+            <choice minOccurs="1" maxOccurs="unbounded">
+               <element ref="GendocElement"/>
+               <element ref="GendocElementProvider"/>
+            </choice>
          </sequence>
          <attribute name="point" type="string" use="required">
             <annotation>
@@ -61,6 +62,21 @@ it permit to all other plugin to contribute to this plug-in regarding generation
                </documentation>
                <appinfo>
                   <meta.attribute kind="java" basedOn=":org.eclipse.gendoc.wizard.IGendocRunner"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="GendocElementProvider">
+      <complexType>
+         <attribute name="Instance" type="string" use="required">
+            <annotation>
+               <documentation>
+                  It provides IGendocRunners dynamically
+               </documentation>
+               <appinfo>
+                  <meta.attribute kind="java" basedOn=":org.eclipse.gendoc.wizard.IGendocRunnerProvider"/>
                </appinfo>
             </annotation>
          </attribute>

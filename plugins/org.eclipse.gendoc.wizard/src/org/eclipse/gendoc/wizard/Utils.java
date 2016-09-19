@@ -23,11 +23,15 @@ import java.util.regex.Pattern;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.Status;
 
 public class Utils
 {
     private static List<IGendocRunner> runners = null;
+
+    private static List<IGendocRunnerProvider> providers = null;
 
     /**
      * Get IFile from object
@@ -77,21 +81,57 @@ public class Utils
         if (runners == null)
         {
             runners = new LinkedList<IGendocRunner>();
+            providers = new LinkedList<IGendocRunnerProvider>();
             IConfigurationElement[] elements = Platform.getExtensionRegistry().getConfigurationElementsFor(Activator.PLUGIN_ID, "runner");
             for (IConfigurationElement e : elements)
             {
-                try
-                {
-                    IGendocRunner runner = (IGendocRunner) e.createExecutableExtension("Instance");
-                    runners.add(runner);
-                }
-                catch (CoreException e1)
-                {
-                    e1.printStackTrace();
-                }
+            	if (e.getName().equals("GendocElement")) {
+	            	try
+	                {
+	                    IGendocRunner runner = (IGendocRunner) e.createExecutableExtension("Instance");
+	                    runners.add(runner);
+	                }
+	                catch (CoreException e1)
+	                {
+	                    Activator.getDefault().getLog().log(new Status(
+	                    		IStatus.ERROR,Activator.PLUGIN_ID, 
+	                    		"Error instanciating IGendocRunner.", 
+	                    		e1));
+	                }
+            	} else if (e.getName().equals("GendocElementProvider"))
+            	{
+	            	try
+	                {
+	                    IGendocRunnerProvider provider = (IGendocRunnerProvider) e.createExecutableExtension("Instance");
+	                    providers.add(provider);
+	                }
+	                catch (CoreException e1)
+	                {
+	                    Activator.getDefault().getLog().log(new Status(
+	                    		IStatus.ERROR,Activator.PLUGIN_ID, 
+	                    		"Error instanciating IGendocRunnerProvider.", 
+	                    		e1));
+	                }
+            	}
             }
         }
-        return runners;
+        
+        LinkedList<IGendocRunner> allRunners = new LinkedList<IGendocRunner>();
+        for (IGendocRunnerProvider p : providers) {
+        	try
+            {
+        		allRunners.addAll(Arrays.asList(p.getGendocRunners()));
+            }
+            catch (Exception e1)
+            {
+                Activator.getDefault().getLog().log(new Status(
+                		IStatus.ERROR,Activator.PLUGIN_ID, 
+                		"Error instanciating GendocRunners from provider.", 
+                		e1));
+            }
+        }
+        allRunners.addAll(runners);
+        return allRunners;
     }
 
     /**

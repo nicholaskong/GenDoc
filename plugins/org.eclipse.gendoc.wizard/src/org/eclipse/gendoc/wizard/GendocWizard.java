@@ -21,9 +21,11 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.URIUtil;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.gendoc.GendocProcess;
@@ -33,6 +35,7 @@ import org.eclipse.gendoc.services.IProgressMonitorService;
 import org.eclipse.gendoc.services.exception.GenDocException;
 import org.eclipse.gendoc.tags.handlers.IConfigurationService;
 import org.eclipse.jface.dialogs.ErrorDialog;
+import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.wizard.Wizard;
@@ -42,7 +45,7 @@ import org.eclipse.ui.PlatformUI;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Class GendocWizard.
+ * The Class GendocWizard. 
  */
 public class GendocWizard extends Wizard
 {
@@ -81,6 +84,10 @@ public class GendocWizard extends Wizard
         });
         this.files = files;
         setWindowTitle("Generate Documentation");
+		IDialogSettings settings = Activator.getDefault().getDialogSettings().getSection("GenerateDocumentationWizard");
+		if (settings == null)
+			settings = Activator.getDefault().getDialogSettings().addNewSection("GenerateDocumentationWizard");
+		setDialogSettings(settings);
     }
 
     /*
@@ -112,6 +119,9 @@ public class GendocWizard extends Wizard
         		}
         	}
         }
+    	
+    	page.storeValues();
+    	
     		try
     		{
     			
@@ -133,7 +143,8 @@ public class GendocWizard extends Wizard
     							parameter.addParameter(replacePercentBySpace(item.getParamName(),3), replacePercentBySpace(item.getValue(),3));
     						}
     						GendocProcess gendocProcess = new GendocProcess();
-    						String resultFile = gendocProcess.runProcess(page.getSelected().getTemplate());
+    						String resultFile = gendocProcess.runProcess(
+    								URIUtil.toURI(FileLocator.resolve(page.getSelected().getTemplate())).toURL());
     						
     						handleDiagnostic(diagnostician.getResultDiagnostic(), "The file has been generated but contains errors :\n", resultFile);
     					}

@@ -13,8 +13,10 @@
  *****************************************************************************/
 package org.eclipse.gendoc.wizard;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -23,6 +25,7 @@ import java.util.StringTokenizer;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
@@ -30,6 +33,7 @@ import org.eclipse.emf.common.ui.dialogs.WorkspaceResourceDialog;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.gendoc.services.GendocServices;
 import org.eclipse.gendoc.services.ILogger;
+import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.ILabelProvider;
@@ -56,8 +60,10 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Text;
 
 public class GendocWizardPage extends WizardPage {
@@ -66,11 +72,11 @@ public class GendocWizardPage extends WizardPage {
 	 */
 	private Text text;
 
-	private Text text_1;
+	private Text text_1; // Output text
 
-	private Text text_2;
+	private Text text_2; // File name
 
-	private Combo combo_1;
+	private Combo combo_1; // Template selection combo
 
 	private ComboViewer comboViewer_1;
 
@@ -110,27 +116,27 @@ public class GendocWizardPage extends WizardPage {
 		setControl(container);
 		container.setLayout(new GridLayout(3, false));
 		
-		if (getGWizard().getRunners().size() == 0){
+        int nRunners = getGWizard().getRunners().size(); 
+		if (nRunners == 0){
 			return;
 		}
 		
-		if (getGWizard().getRunners().size() > 1) {
-			Label lblNewLabel_4 = new Label(container, SWT.NONE);
-			GridData gd_lblNewLabel_4 = new GridData(SWT.LEFT, SWT.CENTER,
-					false, false, 1, 1);
-			gd_lblNewLabel_4.widthHint = 89;
-			lblNewLabel_4.setLayoutData(gd_lblNewLabel_4);
-			lblNewLabel_4.setText(" List of templates:");
-			comboViewer_1 = new ComboViewer(container, SWT.READ_ONLY);
-			combo_1 = comboViewer_1.getCombo();
-			GridData gd_combo_1 = new GridData(SWT.FILL, SWT.CENTER, true,
-					false, 2, 1);
-			gd_combo_1.widthHint = 475;
-			combo_1.setLayoutData(gd_combo_1);
-			combo_1.select(0);
-			manageTemplateCombo(comboViewer_1);
-
-		}
+		Label lblNewLabel_4 = new Label(container, SWT.NONE);
+		GridData gd_lblNewLabel_4 = new GridData(SWT.LEFT, SWT.CENTER,
+				false, false, 1, 1);
+		gd_lblNewLabel_4.widthHint = 89;
+		lblNewLabel_4.setLayoutData(gd_lblNewLabel_4);
+		lblNewLabel_4.setText(" List of templates:");
+		comboViewer_1 = new ComboViewer(container, SWT.READ_ONLY);
+		combo_1 = comboViewer_1.getCombo();
+		GridData gd_combo_1 = new GridData(SWT.FILL, SWT.CENTER, true,
+				false, 2, 1);
+		gd_combo_1.widthHint = 475;
+		combo_1.setLayoutData(gd_combo_1);
+		combo_1.select(0);
+		manageTemplateCombo(comboViewer_1);
+        if (nRunners == 1)
+        	combo_1.setEnabled(false);
 
 		Label lblNewLabel = new Label(container, SWT.NONE);
 		lblNewLabel.setText("Selected File:");
@@ -325,12 +331,20 @@ public class GendocWizardPage extends WizardPage {
 							}
 							GendocWizardPage.this.text.setText(fileForTemplate
 									.getName());
+							
+							initValues(combo_1.getText());
+
 							getGWizard().refresh();
 						}
 					});
 		}
+		
+		IDialogSettings settings = getDialogSettings();		
+		String template = initValue(combo_1, settings.get("wizardPage.template"), null);
+		template = combo_1.getText();
+		initValues(template);
 	}
-
+	
 	/**
 	 * this method put all the necessary listeners to the comboviewer,
 	 * btnnewButton, text_1, text_2.
@@ -459,9 +473,9 @@ public class GendocWizardPage extends WizardPage {
 				getGWizard().refresh();
 			}
 		});
+
 		if (combo_1.getItemCount() > 0) {
 			combo_1.select(0);
-
 		}
 	}
 
@@ -659,8 +673,15 @@ public class GendocWizardPage extends WizardPage {
 	 *         document to generate
 	 */
 	public String getFullOutputPath() {
-		return text_1.getText() + text_2.getText() + "."
-				+ outputFormatCombo.getText();
+		String str = getOutputPath();
+		if (!str.endsWith(File.separator))
+			str += File.separator;
+		str += getModelName();
+		
+		String ext =  "."+outputFormatCombo.getText();
+		if (!str.endsWith(ext))
+			str += ext;
+		return str;
 	}
 
 	/**
@@ -692,4 +713,111 @@ public class GendocWizardPage extends WizardPage {
 		return addParamsComposite.getAdditionnalParametersValue();
 	}
 
+	private String initValue(Control c, String value, String def) {
+		if (c == null)
+			return null;
+		
+		if (value == null)
+			value = def;
+		
+		if (value == null)
+			return null;
+		
+		if (c instanceof Text)
+			((Text) c).setText(value);
+		else if (c instanceof Combo) {
+			Combo combo = (Combo)c;
+			combo.setText(value);
+			for (int i=0; i<combo.getItemCount(); i++) {
+				if (combo.getItem(i).equals(value)) {
+					combo.select(i);
+					addParamsComposite.setInput(getSelectedRunner().getAdditionnalParameters());
+					break;
+				}
+			}
+		} else if (c instanceof Button && (c.getStyle() & SWT.CHECK) == SWT.CHECK) {
+			((Button)c).setSelection(Boolean.parseBoolean(value));
+		}
+		return value;
+	}
+		
+	private void initValues(String template) {
+		IDialogSettings settings = getDialogSettings();		
+		if (template != null) {
+			URL templateURI = getSelected().getTemplate();
+			File f = null;
+			try {
+				f = new File(FileLocator.toFileURL(templateURI).getFile());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			initValue(text_1, 
+					settings.get("wizardPage.OutputFolder.{"+template+"}"),
+					f == null ? null : f.getParentFile().getAbsolutePath());
+			initValue(text_2, 
+					settings.get("wizardPage.OutputFileName.{"+template+"}"),
+					f == null ? null : ("Generated " + f.getName()));
+			String ext = f.getName();
+			int index = ext.lastIndexOf('.');
+			if (index >= 0) {
+				initValue(outputFormatCombo, 
+						settings.get("wizardPage.OutputFormat.{"+template+"}"),
+						f == null ? null : ext.substring(index+1));
+			}
+			initializeAdditionalParams(template);
+		}
+	}
+	
+	private void initializeAdditionalParams(String template) {
+		IDialogSettings settings = getDialogSettings();		
+		Table t = this.addParamsComposite.getTable();
+		if (t != null) {
+			for (int i= 0; i<t.getItemCount(); i++) {
+				AdditionnalParameterItem param = (AdditionnalParameterItem)t.getItem(i).getData();
+				String key = "wizardPage.{"+template+"}."+param.getParamName();
+				String value = settings.get(key);
+				if (value != null) {
+					param.setValue(value);
+					t.getItem(i).setText(1, value);
+				}
+			}
+		}	
+		GridData gd = (GridData)t.getParent().getLayoutData();
+		gd.minimumHeight = 120;
+	}
+	
+	public void storeValues() {
+		IDialogSettings settings = getDialogSettings();		
+		String template = storeValue(combo_1, settings, "wizardPage.template");
+		if (template != null) {
+			storeValue(text_1, settings, "wizardPage.OutputFolder.{"+template+"}");
+			storeValue(text_2, settings, "wizardPage.OutputFileName.{"+template+"}");
+			storeValue(outputFormatCombo, settings, "wizardPage.OutputFormat.{"+template+"}");
+			
+			for (AdditionnalParameterItem item : getAdditionnalParameters()) {
+				settings.put("wizardPage.{"+template+"}."+item.getParamName(), item.getValue());
+				
+			}
+		}	
+	}
+	
+	private String storeValue(Control c, IDialogSettings settings, String property) {
+		if (c == null)
+			return null;
+		String value = null;
+		if (c instanceof Text)
+			value = ((Text) c).getText();
+		else if (c instanceof Combo) {
+			value = ((Combo) c).getText();
+		} else if (c instanceof Button && (c.getStyle() & SWT.CHECK) == SWT.CHECK) {
+			value = ((Button)c).getSelection() ? "true" : "false";
+		}
+		
+		if (value != null) {
+			settings.put(property, value);
+			return value;
+		}
+		return null;
+	}
 }

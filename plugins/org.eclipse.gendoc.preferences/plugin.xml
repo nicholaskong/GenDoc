@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+                  <extension
+                        point="org.eclipse.ui.preferencePages">
+                     <page
+                           class="org.eclipse.gendoc.preferences.internal.GendocPreferencePage"
+                           id="org.eclipse.gendoc.preferences.internal.GenDocPreferencePage"
+                           name="GenDoc Templates">
+                     </page>
+                  </extension>
+                  <extension
+                        point="org.eclipse.core.runtime.preferences">
+                     <initializer
+                           class="org.eclipse.gendoc.preferences.internal.PreferenceInitializer">
+                     </initializer>
+                  </extension>
+                  <extension point="org.eclipse.ui.propertyPages">
+                     <page
+                           class="org.eclipse.gendoc.preferences.internal.GendocPropertyPage"
+                           id="org.eclipse.gendoc.preferences.internal.GenDocPropertyPage"
+                           name="GenDoc Templates">
+                        <enabledWhen>
+                           <adapt type="org.eclipse.core.resources.IProject">
+                           </adapt>
+                        </enabledWhen>
+                     </page>
+                  </extension>
+                  <extension
+                        id="org.eclipse.gendoc.preferences.GenDocNature"
+                        point="org.eclipse.core.resources.natures">
+                     <runtime>
+                        <run
+                              class="org.eclipse.gendoc.preferences.GendocNature">
+                        </run>
+                     </runtime>
+                  </extension>
+                  <extension
+                        point="org.eclipse.gendoc.wizard.runner">
+                     <GendocElementProvider
+                           Instance="org.eclipse.gendoc.preferences.internal.PreferenceGendocRunnerProvider">
+                     </GendocElementProvider>
+                  </extension>
+
+</plugin>

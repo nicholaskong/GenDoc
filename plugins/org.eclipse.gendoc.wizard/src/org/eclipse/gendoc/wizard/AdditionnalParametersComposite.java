@@ -50,6 +50,14 @@ public class AdditionnalParametersComposite extends Composite {
     buildControls();
   }
 
+  public TableViewer getViewer() {
+	return viewer;
+  }
+
+  public Table getTable() {
+	return table;
+  }
+
   protected void buildControls() {
     FillLayout compositeLayout = new FillLayout();
     setLayout(compositeLayout);

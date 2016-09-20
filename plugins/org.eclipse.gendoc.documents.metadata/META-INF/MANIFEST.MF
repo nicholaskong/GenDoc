@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Gendoc document metadata
+Bundle-SymbolicName: org.eclipse.gendoc.documents.metadata;singleton:=true
+Bundle-Version: 0.6.0.qualifier
+Bundle-Activator: org.eclipse.gendoc.documents.metadata.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.gendoc.process,
+ org.eclipse.gendoc.document.parser,
+ org.eclipse.gendoc.services,
+ org.eclipse.gendoc.documents
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
+Export-Package: org.eclipse.gendoc.documents.metadata

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.gendoc.serviceTypes">
+      <serviceType
+            id="IPropertyDocumentService"
+            interface="org.eclipse.gendoc.documents.metadata.IDocumentMetadataService">
+      </serviceType>
+   </extension>
+   <extension
+         point="org.eclipse.gendoc.services">
+      <service
+            class="org.eclipse.gendoc.documents.metadata.impl.DocumentMetadataServiceFactory"
+            default="true"
+            id="PropertyDocumentServiceFactory"
+            priority="10"
+            serviceType="IPropertyDocumentService">
+      </service>
+   </extension>
+   <extension
+         point="org.eclipse.gendoc.processes">
+      <process
+            id="DocumentProperties"
+            label="DocumentProperties"
+            parallel="false"
+            priority="NORMAL"
+            processor="org.eclipse.gendoc.documents.metadata.impl.DocumentMetadataProcess">
+         <successor
+               ref="save">
+         </successor>
+         <predecessor
+               ref="generate">
+         </predecessor>
+      </process>
+   </extension>  
+</plugin>

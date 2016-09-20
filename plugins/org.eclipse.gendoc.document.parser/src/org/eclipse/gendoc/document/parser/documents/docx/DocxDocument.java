@@ -210,6 +210,13 @@ public class DocxDocument extends AbstractZipDocument
             case comment:
                 OfficeHelper.fillCollection(getUnzipper(), parsers, DOCXHelper.RELATIONSHIPS_COMMENTS, idForDocument, DOCXHelper.DOCUMENT_RELS_FILE_NAME);
                 break;
+            case metadata:
+            	parsers.add(new XMLParser(getUnzipper().getFile(DOCXHelper.PROPERTIES_CORE_FILE_NAME), idForDocument));
+            	File customProp = getUnzipper().getFile(DOCXHelper.PROPERTIES_CUSTOM_FILE_NAME);
+            	if (customProp != null && customProp.exists()) {
+            		parsers.add(new XMLParser(customProp, idForDocument));
+            	}
+            	break;
             default:
         }
         return parsers;

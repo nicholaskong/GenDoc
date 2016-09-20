@@ -105,6 +105,7 @@ public class DocumentManager extends AbstractService implements IDocumentManager
 		result.put(CONFIGURATION.content, true);
 		result.put(CONFIGURATION.header, true);
 		result.put(CONFIGURATION.footer, true);
+		result.put(CONFIGURATION.metadata, true);
 		return result;
 	}
 

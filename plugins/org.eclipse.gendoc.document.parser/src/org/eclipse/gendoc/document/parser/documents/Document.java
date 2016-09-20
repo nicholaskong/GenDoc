@@ -28,7 +28,7 @@ public interface Document
      * Developer has to precise if he wants to manage header or footer
      * Classes derived from document have to guarante access to xml parsers corresponding
      */
-    enum CONFIGURATION {undefined, content, header, footer, comment} ;
+    enum CONFIGURATION {undefined, content, header, footer, comment, metadata} ;
     
     /**
      * Enumeration to get property from document

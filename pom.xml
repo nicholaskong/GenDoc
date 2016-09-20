@@ -15,6 +15,7 @@
   	<module>plugins/org.eclipse.gendoc.bundle.acceleo.sirius</module>
   	<module>plugins/org.eclipse.gendoc.document.parser</module>
   	<module>plugins/org.eclipse.gendoc.documents</module>
+  	<module>plugins/org.eclipse.gendoc.documents.metadata</module>
   	<module>plugins/org.eclipse.gendoc.m2t</module>
   	<module>plugins/org.eclipse.gendoc.process</module>
   	<module>plugins/org.eclipse.gendoc.script.acceleo</module>

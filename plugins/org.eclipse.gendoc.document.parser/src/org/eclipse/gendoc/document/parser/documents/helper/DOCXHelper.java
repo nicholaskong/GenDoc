@@ -33,6 +33,9 @@ public final class DOCXHelper
     public static final String STYLE_FILE_NAME = "styles.xml";
 
     public static final String DOCUMENT_RELS_FILE_NAME = "document.xml.rels";
+    
+    public static final String PROPERTIES_CUSTOM_FILE_NAME = "docProps/custom.xml";
+    public static final String PROPERTIES_CORE_FILE_NAME = "docProps/core.xml";
 
     /** The Constant XPATH_ALL_STYLES. */
     public static final String XPATH_ALL_STYLES = "//w:style";

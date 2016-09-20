@@ -10,7 +10,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.gendoc.documents,
  org.eclipse.gendoc.services,
  org.eclipse.gendoc.tags,
- org.eclipse.gendoc.tags.handlers
+ org.eclipse.gendoc.tags.handlers,
+ org.eclipse.gendoc.documents.metadata
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.gendoc.services.docx

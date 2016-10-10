@@ -17,6 +17,7 @@ import org.eclipse.gendoc.documents.IDocumentService;
 import org.eclipse.gendoc.services.GendocServices;
 import org.eclipse.gendoc.services.exception.GenDocException;
 import org.eclipse.gendoc.tags.ITag;
+import org.eclipse.gendoc.tags.handlers.IConfigurationService;
 import org.eclipse.gendoc.tags.handlers.AbstractPrePostTagHandler;
 import org.eclipse.gendoc.tags.handlers.impl.RegisteredTags;
 
@@ -32,6 +33,8 @@ public class IncludeTagHandler extends AbstractPrePostTagHandler {
 		String result = super.doRun(tag);
 		if ((tag != null) && (tag.getAttributes() != null)) {
 			String filePath = tag.getAttributes().get(RegisteredTags.INCLUDE_FILE_PATH);
+			IConfigurationService configService = GendocServices.getDefault().getService(IConfigurationService.class);
+            filePath = configService.replaceParameters(filePath);
 			IDocumentService documentService = GendocServices.getDefault().getService(IDocumentService.class);
 			String id = documentService.getAdditionalResourceService().includeFile(filePath);
 			String output = "&lt;drop/&gt;</w:p><w:altChunk xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\" r:id=\"" + id + "\" />";

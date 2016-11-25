@@ -22,7 +22,8 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.papyrus.infra.gmfdiag.common,
  org.eclipse.papyrus.uml.tools,
  org.eclipse.papyrus.infra.core.log,
- org.eclipse.papyrus.infra.services.resourceloading
+ org.eclipse.papyrus.infra.services.resourceloading,
+ org.eclipse.gendoc.bundle.acceleo.commons;bundle-version="0.6.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Eclipse-LazyStart: true

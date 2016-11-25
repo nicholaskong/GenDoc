@@ -19,25 +19,34 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.emf.common.util.BasicDiagnostic;
+import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.gmf.runtime.notation.Diagram;
-import org.eclipse.uml2.uml.Comment;
-import org.eclipse.uml2.uml.Element;
+import org.eclipse.gendoc.bundle.acceleo.commons.files.CommonService;
 import org.eclipse.gendoc.bundle.acceleo.gmf.service.GMFServices;
 import org.eclipse.gendoc.bundle.acceleo.papyrus.Activator;
 import org.eclipse.gendoc.services.GendocServices;
+import org.eclipse.gendoc.services.IGendocDiagnostician;
+import org.eclipse.gendoc.services.ILogger;
 import org.eclipse.gendoc.services.exception.ModelNotFoundException;
 import org.eclipse.gendoc.tags.handlers.IEMFModelLoaderService;
+import org.eclipse.gmf.runtime.notation.Diagram;
+import org.eclipse.uml2.uml.Comment;
+import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.NamedElement;
 
 public class PapyrusServices extends GMFServices {
 
@@ -45,7 +54,8 @@ public class PapyrusServices extends GMFServices {
 	private static final String PAPYRUS_DOCUMENTATION_STEREOTYPE_QUALIFIED_NAME = "Papyrus::Documentation::Documentation";
 	private static final String PREFIX_WORKSPACE_RESOURCE = "WR"; //$NON-NLS-1$
 	private static final String PREFIX_EXTERNAL_RESOURCE = "ER"; //$NON-NLS-1$
-	private static final String PREFIX_REMOTE_RESOURCE = "RR"; //$NON-NLS-1$
+	private static final String PREFIX_REMOTE_RESOURCE = "RR"; //$NON-NLS-1$	
+	private static Pattern LINK_PATTERN = Pattern.compile("\\{@link #(\\w*)(\\s|$)*\\}");
 
 	@Override
 	public List<Diagram> getDiagrams(EObject e, URI uri) {
@@ -113,7 +123,8 @@ public class PapyrusServices extends GMFServices {
 			for (Comment comment : ownedComments) {
 				if (comment
 						.getAppliedStereotype(PAPYRUS_DOCUMENTATION_STEREOTYPE_QUALIFIED_NAME) != null) {
-					return comment.getBody();
+					String body = comment.getBody();
+					return body;
 				}
 			}
 		}
@@ -150,7 +161,51 @@ public class PapyrusServices extends GMFServices {
 		}
 		return absolutePaths;
 	}
-
+	
+	/**
+	 * Replace links text with the appropriate name of the linked object
+	 * @param body, the string potentially containing {@link #(\w*)(\s|$)*} 
+	 * @param context, a given EObject, links will be searched inside this eobject's resource
+	 * @return the modified String
+	 */
+	public String replaceLinksByNameOrLabel(String body, EObject context){
+		ILogger logger = GendocServices.getDefault().getService(ILogger.class);
+		String result = "" ;
+		Matcher m = LINK_PATTERN.matcher(body);
+		int startIndex = 0;
+		int lastIndex = 0 ;
+		if (context == null || context.eResource() == null){
+			IGendocDiagnostician diag = GendocServices.getDefault().getService(IGendocDiagnostician.class);
+			diag.addDiagnostic(new BasicDiagnostic(Diagnostic.WARNING, Activator.PLUGIN_ID, 0, String.format("error in script, invalid parameter for operation replaceLinksByNameOrLabel for text : %s",body), new Object[]{body}));
+			return body;
+		}
+		while(m.find()){
+			String theLink = m.group(1);
+			startIndex = m.start();
+			EObject linkedEObject = context.eResource().getEObject(theLink);
+			if (linkedEObject == null){
+				logger.log(String.format("The linked object (%s) from %s is null", theLink, CommonService.getText(context)), IStatus.WARNING);
+			}
+			String toInsert = null;
+			if (linkedEObject == null){
+				// Papyrus displays UNKNOWN when the element does not exist
+				toInsert = "UNKNOWN" ;
+			}
+			//it the object is a NamedElement return its name, otherwise get the label
+			else if(linkedEObject instanceof NamedElement){ 
+				toInsert = ((NamedElement) linkedEObject).getName();	
+			}
+			else{
+				toInsert = CommonService.getText(linkedEObject);
+			}
+			// part between the linked objects
+			String staticPart = body.substring(lastIndex, startIndex); 
+			result += staticPart + toInsert ;
+			lastIndex = m.end();
+		}
+		return result.concat(body.substring(lastIndex));
+	}
+	
 	private List<URI> getAssociatedResources(EObject eObject) {
 		if (eObject instanceof EModelElement
 				&& !(eObject instanceof EAnnotation)) {

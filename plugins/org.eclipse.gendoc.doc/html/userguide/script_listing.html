@@ -1,0 +1,46 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+   <head>
+		<title>Listing elements</title>
+		<link rel="stylesheet" type="text/css" href="userguide.css">    
+   </head>
+
+   <body>
+		<h2>Listing elements</h2>
+		<p>By using the tag <span class="code">&lt;list&gt;</code> you can also easily list the model elements.</p>
+		<table class="sample">
+			<tbody>
+				<tr class="heading">
+					<td width="310">
+						<p><strong>Template</strong><strong>content</strong></p>
+					</td>
+					<td width="310">
+						<p><strong>Output</strong></p>
+					</td>
+				</tr>
+				<tr>
+					<td width="310">
+						<p class="code">
+							<strong>&lt;gendoc&gt;&para;</strong><br/>
+							<span class="blue"><strong>&lt;list&gt;&para;</strong></span><br/>
+							<strong>[for (p:NamedElement | self.ownedElement-&gt;filter(NamedElement))] &para;</strong>
+						</p>
+						<ul><ul><li><strong>[p.name.clean()/]</strong></li></ul></ul></p>
+						<p class="code">
+							<strong>[/for] &para;</strong><br/>
+							<span class="blue"><strong>&lt;/list&gt;&para;</strong></span><br/>
+							<strong>&lt;/gendoc&gt;&para;</strong>
+						</p>
+					</td>
+					<td width="310">
+						<ul><ul>
+							<li><strong>Model2</strong></li>
+							<li><strong>secondly</strong></li>
+							<li><strong>Package2</strong></li>
+						</ul></ul>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+   </body>
+</html>

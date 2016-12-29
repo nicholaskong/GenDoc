@@ -1,0 +1,57 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+   <head>
+		<title>Gmf</title>
+		<link rel="stylesheet" type="text/css" href="userguide.css">    
+   </head>
+
+   <body>
+		<h2>Gmf</h2>
+		<p>This bundle provides a set of services available with all GMF models. 
+		This bundle is <strong><u>NOT </u></strong>configured by default.<br /> 
+		It must be referenced inside attribute <a href="define_execution_context.html#_&lt;context&gt;_tag_">importedBundles</a> 
+		from &lt;context&gt; tag:</p>
+		<p><span class="code">&lt;context &hellip; importedBundles=&lsquo;gmf&rsquo; /&gt;</code></p>
+		<ul>
+		<li><strong>getDiagram(diag&nbsp;: Diagram) : String</strong></li>
+		</ul>
+		<p>Get diagram ID for a given diagram : element to use inside &lt;image&gt; tag with the following syntax:</p>
+		<div class="codeBox cbBg code">
+			<p><strong>&lt;image object='[diag.getDiagram()/]' &hellip;&gt; </strong></p>
+			<p><strong>&hellip;</strong></p>
+			<p><strong>&lt;/image&gt;</strong></p>
+		</div>			
+		<ul>
+		<li><strong>getDiagram(diagram : Diagram, modelElementsToDisplay : Sequence(OclAny)) : String</strong></li>
+		</ul>
+		<p>Get diagram ID for a diagram: element to use inside &lt;image&gt; tag. User can provide 
+			a list of elements in the diagram to display.</p>
+		<ul>
+		<li><strong>getElementsInDiagram(diagram&nbsp;: Diagram) : Sequence(EObject)</strong></li>
+		</ul>
+		<p>Get all elements contained in the diagram.</p>
+		<ul>
+		<li><strong>isDiagramEmpty(diagram&nbsp;: Diagram) : boolean</strong></li>
+		</ul>
+		<p>Indicates if the diagram passed as a parameter is empty or not.</p>
+		<h3>Advanced services concerning gmf diagrams</h3>
+		<h3>Customize image generation format</h3>
+		<p>By default, images are generated in PNG format. On Unix OS, they are generated in JPG format.</p>
+		<p>The following services allow customizing the generation format among the following: 
+			PNG, JPEG, GIF, BMP, JPG, SVG.</p>
+		<ul>
+		<li><strong>getDiagramExt(diagram&nbsp;: Diagram, imageExtension&nbsp;: String) : String</strong></li>
+		</ul>
+		<p>Get diagram ID for a diagram: element to use inside &lt;image&gt; tag. The second parameter allows 
+			choosing the extension of the exported image.</p>
+		<ul>
+		<li><strong>getDiagramExt(diagram : Diagram, imageExtension&nbsp;: String, modelElementsToDisplay : Sequence(OclAny)) : String</strong></li>
+		</ul>
+		<p>Get diagram ID for a diagram: element to use inside &lt;image&gt; tag. 
+			The second parameter allows choosing the extension of the exported image. User can provide a filtered list of elements in the diagram to display.</p>
+		<h3>Getting diagrams from models</h3>
+		<ul>
+		<li><strong>getDiagramsInModel(modelElement&nbsp;: OclAny) : Sequence(Diagram)</strong></li>
+		</ul>
+		<p>Get all diagrams found in the model file resource the modelElement belongs to.</p>
+</html>

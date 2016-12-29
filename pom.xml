@@ -13,6 +13,7 @@
   	<module>plugins/org.eclipse.gendoc.bundle.acceleo.gmf</module>
   	<module>plugins/org.eclipse.gendoc.bundle.acceleo.papyrus</module>
   	<module>plugins/org.eclipse.gendoc.bundle.acceleo.sirius</module>
+  	<module>plugins/org.eclipse.gendoc.doc</module>
   	<module>plugins/org.eclipse.gendoc.document.parser</module>
   	<module>plugins/org.eclipse.gendoc.documents</module>
   	<module>plugins/org.eclipse.gendoc.documents.metadata</module>

@@ -1,0 +1,261 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+   <head>
+		<title>Formatting</title>
+		<link rel="stylesheet" type="text/css" href="userguide.css">    
+   </head>
+
+   <body>
+		<h2>Formatting</h2>
+		<h3>Removing extra lines</h3>
+		<p>All characters inside scripts are used for generation output, including spaces, line breaks, or carriage return characters.</p>
+		<table class="sample">
+			<tbody>
+				<tr class="heading">
+					<td width="281">
+						<p><strong>Template content</strong></p>
+					</td>
+					<td width="151">
+						<p><strong>Actual output</strong></p>
+					</td>
+					<td width="187">
+						<p><strong>Expected output</strong></p>
+					</td>
+				</tr>
+				<tr>
+					<td width="281">
+						<p>
+							<span class="code">
+							&lt;gendoc&gt;&para;<br/>
+							..[for (p:Package|self.ownedElement-&gt;filter(Package)-&gt;sortedBy(name))].&para;</span><br/>
+							<strong>[p.name/].&para;</strong><br/>
+						<span class="code">
+							..[/for].&para;<br/>
+							&lt;/gendoc&gt;&para;
+						</span></p>
+					</td>
+				<td width="151">
+				<p>
+					&para;<br/>
+					...&para;<br/>
+					<strong>Allocations.&para;</strong><br/>
+					...&para;<br/>
+					<strong>Context.&para;</strong><br/>
+					...&para;<br/>
+					<strong>LogicalView.&para;</strong><br/>
+					...&para;<br/>
+					<strong>PhysicalView.&para;</strong><br/>
+					...&para;<br/>
+					<strong>UseCases.&para;</strong><br/>
+					...&para;<br/>
+				&para;</p>
+				</td>
+				<td width="187">
+				<p>
+					<strong>Allocations.&para;</strong><br/>
+					<strong>Context.&para;</strong><br/>
+					<strong>LogicalView.&para;</strong><br/>
+					<strong>PhysicalView.&para;</strong><br/>
+					<strong>UseCases.&para;</strong>
+				</p>
+				</td>
+				</tr>
+			</tbody>
+		</table>
+		<p><span class="code">&lt;drop/&gt;</span> tag allows to remove extra lines.</p>
+		<p>Document generation is internally performed in two steps and <span class="code">&lt;drop/&gt;</span> 
+			tag removes the <strong><u>WHOLE</u></strong> paragraph in which it is contained so it must be 
+			handled with care.</p>
+		<p>First step is to analyze the lines to get as output to understand where the extra lines 
+			come from in the template and where the &lt;drop/&gt; tags should be located.</p>
+		<table class="sample">
+			<tbody>
+				<tr class="heading">
+					<td width="281">
+						<p><strong>Template content</strong></p>
+					</td>
+					<td colspan="2" width="338">
+						<p><strong>Output</strong></p>
+					</td>
+				</tr>
+				<tr>
+					<td width="281">
+						<p>
+							<span class="code">&lt;gendoc&gt;<span style="background:#00FFFF;">&para;</span><br/>
+							<span style="background:yellow;">..</span>[for (p:Package|self.ownedElement-&gt;filter(Package)-&gt;sortedBy(name))]<span style="background:#00FF00;">.&para;</span></span><br/>
+							<strong>[p.name/].&para;</strong><br/>
+							<span class="code"><span style="background:pink;">..</span>[/for]<span style="background:red;">.&para;</span><br/>
+							<span class="code">&lt;/gendoc&gt;</span><span style="background:#00FFFF;">&para;</span></span>
+						</p>
+					</td>
+					<td colspan="2" width="338">
+						<p>
+							<span class="code" style="background:#00FFFF;">&para;</span><br/>
+							<span class="code"style="background:yellow;">..</span><span class="code" style="background:#00FF00;">.&para;</span><br/>
+							<strong>Allocations.&para;</strong><br/>
+							<span class="code" style="background:pink;">..</span><span class="code" style="background:#00FF00;">.&para;</span><br/>
+							<strong>Context.&para;</strong><br/>
+							<span class="code" style="background:pink;">..</span><span class="code" style="background:#00FF00;">.&para;</span><br/>
+							<strong>LogicalView.&para;</strong><br/>
+							<span class="code" style="background:pink;">..</span><span class="code" style="background:#00FF00;">.&para;</span><br/>
+							<strong>PhysicalView.&para;</strong><br/>
+							<span class="code" style="background:pink;">..</span><span class="code" style="background:#00FF00;">.&para;</span><br/>
+							<strong>UseCases.&para;</strong><br/>
+							<span class="code" style="background:pink;">..</span><span class="code" style="background:red;">.&para;</span><br/>
+							<span style="background:#00FFFF;">&para;</span>
+						</p>
+					</td>
+				</tr>
+				<tr>
+					<td rowspan="2" width="281">
+						<p>
+						<span class="code">
+							&lt;gendoc&gt;&lt;drop/&gt;&para;<br/>
+							..[for (p:Package|self.ownedElement-&gt;filter(Package)-&gt;sortedBy(name))].&lt;drop/&gt;&para;</span><br/>
+							<strong>&nbsp;[p.name/]&para;</strong><br/>
+						<span class="code">
+							..[/for] .&lt;drop/&gt;&para;<br/>
+							&lt;/gendoc&gt;&lt;drop/&gt;&para;</span>
+						</p>
+					</td>
+					<td width="198" class="heading">
+						<p><strong>before &lt;drop/&gt; handling</strong></p>
+					</td>
+					<td width="139" class="heading">
+						<p><strong>Final output</strong></p>
+					</td>
+				</tr>
+				<tr>
+				<td width="198">
+				<p>
+					<span class="code">&lt;drop/&gt;&para;<br/>
+					...&lt;drop/&gt;&para;</span><br/>
+					<strong>Allocations.&para;</strong><br/>
+					<span class="code">...&lt;drop/&gt;&para;</span><br/>
+					<strong>Context.&para;</strong><br/>
+					<span class="code">...&lt;drop/&gt;&para;</span><br/>
+					<strong>LogicalView.&para;</strong><br/>
+					<span class="code">...&lt;drop/&gt;&para;</span><br/>
+					<strong>PhysicalView.&para;</strong><br/>
+					<span class="code">...&lt;drop/&gt;&para;</span><br/>
+					<strong>UseCases.&para;</strong><br/>
+					<span class="code">...&lt;drop/&gt;&para;<br/>
+					&lt;drop/&gt;&para;</span>
+				</p>
+				</td>
+				<td width="139">
+					<p>
+						<strong>Allocations.&para;</strong><br/>
+						<p><strong>Context.&para;</strong><br/>
+						<p><strong>LogicalView.&para;</strong><br/>
+						<p><strong>PhysicalView.&para;</strong><br/>
+						<p><strong>UseCases.&para;</strong>
+					</p>
+				</td>
+				</tr>
+			</tbody>
+		</table>
+		<h3>Removing lines with empty content</h3>
+		<p>Tag <span class="code">&lt;dropEmpty/&gt;</span> drop a paragraph if the tag content is empty.</p>
+		<p>The two following examples are equivalent:</p>
+		<div class="codeBox cbBg">
+			<p>
+				<span class="code">&lt;context model=&rsquo;${model_path}&rsquo;/&gt;<br/>
+				&lt;gendoc&gt;<br/></span>
+				All comments on packages:<br/>
+				<span class="code">&emsp;[for (p:Package|Package.allInstances()-&gt;sortedBy(name))]&lt;drop/&gt;<br/>
+				&emsp;&emsp;[for (c:Comment| p.ownedComment)]&lt;drop/&gt;</span><br/>
+				- Comment for package [p.name/]: <strong><span class="blue">&lt;dropEmpty&gt;</span></strong>[c._body/]<strong><span class="blue">&lt;/dropEmpty&gt;</span></strong><br/>
+				<span class="code">&emsp;&emsp;[/for]&lt;drop/&gt;<br/>
+				&emsp;[/for]&lt;drop/&gt;<br/>
+				&lt;/gendoc&gt;</span>
+			</p>
+		</div>
+		<br/><br/>
+		<div class="codeBox cbBg">
+			<p><span class="code">
+				&lt;context model=&rsquo;${model_path}&rsquo;/&gt;<br/>
+				&lt;gendoc&gt;<br/></span>
+				All comments on packages:<br/>
+				<span class="code">
+				&emsp;[for (p:Package|Package.allInstances()-&gt;sortedBy(name))]&lt;drop/&gt;<br/>
+				&emsp;&emsp;[for (c:Comment| p.ownedComment)]&lt;drop/&gt;<br/>
+				<span class="blue">				
+				&emsp;&emsp;&emsp;[if (not(c._body.oclIsUndefined()))]&lt;drop/&gt;<br/>
+				</span>
+				</span>
+				- Comment for package [p.name/]: [c._body/]<br/>
+				<span class="code">
+				<span class="blue">
+				&emsp;&emsp;&emsp;[/if]&lt;drop/&gt;<br/>
+				</span>
+				&emsp;&emsp;[/for]&lt;drop/&gt;<br/>
+				&emsp;[/for]&lt;drop/&gt;<br/>
+				&lt;/gendoc&gt;
+				</span>
+			</p>
+		</div>
+		<h3>Removing line breaks</h3>
+		<p>Using tag &lt;nobr/&gt; allows to make template scripts easier to maintain, because 
+			code can be written on several paragraphs without displaying line breaks in output document, 
+			such as in the following example.</p>
+		<table class="sample">
+			<tbody>
+				<tr class="heading">
+					<td width="307">
+						<p><strong>Template content</strong></p>
+					</td>
+					<td width="307">
+						<p><strong>Output</strong></p>
+					</td>
+				</tr>
+				<tr>
+					<td width="307">
+						<p>
+							<span class="code">
+							<strong>&lt;gendoc&gt;</strong><br/>
+							<strong>[for (p:Package| &hellip; )]&lt;drop/&gt;&para;</strong><br/>
+							</span>
+							Name:<strong> <span class="blue">&lt;nobr/&gt;&para;</span></strong><br/>
+							<span class="code">
+							&emsp;<strong> [if ( &hellip; )]&lt;drop/&gt;&para;</strong><br/>
+							</span>
+							&emsp;[p.name/]<strong>&para;</strong><br/>
+							<span class="code">
+							&emsp;<strong> [else]&lt;drop/&gt;&para;</strong><br/>
+							</span>
+							&emsp;Not found<strong>&para;</strong><br/>
+							<span class="code">
+							&emsp;<strong> [/if]&lt;drop/&gt; &para;</strong><br/>
+							</span>
+							&lt;&lt;Other info on package&gt;&gt;<strong>&para;</strong><br/>
+							<strong>&para;</strong><br/>
+							<span class="code">
+							<strong>[/for]&lt;drop/&gt;&para;</strong><br/>
+							<strong>&lt;/gendoc&gt;&para;</strong>
+							</span>
+						</p>
+					</td>
+					<td width="307">
+						<p>
+							Name: Actors<br/>
+							Name: DeploymentView<br/>
+							Name: Actors<strong>&para;</strong><br/>
+							&lt;&lt;Other info on package&gt;&gt;<strong>&para;</strong><br/>
+							<strong>&para;</strong><br/>
+							Name: LogicalView<strong>&para;</strong><br/>
+							&lt;&lt;Other info on package&gt;&gt;<strong>&para;</strong><br/>
+							<strong>&para;</strong><br/>
+							Name: UseCaseView<strong>&para;</strong><br/>
+							&lt;&lt;Other info on package&gt;&gt;<strong>&para;</strong><br/>
+							<strong>&para;</strong><br/>
+							Name: Not found<strong>&para;</strong><br/>
+							&lt;&lt;Other info on package&gt;&gt;<strong>&para;</strong><br/>
+							<strong>&para;</strong>
+						</p>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+   </body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+   <head>
+      <title>Define script execution context : &lt;context&gt; tag</title>
+	  <link rel="stylesheet" type="text/css" href="userguide.css">
+   </head>
+
+   <body>
+	
+		<h1>Define script execution context : &lt;context&gt; tag</h1>
+		<p>Before a <strong>&lt;gendoc&gt; </strong>tag, a <strong>&lt;context&gt; </strong>must have been defined to 
+		   determine the model and the element to use as starting context.</p>
+
+		<p><a name="#_&lt;context&gt;_tag_"/><strong>&lt;context&gt; </strong>tag can contain the following attributes&nbsp;:</p>
+		<ul>
+			<li><strong>model</strong> : Model absolute path (<a href="configure_generation.html#_Define_global_parameters">global parameters</a> can be used)</li>
+			<li><strong>element</strong> : Path to the model element to use as script context (path from model root)</li>
+			<li><strong>importedBundles</strong> : List of external bundles names (separated by &lsquo;;&rsquo; character)</li>
+			<li><strong>searchMetamodels</strong> : false(default)/true. <br /> Set to &ldquo;true&rdquo; when your model 
+			    uses element from external meta-models, for example with SysML, when both UML and SysML meta-models are used.</li>
+		</ul>
+
+		<div class="codeBox">
+			<p class="code"><span class="red">&lt;context </span><br/>
+			    &emsp;&emsp;model='${model_folder}/model_1.uml'<br/>
+			    &emsp;&emsp;element='model/package1/subpackage1'<br/>
+			    &emsp;&emsp;importedBundles='gmf;papyrus'<br/>
+			    &emsp;&emsp;searchMetamodels='true'<br/>
+			<span class="red">/&gt;</span></p>
+		</div>	
+		
+		<p>The context tag <strong>must be defined at least once </strong>in the document.</p>
+		<p>When executing a script, the <strong>last defined</strong> context is used.</p>
+		<p>Values of the attributes that are not updated are <strong>kept from previous context.<br /></strong>
+		   For example, &ldquo;importedBundles&rdquo; attribute can be defined only once in the document and will 
+		   be kept until a new value is indicated.</p>
+
+		<h2>Dealing with specific models</h2>
+
+		<h3>Using multiple meta-models</h3>
+
+		<p>If the model selected references another meta-model, set the following attribute to &ldquo;true&rdquo; 
+		   in order for gendoc to analyse meta-models used as references.</p>
+		<div class="codeBox">
+			<p class="code">searchMetamodels='true'</p>
+		</div>
+		
+		<h3>Meta-models where elements have no &lsquo;name&rsquo; feature</h3>
+		
+		<p>With specific meta-models where elements have no &lsquo;name&rsquo; property, context elements are defined:</p>
+		<ul>
+			<li>Using another property for all the elements in path
+				<ul>
+					<li>Ex : <span class="code">&lt;context &hellip; element='id1/id2/id3' labelFeature='id'/&gt; </span><br /> 
+						Property &lsquo;id&rsquo; is used for all elements in path</li>
+					<li>Note : standard case is equivalent to &lt;context &hellip; element='modelRoot/package1/subPackage1' 
+						labelFeature='name'/&gt;</li>
+				</ul>
+			</li>
+			<li>Using another property only for some elements in path
+				<ul>
+					<li>Ex : <span class="code">&lt;context &hellip; element='modelRoot/id=&ldquo;id2&rdquo;/subPackage1'/&gt;</span> <br /> 
+						Property &lsquo;id&rsquo; is used only for the package part of the element path<br /> Property &lsquo;name&rsquo; is used for others</li>
+				</ul>
+			</li>
+			<li>Using indexes of the position inside model tree (starting at 0 and not 1)
+				<ul>
+					<li>Ex: <span class="code">&lt;context &hellip; element='modelRoot/{1}/subPackage1'/&gt;</span> <br/> 
+						If package2 is at the second place inside the model.</li>
+				</ul>
+			</li>
+		</ul>
+   </body>
+</html>

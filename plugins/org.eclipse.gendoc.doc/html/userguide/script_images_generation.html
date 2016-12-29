@@ -1,0 +1,256 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+   <head>
+  	    <title>Images generation</title>
+     	<link rel="stylesheet" type="text/css" href="userguide.css">
+   </head>
+
+   <body>
+		<h2>Images generation</h2>
+
+		<p><span class="code">&lt;image&gt;</span> tag must be defined under a <span class="code">&lt;gendoc&gt;</span> tag.</p>
+		<p>It shall define one of the following attributes:</p>
+		<ul>
+			<li><span class="code">object</span> for diagram generation, filled with an ID of the diagram. <a href="#_Displaying_diagrams">See Diagram generation section</a>.</li>
+			<li><span class="code">filePath</span> for static image generation, filled with the image absolute path. <a href="#_Displaying_static_images">See static image generation section</a>.</li>
+		</ul>
+		<p>An empty drawing area inside start and end of tag:</p>
+		<div class="codeBox">	
+			<p>&lt;image &hellip; &gt;</p>
+			<img src="img/frame_w.png" width="50%" height="50%"/>
+			<p>&lt;/image&gt;</p>
+		</div>
+		
+		<h3>Customize image size</h3>
+		
+		<p><span class="code">&lt;image&gt;</code> tag provides the following attributes to handle image size customization:
+			 keepW, keepH, maxW, maxH. They are used in association with the dimensions of the drawing area inside &lt;image&gt; tag:</p>
+		<ul>
+			<li><strong>keepW</strong>: output image width will be the same as drawing area width</li>
+			<li><strong>keepH</strong>: output image height will be the same as drawing area height</li>
+			<li><strong>maxW</strong>: output image width will not oversize drawing area width</li>
+			<li><strong>maxH</strong>: output image height will not oversize drawing area height</li>
+		</ul>
+		<p>Possible values for these attributes: <span class="code">false</span>(default), <span class="code">true</span>.</p>
+		<p>For the following initial image:</p>
+		<img src="img/image_gen_orig.png" width="350"/>
+		<ul>
+			<li>Fix image width, height is computed proportionally</li>
+		</ul>
+		<table class="sample" width="100%">
+			<tbody>
+				<tr class="heading">
+					<td width="50%"><p><strong>Template content</strong></p></td>
+					<td width="50%"><p><strong>Output</strong></p></td>
+				</tr>
+				<tr>
+					<td width="50%">
+						<p class="code">&lt;image object='&hellip;' <br /> 
+							&emsp;<span class="blue">keepW=&lsquo;true&rsquo; keepH=&lsquo;false&rsquo; &gt;</span>
+						</p>
+						<img src="img/frame_w.png" width="350" height="75"/>
+						<p class="code">&lt;/image&gt;</p>
+					</td>
+					<td width="50%"><img class="border" src="img/image_gen_orig.png" width="350"/></td>
+				</tr>
+			</tbody>
+		</table>
+		<ul>
+		<li>Fix image height, width is computed proportionally</li>
+		</ul>
+		<table class="sample" width="100%">
+			<tbody>
+				<tr class="heading">
+					<td width="50%"><p><strong>Template content</strong></p></td>
+					<td width="50%"><p><strong>Output</strong></p></td>
+				</tr>
+				<tr>
+					<td width="50%">
+						<p class="code">&lt;image object='&hellip;' <br /> 
+							&emsp;<span class="blue">keepW=&lsquo;false&rsquo; keepH=&lsquo;true&rsquo; &gt;</span>
+						</p>
+						<img src="img/frame_w.png" width="350" height="50"/>
+						<p class="code">&lt;/image&gt;</p>
+					</td>
+					<td width="50%"><img class="border" src="img/image_gen_orig.png" height="50"/></td>
+				</tr>
+			</tbody>
+		</table>
+		<ul>
+			<li><strong><u>TO BE AVOIDED</u></strong> : Fix image height and width</li>
+		</ul>
+		<table class="sample" width="100%">
+			<tbody>
+				<tr class="heading">
+					<td width="50%"><p><strong>Template content</strong></p></td>
+					<td width="50%"><p><strong>Output</strong></p></td>
+				</tr>
+				<tr>
+					<td width="50%">
+						<p class="code">&lt;image object='&hellip;' <br /> 
+							&emsp;<span class="blue">keepW=&lsquo;true&rsquo; keepH=&lsquo;true&rsquo; &gt;</span>
+						</p>
+						<img src="img/frame_w.png" width="350" height="75"/>
+						<p class="code">&lt;/image&gt;</p>
+					</td>
+					<td width="50%"><img class="border" src="img/image_gen_orig.png" width="350" height="75"/></td>
+				</tr>
+			</tbody>
+		</table>
+		<ul>
+			<li>Ensure the image will not oversize a specified width
+				<ul>
+					<li>Case 1 : Image is smaller than the drawing area<br/>
+					Output corresponds to origin image dimensions.</li>
+				</ul>
+			</li>
+		</ul>
+		<table class="sample" width="100%">
+			<tbody>
+				<tr class="heading">
+					<td width="50%"><p><strong>Template content</strong></p></td>
+					<td width="50%"><p><strong>Output</strong></p></td>
+				</tr>
+				<tr>
+					<td width="50%">
+						<p class="code">&lt;image object='&hellip;' <span class="blue">maxW=&lsquo;true&rsquo;</span>&gt;</span>
+						</p>
+						<img src="img/frame_w.png" width="450" height="75"/>
+						<p class="code">&lt;/image&gt;</p>
+					</td>
+					<td width="50%"><img class="border" src="img/image_gen_orig.png" width="300"></td>
+				</tr>
+			</tbody>
+		</table>
+		<ul>
+			<li>Case 2 : Image is larger than the drawing area<br/>
+			Output corresponds to drawing area dimension:</li>
+		</ul>
+		<table width="100%" class="sample">
+			<tbody>
+				<tr class="heading">
+					<td width="50%">
+						<p><strong>Template content</strong></p>
+					</td>
+					<td width="50%">
+						<p><strong>Output</strong></p>
+					</td>
+					</tr>
+				<tr>
+					<td width="50%">
+						<p class="code">&lt;image object=&lsquo;&hellip;&rsquo; <span class="blue">maxW=&lsquo;true&rsquo; &gt;</span></p>
+						<img src="img/frame_w.png" width="250">
+						<p class="code">&lt;/image&gt;</p>
+					</td>
+					<td width="50%"><img class="border" src="img/image_gen_orig.png" width="250"></td>
+				</tr>
+			</tbody>
+		</table>
+		<ul>
+			<li>Ensure the image will not oversize a specified height
+				<ul>
+					<li>Case 1 : Image is smaller than the drawing area<br/>
+					Output corresponds to origin image dimensions</li>
+				</ul>
+			</li>
+		</ul>
+		<table width="100%" class="sample">
+			<tbody>
+				<tr class="heading">
+					<td width="50%">
+						<p><strong>Template content</strong></p>
+					</td>
+					<td width="50%">
+						<p><strong>Output</strong></p>
+					</td>
+				</tr>
+				<tr>
+					<td width="50%">
+						<p class="code">&lt;image object=&lsquo;&hellip;&rsquo; <span class="blue">maxH=&lsquo;true&rsquo;</span> &gt;</p>
+						<img src="img/frame_h.png" width="300" height="200">						
+						<p class="code">&lt;/image&gt;</p>
+					</td>
+					<td width="50%"><img class="border" src="img/image_gen_orig.png" height="140"></td>
+				</tr>
+			</tbody>
+		</table>
+		<ul>
+			<li>Case 2 : Image is larger than the drawing area<br/>
+			Output corresponds to drawing area dimension:</li>
+		</ul>
+		<table width="100%" class="sample">
+			<tbody>
+				<tr class="heading">
+					<td width="50%">
+						<p><strong>Template content</strong></p>
+					</td>
+						<td width="50%">
+					<p><strong>Output</strong></p>
+					</td>
+				</tr>
+				<tr>
+					<td width="50%">
+						<p class="code">&lt;image object=&lsquo;&hellip;&rsquo; <span class="blue">maxH=&lsquo;true&rsquo;</span> &gt;</p>
+						<img src="img/frame_h.png" width="300" height="140">						
+						<p class="code">&lt;/image&gt;</p>
+					</td>
+					<td width="50%"><img class="border" src="img/image_gen_orig.png" height="140"></td>
+				</tr>
+			</tbody>
+		</table>
+		
+		<a name="_Displaying_diagrams"/><h3>Displaying diagrams</h3>
+		
+		<p>Attribute object shall be filled by an ID of the diagram. Diagram ID can be generated by 
+		<a href="bundles.html#_Gmf">service getDiagram from bundle gmf</a>, called on the diagram:</p>
+		<div class="codeBox">
+			<p class="code">&lt;context model='${model}' importedBundles='gmf;papyrus'/&gt;<br/>
+			&lt;gendoc&gt;<br/>
+			&emsp;[for (diag : Diagram| self.getPapyrusDiagrams()]<br/>
+			&emsp;&emsp;&lt;image object='[diag.getDiagram()/]' maxW='true' keepH='false'&gt;<br/>
+			&emsp;&emsp;<img src="img/frame.png" width="400"/><br/>
+			&emsp;&emsp;&lt;/image&gt;<br/>
+			&emsp;[/for]<br/>
+			&lt;/gendoc&gt;</p>
+		</div>
+		
+		<a name="_Displaying_static_images"/><h3>Displaying static images</h3>
+		
+		<p><span class="code">&lt;image&gt;</span> tag can also be used for static image generation, with the following content:</p>
+		<ul>
+			<li>attribute <span class="code">filePath</span> shall contain the absolute path of the static image. <br /> 
+			The following image formats are supported : GIF, JPG, JPEG, BMP, PNG, SVG</li>
+			<li><span class="code">&lt;image&gt;</span> tag shall contain an empty drawing area (alignment, text adaptation, &hellip;)</li>
+			<li>size attributes can be used : <span class="code">keepW</span>, <span class="code">keepH</span>, 
+			<span class="code">maxW</span>, <span class="code">maxH</span></li>
+		</ul>
+		<p>The following example shows the display of a static image:</p>
+		<table class="sample" width="100%">
+			<tbody>
+				<tr class="heading">
+					<td width="50%">
+						<p><strong>Template content</strong></p>
+					</td>
+					<td width="50%">
+						<p><strong>Generation output</strong></p>
+					</td>
+				</tr>
+				<tr>
+				<td width="50%">
+					<p class="code">&lt;context model='${model_path}'/&gt;<br/>
+					&lt;gendoc&gt;</p>
+					<p>Project logo is displayed below&nbsp;:</p>
+					<p class="code">&emsp;&lt;image filePath='D:/gendoc_logo.jpg' maxW='true'&gt;<br/>
+					<img src="img/frame_w.png"/><br/>
+					&emsp;&lt;/image&gt;<br/>
+					&lt;/gendoc&gt;</p>
+				</td>
+				<td width="50%">
+					<p>Project logo is displayed below&nbsp;:<br/>
+					<img src="img/logo.png" width="250"/></p>
+				</td>
+				</tr>
+			</tbody>
+		</table>
+   </body>
+</html>

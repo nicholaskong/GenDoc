@@ -1,0 +1,226 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+   <head>
+		<title>Bookmarks and hyperlinks generation</title>
+		<link rel="stylesheet" type="text/css" href="userguide.css">    
+   </head>
+
+   <body>
+		<h2>Bookmarks and hyperlinks generation</h2>
+		<p>The complexity of generating bookmarks and hyperlinks in an output document is the 
+			dynamicity of both bookmarks and hyperlinks.</p>
+		<p>The idea is to find a generated or not unique ID that will link source (hyperlink) 
+			and target (bookmark) location in the document.</p>
+		<p>The following example shows how to create dynamic bookmarks and hyperlinks in templates 
+			for a UML model containing classes, with references to other classes inside attributes.</p>
+		<table width="688" class="sample">
+			<tbody>
+				<tr class="heading">
+					<td colspan="2" width="430">
+						<p><strong>Template content</strong></p>
+					</td>
+					<td width="257">
+						<p><strong>Output details</strong></p>
+					</td>
+				</tr>
+				<tr>
+					<td width="16" class="heading">
+						<p class="vertical" style="height:120px;"><strong>Step1</strong></p>
+					</td>
+					<td width="394">
+						<p><strong>Display classes and their attributes and types :</strong></p>
+						<p class="code">&lt;context model=&rsquo;${project_loc}/Models/TrafficLightManager.uml&rsquo; element='TrafficLightManager/LogicalView'/&gt;<br/>
+						&lt;gendoc&gt;&lt;drop/&gt;<br/>
+						&emsp;[for (c:Class|self.ownedElement-&gt;filter(Class)-&gt;sortedBy(name))]</p>
+						<p class="blue">[c.name/]</p>
+						<p class="code">&emsp;&emsp;[for (a:Property|c.ownedAttribute-&gt;filter(NamedElement)-&gt;sortedBy(name))]</p>
+						<p><strong>-[a.name/]</strong>: [a.type.name/]</p>
+						<p class="code">&emsp;&emsp;[/for]<br/>
+						&emsp;[/for]<br/>
+						&lt;/gendoc&gt;<br/>
+					</td>
+					<td width="257">
+						<p class="blue">TrafficLight</p>
+						<p>-<strong>green fire</strong>: GreenFire</p>
+						<p>-<strong>orange fire</strong>: OrangeFire</p>
+						<p>-<strong>red fire</strong>: RedFire</p>
+						<p class="blue">GreenFire</p>
+						<p class="blue">OrangeFire</p>
+						<p class="blue">RedFire</p>
+					</td>
+				</tr>
+				<tr>
+					<td width="16" class="heading">
+						<p class="vertical" style="height:120px;"><strong>Step2</strong></p>
+					</td>
+					<td width="394">
+						<p><strong>Add a (static) bookmark on the class name :</strong></p>
+						<p class="code">&lt;context model=&rsquo;${project_loc}/Models/TrafficLightManager.uml&rsquo; element='TrafficLightManager/LogicalView'/&gt;<br/>
+						&lt;gendoc&gt;&lt;drop/&gt;<br/>
+						&emsp;[for (c:Class|self.ownedElement-&gt;filter(Class)-&gt;sortedBy(name))]</p>
+						<div class="lgbluebk blue">
+						<p>&emsp;<span class="bluehl">[c.name/]</span> Add a bookmark :</p>
+						<ul class="dashed">
+							<li>On MS Word: <img src="img/word_bookmark_ico.png"/> Insert &gt; Links &gt; Bookmark</li>
+							<li>On OpenOffice / LibreOffice Writer : <img src="img/ooffice_bookmark_ico1.png"/> / <img src="img/loffice_bookmark_ico2.png"/> Insert &gt; Bookmark</li>
+						</ul>
+						<p>Name of the bookmark (must be unique in document) : <br/>
+						<span class="code">&emsp;c_name_bookmark</span></p>
+						</div>
+						<p class="code">&emsp;&emsp;[for (a:Property|c.ownedAttribute-&gt;filter(NamedElement)-&gt;sortedBy(name))]</p>
+						<p>-<strong>[a.name/]</strong>: [a.type.name/]</p>
+						<p class="code">&emsp;&emsp;[/for]<br/>
+						&emsp;[/for]<br/>
+						&lt;/gendoc&gt;</p>
+					</td>
+					<td width="257">
+						<div class="lgbluebk blue">					
+							<p>&emsp;<span class="bluehl">TrafficLight</span><br/>
+								bookmark <span style="color:black;">c_name_bookmark</span></p>
+						</div>
+						<p>-<strong>green fire</strong>: GreenFire</p>
+						<p>-<strong>orange fire</strong>: OrangeFire</p>
+						<p>-<strong>red fire</strong>: RedFire</p>
+						<div class="lgbluebk blue">					
+							<p>&emsp;<span class="bluehl">GreenFire</span><br/>
+								bookmark <span style="color:black;">c_name_bookmark</span></p>
+						</div>
+						<div class="lgbluebk blue">					
+							<p>&emsp;<span class="bluehl">OrangeFire</span><br/>
+								bookmark <span style="color:black;">c_name_bookmark</span></p>
+						</div>
+						<div class="lgbluebk blue">					
+							<p>&emsp;<span class="bluehl">RedFire</span><br/>
+								bookmark <span style="color:black;">c_name_bookmark</span></p>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td width="16" class="heading">
+						<p class="vertical" style="height:120px;"><strong>Step3</strong></p>
+					</td>
+					<td width="434">
+						<p><strong>Add dynamicity on the bookmark :</strong></p>
+						<p>Indicate in a dedicated tag on top of document how to generate a dynamic ID at bookmark location to make bookmark become dynamic.</p>
+						<p>What will the bookmark point to : class c</p>
+						<p>How to generate a unique Id for class c : use <a href="bundles_common.html#_Commons">service getId() from bundle commons</a>.</p>
+						<p class="code">&lt;context model=&rsquo;${project_loc}/Models/TrafficLightManager.uml&rsquo; element='TrafficLightManager/LogicalView'/&gt;</p>
+						<p class="code lgbluebk blue">
+							&lt;bookmarks&gt;<br/>
+							&emsp;&lt;alias source=&rsquo;c_name_bookmark&rsquo; target=&rsquo;[c.getId()/]&rsquo;/&gt;<br/>
+							&lt;/bookmarks&gt;
+						</p>
+						<p class="code">&lt;gendoc&gt;&lt;drop/&gt;<br/>
+						&emsp;[for (c:Class|self.ownedElement-&gt;filter(Class)-&gt;sortedBy(name))]</p>
+						<p class="lgbluebk blue"><strong>[c.name/] Bookmark named :</strong><span class="code">c_name_bookmark</span></p>
+						<p class="code">&emsp;&emsp;[for (a:Property|c.ownedAttribute-&gt;filter(NamedElement)-&gt;sortedBy(name))]</p>
+						<p>-<strong>[a.name/]</strong>: [a.type.name/]</p>
+						<p class="code">
+							&emsp;&emsp;[/for]<br/>
+							&emsp;[/for]</br>
+							&lt;/gendoc&gt;
+						</p>
+					</td>
+					<td width="217">
+						<div class="lgbluebk blue">					
+							<p>&emsp;<span class="bluehl">TrafficLight</span><br/>
+								bookmark TrafficLight class ID</p>
+						</div>
+						<p>-<strong>green fire</strong>: GreenFire</p>
+						<p>-<strong>orange fire</strong>: OrangeFire</p>
+						<p>-<strong>red fire</strong>: RedFire</p>
+						<div class="lgbluebk blue">					
+							<p>&emsp;<span class="bluehl">GreenFire</span><br/>
+								bookmark GreenFire class ID</p>
+						</div>
+						<div class="lgbluebk blue">					
+							<p>&emsp;<span class="bluehl">OrangeFire</span><br/>
+								bookmark OrangeFire class ID</p>
+						</div>
+						<div class="lgbluebk blue">					
+							<p>&emsp;<span class="bluehl">RedFire</span><br/>
+								bookmark RedFire class ID</p>
+						</div>
+					</td>
+					</tr>
+					<tr>
+					<td width="16" class="heading">
+						<p class="vertical" style="height:120px;"><strong>Step4</strong></p>
+					</td>
+					<td width="434">
+						<p><strong>Add hyperlinks to the (future) bookmark location : </strong></p>
+						<p>The hyperlink must also be dynamic and point to the future bookmark location, here the 
+							generated unique ID for the class.</p>
+						<p>So the hyperlink must no point on c_name_bookmark (it would be replaced by 
+							<span class="code">c.getId()</span> and point to current class), but to the 
+							id of the property type class: <span class="code">a.type.getId()</span>.</p>
+						<p class="code">
+							&lt;context model=&rsquo;${project_loc}/Models/TrafficLightManager.uml&rsquo; 
+							element='TrafficLightManager/LogicalView'/&gt;<br/>
+							&lt;bookmarks&gt;<br/>
+							&emsp;&lt;alias source=&rsquo;c_name_bookmark&rsquo; target=&rsquo;[c.getId()/]&rsquo;/&gt;<br/>
+							&lt;/bookmarks&gt;<br/>
+							&lt;gendoc&gt;&lt;drop/&gt;<br/>
+							&emsp;[for (c:Class|self.ownedElement-&gt;filter(Class)-&gt;sortedBy(name))]</p>
+						<p class="lgbluebk blue">
+							<strong>&emsp;&emsp;[c.name/] Bookmark named : <span style="color:black;">c_name_bookmark</span></strong><br/>
+						</p>
+						<p class="code">
+							&emsp;&emsp;[for (a:Property|c.ownedAttribute-&gt;filter(NamedElement)-&gt;sortedBy(name))]</p>
+						<p>
+							&emsp;&emsp;-<strong>[a.name/]</strong>: [a.type.name/]
+						</p>
+						<p class="lgbluebk blue"><strong>&emsp;&emsp;&emsp;&emsp;Add an hyperlink (Insert &gt; Hyperlink &hellip; )<br/>
+							&emsp;&emsp;&emsp;&emsp;to the ID of the property type : #[<span class="code">a.type.getId()</span>/]</strong></p>
+						<p class="code">
+							&emsp;&emsp;[/for]<br/>
+							&emsp;[/for]<br/>
+							&lt;/gendoc&gt;
+						</p>
+					</td>
+					<td width="217">
+						<div class="lgbluebk blue">					
+							<p>&emsp;<span class="bluehl">TrafficLight</span><br/>
+								bookmark TrafficLight class ID</p>
+						<p style="margin-left:0.5cm;">-<strong>green fire</strong>: <span class="turqhl">GreenFire</span><br /> 
+							hyperlink <br /> 
+							to GreenFire class ID</p>
+						<p style="margin-left:0.5cm;">-<strong>orange fire</strong>: <span class="turqhl">OrangeFire</span><br /> 
+							hyperlink <br /> 
+							to GreenFire class ID</p>
+						<p style="margin-left:0.5cm;">-<strong>red fire</strong>: <span class="turqhl">RedFire</span><br/> 
+							hyperlink <br /> 
+							to GreenFire class ID</p>
+						</div>
+						<div class="lgbluebk blue">					
+							<p>&emsp;<span class="turqhl">GreenFire</span><br/>
+								bookmark GreenFire class ID</p>
+						</div>
+						<div class="lgbluebk blue">					
+							<p>&emsp;<span class="bluehl">OrangeFire</span><br/>
+								bookmark OrangeFire class ID</p>
+						</div>
+						<div class="lgbluebk blue">					
+							<p>&emsp;<span class="bluehl">RedFire</span><br/>
+								bookmark RedFire class ID</p>
+						</div>
+					</td>
+					</tr>
+					<tr>
+					<td width="16" class="heading">
+						<p class="vertical" style="height:120px;"><strong>Final output</strong></p>
+					</td>
+					<td colspan="2" width="652">
+						<p><a name="_QE7VYFI4EeGqaIKQSWhWfA"/><strong>GreenFire</strong></p>
+						<p><a name="_RNDbEFI4EeGqaIKQSWhWfA"/><strong>OrangeFire</strong></p>
+						<p><a name="_OTFkUFI4EeGqaIKQSWhWfA"/><strong>RedFire</strong></p>
+						<p><strong>TrafficLight</strong></p>
+						<p>- <strong>green fire</strong>: <a href="#_QE7VYFI4EeGqaIKQSWhWfA">GreenFire</a></p>
+						<p>- <strong>orange fire</strong>: <a href="#_RNDbEFI4EeGqaIKQSWhWfA">OrangeFire</a></p>
+						<p>- <strong>red fire</strong>: <a href="#_OTFkUFI4EeGqaIKQSWhWfA">RedFire</a></p>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+   </body>
+</html>

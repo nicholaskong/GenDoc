@@ -230,9 +230,14 @@ public class DOCXDocumentService extends XMLDocumentService implements IDocument
                 // Append text values of all these nodes until tag closure is found
                 for (int i = 0; i < followingNodes.getLength(); i++)
                 {
-                    String textValue = extractNodeTextValue(followingNodes.item(i));
+                	Node followingNode = followingNodes.item(i);
+                    String textValue = extractNodeTextValue(followingNode);
                     newNodeContent.append(textValue);
-                    Node nodeToRemove = getBestAscendantUntil(currentNode, followingNodes.item(i));
+                    //Node nodeToRemove = getBestAscendantUntil(currentNode, followingNodes.item(i));
+                    Node nodeToRemove = getBestAscendantUntil(currentNode, followingNode);
+                    if (nodeToRemove == null && followingNode != baseNode) {
+                    	nodeToRemove = followingNode;                    	
+                    }
                     if (!nodesToRemove.contains(nodeToRemove))
                     {
                         nodesToRemove.add(nodeToRemove);
@@ -248,9 +253,9 @@ public class DOCXDocumentService extends XMLDocumentService implements IDocument
                 // Remove all nodes that are not useful anymore from initial current Node
                 for (Node nodeToRemove : nodesToRemove)
                 {
-                    if (nodeToRemove != null && currentNode.equals(nodeToRemove.getParentNode()))
+                    if (nodeToRemove != null)
                     {
-                        currentNode.removeChild(nodeToRemove);
+                        nodeToRemove.getParentNode().removeChild(nodeToRemove);
                     }
                 }
             }

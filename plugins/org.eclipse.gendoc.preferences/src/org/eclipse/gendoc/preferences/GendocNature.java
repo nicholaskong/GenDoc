@@ -73,7 +73,8 @@ public class GendocNature implements IProjectNature {
 	@Override
 	public void deconfigure() throws CoreException {
 		IFile file = project.getFile(".gendoc");
-		file.delete(true, new NullProgressMonitor());
+		if (file.exists())
+			file.delete(true, new NullProgressMonitor());
 	}
 
 	/* (non-Javadoc)
@@ -121,7 +122,10 @@ public class GendocNature implements IProjectNature {
 		IFile file = project.getFile(".gendoc");
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		GendocPreferenceUtils.marshall(gendocConfiguration, out);
-		file.setContents(new ByteArrayInputStream(out.toByteArray()), IResource.FORCE , new NullProgressMonitor());		
+		if (!file.exists())
+			file.create(new ByteArrayInputStream(out.toByteArray()), IResource.FORCE , new NullProgressMonitor());
+		else
+			file.setContents(new ByteArrayInputStream(out.toByteArray()), IResource.FORCE , new NullProgressMonitor());		
 	}
 	
 	/**
@@ -135,6 +139,7 @@ public class GendocNature implements IProjectNature {
 	 */
 	public void load() throws ParseException, CoreException {
 		IFile file = project.getFile(".gendoc");
-		gendocConfiguration = GendocPreferenceUtils.unmarshall(getProject(), file.getContents());
+		if (file.exists())
+			gendocConfiguration = GendocPreferenceUtils.unmarshall(getProject(), file.getContents());
 	}
 }

@@ -94,7 +94,7 @@ public class PreferenceGendocSelectionConverter implements ISelectionConverter {
         	file = (IFile)((IAdaptable)selectedObject).getAdapter(IFile.class);
 
         // Papyrus set file support.
-        if (file.getFileExtension().endsWith("di")) {
+        if (file != null && file.getFileExtension().endsWith("di")) {
     		String name = file.getName();
     		IResource r = file.getParent().findMember(name.substring(0,name.length()-2)+"uml");
     		if (r instanceof IFile)

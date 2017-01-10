@@ -63,6 +63,8 @@ public class PreferenceGendocRunnerProvider implements IGendocRunnerProvider {
 		} catch (ParseException e) {}
 		
 		for (IProject proj : ResourcesPlugin.getWorkspace().getRoot().getProjects()) {
+			if (!proj.isOpen())
+				continue;
 			try {
 				GendocNature nature = (GendocNature)proj.getNature(GendocNature.ID);
 				if (nature == null)

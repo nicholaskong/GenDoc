@@ -78,7 +78,7 @@ public class PreferenceGendocTemplate implements IGendocTemplate, Cloneable {
 	 * @param extension
 	 *            the new out put extension
 	 */
-	public void setOutputExtension(String extension) {
+	public void setOutPutExtension(String extension) {
 		this.extension = extension;
 	}
 

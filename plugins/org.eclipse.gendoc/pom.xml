@@ -8,3 +8,4 @@
   </parent>
   <artifactId>org.eclipse.gendoc</artifactId>
   <packaging>eclipse-plugin</packaging>
+</project>

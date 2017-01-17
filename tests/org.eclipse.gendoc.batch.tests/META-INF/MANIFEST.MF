@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Gendoc Batch mode tests
+Bundle-SymbolicName: org.eclipse.gendoc.batch.tests
+Bundle-Version: 0.6.0.qualifier
+Fragment-Host: org.eclipse.gendoc.batch
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Require-Bundle: org.junit

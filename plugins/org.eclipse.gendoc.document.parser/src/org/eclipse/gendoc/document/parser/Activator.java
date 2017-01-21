@@ -83,17 +83,25 @@ public class Activator extends AbstractUIPlugin
                     DocumentFactory docFactory = (DocumentFactory) factory.newInstance();
                     return docFactory;
                 }
-                catch (InvalidRegistryObjectException e)
+                catch (InvalidRegistryObjectException e)                
                 {
+                	Activator.getDefault().getLog().log(new Status(
+                			IStatus.ERROR,Activator.PLUGIN_ID,e.getMessage(), e));
                 }
                 catch (ClassNotFoundException e)
                 {
+                	Activator.getDefault().getLog().log(new Status(
+                			IStatus.ERROR,Activator.PLUGIN_ID,e.getMessage(), e));
                 }
                 catch (InstantiationException e)
                 {
+                	Activator.getDefault().getLog().log(new Status(
+                			IStatus.ERROR,Activator.PLUGIN_ID,e.getMessage(), e));
                 }
                 catch (IllegalAccessException e)
                 {
+                	Activator.getDefault().getLog().log(new Status(
+                			IStatus.ERROR,Activator.PLUGIN_ID,e.getMessage(), e));
                 }
             }
         }

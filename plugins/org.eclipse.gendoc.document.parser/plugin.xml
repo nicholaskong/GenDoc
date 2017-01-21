@@ -12,18 +12,6 @@
             class="org.eclipse.gendoc.document.parser.documents.odt.ODTFactory"
             extension="odt">
       </factory>
-      <factory
-            class="org.eclipse.gendoc.document.parser.documents.xlsx.XLSXFactory"
-            extension="xlsx">
-      </factory>
-      <factory
-            class="org.eclipse.gendoc.document.parser.documents.ods.ODSFactory"
-            extension="ods">
-      </factory>
-      <factory
-            class="org.eclipse.gendoc.document.parser.documents.csv.CSVFactory"
-            extension="csv">
-      </factory>
    </extension>
 
 </plugin>

@@ -1,0 +1,72 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+   <head>
+      <title>APPENDIX: Overview of all Gendoc tags and attributes</title>
+ 	  <link rel="stylesheet" type="text/css" href="userguide.css">    
+   </head>
+
+   <body>
+		<h1>APPENDIX: Overview of all Gendoc tags and attributes</h1>
+		<span style="white-space:pre;">
+[0..1]	&lt;config&gt;
+		[0..1] 	&lt;output 
+				[1..1] path='<span style="color:lightGray;">absolutePath</span>'&gt;
+		[0..*] 	&lt;param
+				[1..1] key='<span style="color:lightGray;">uniqueParamKey</span>'
+				[1..1] value='<span style="color:lightGray;">paramValue</span>'&gt;
+		&lt;/config&gt;
+<!-- 
+[0..1] 	&lt;bookmarks&gt;
+		[0..*] 	&lt;alias
+				[1..1] source='<span style="color:lightGray;">uniqueAliasKey</span>'
+				[1..1] target='<span style="color:lightGray;">replacementValue</span>'/&gt; &hellip;
+		&lt;/bookmarks&gt;
+-->
+		
+[1..*] 	<strong>&lt;context</strong>
+		[1..1] 	<strong>model=</strong><strong>'</strong><span style="color:lightGray;">full_model_file_path</span><strong>'</strong>
+		[0..1] 	element='<span style="color:lightGray;">package_name/element_name</span>'
+		[0..1] 	importedBundles='<span style="color:lightGray;">bundle1;bundle2;bundle3</span>'
+		[0..1] 	searchMetamodels='<span style="color:lightGray;">true</span>' <span style="color:lightGray;">(default=&rsquo;false&rsquo;)<strong></span>/&gt;</strong>
+		
+[1..*] <strong>&lt;gendoc&gt;</strong>
+		..
+		[0..*] 	&lt;image
+					[0..1] object='<span style="color:lightGray;">image_id</span>'
+					[0..1] filePath='<span style="color:lightGray;">absolute_path</span>'
+					[0..1] keepW='<span style="color:lightGray;">true</span>' <span style="color:lightGray;"> (default=&rsquo;false&rsquo;)</span>
+					[0..1] keepH='<span style="color:lightGray;">true</span>' <span style="color:lightGray;"> (default=&rsquo;false&rsquo;)</span>
+					[0..1] maxW='<span style="color:lightGray;">true</span>' <span style="color:lightGray;"> (default=&rsquo;false&rsquo;)</span>
+					[0..1] maxH='<span style="color:lightGray;">true</span>' <span style="color:lightGray;"> (default=&rsquo;false&rsquo;)</span>/&gt;
+<!-- 	
+		[0..*] 	&lt;table&gt;
+				<span style="color:lightGray;">Rows or tables</span>
+				&lt;/table&gt;
+	
+		[0..*] 	&lt;include filePath='<span style="color:lightGray;">absolute_path</span>'/&gt;
+		[0..*] 	&lt;richText
+					[0..1] format='<span style="color:lightGray;">RTF'</span> <span style="color:lightGray;">(default:&rsquo;HTML&rsquo;)</span>
+					[0..1] filePath='<span style="color:lightGray;">absolute_path</span>'&gt;
+				&lt;/richText&gt;
+-->		
+		[0..*] 	&lt;drop/&gt;
+		
+		[0..*] 	&lt;dropEmpty&gt;..&lt;/dropEmpty&gt;
+		
+		[0..*] 	&lt;nobr/&gt;
+		
+	<strong>&lt;/gendoc&gt;</strong>
+		
+[0..*]	 &lt;fragment
+		[1..1] 	name='<span style="color:lightGray;">unique_fragment_name</span>'
+		[0..1] 	importedBundles='<span style="color:lightGray;">bundle1;bundle2</span>'
+		[0..1] 	importedFragments='<span style="color:lightGray;">fragment1;fragment2</span>'&gt;
+		[0..1] 	removeClosingLine='<span style="color:lightGray;">true</span>' <span style="color:lightGray;">(default=&rsquo;false&rsquo;)</span>&gt;
+		[0..*] 	&lt;arg
+				[1..1] 	name='<span style="color:lightGray;">argument1</span>'
+				[0..1] 	type='<span style="color:lightGray;">full_metamodel_element_name</span>'/&gt;
+				..
+		&lt;/fragment&gt;		
+		</span>
+   </body>
+</html>

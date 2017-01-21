@@ -7,8 +7,11 @@
  * accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  * 
- * Contributors: Tristan Faure (Atos Origin) tristan.faure@atosorigin.com -
- * Initial API and implementation
+ * Contributors: 
+ * 	Tristan Faure (Atos Origin) tristan.faure@atosorigin.com -
+ * 		Initial API and implementation
+ *  Antonio Campesino (Ericsson) antonio.campesinorobles@ericsson.com
+ *  	Add isAncestor check.
  * 
  *****************************************************************************/
 package org.eclipse.gendoc.document.parser.documents.helper;
@@ -123,5 +126,14 @@ public final class XMLHelper
             while (parent != null && !parent.getNodeName().equals(string));
         }
         return parent != null ;
+    }
+    
+    public static boolean isAncestor(Node node, Node ancestor) {
+        while (node != null) {
+        	if (node == ancestor)
+        		return true;
+        	node = node.getParentNode();
+        }
+        return false;    	
     }
 }

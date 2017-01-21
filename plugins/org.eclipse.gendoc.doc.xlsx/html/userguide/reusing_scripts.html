@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+   <head>
+		<title>Reusing gendoc scripts inside the same document: &lt;fragment&gt; tag</title>
+		<link rel="stylesheet" type="text/css" href="userguide.css">    
+   </head>
+   <body>
+		<h1>Reusing gendoc scripts inside the same document: <span class="codeHeading">&lt;fragment&gt;</span> tag</h1>
+		<p>If a script section is used several times in a same document template, tag <span class="code">&lt;fragment&gt;</span>
+			 can be used to define the script section and its attributes.</p>
+		<p>It can then be called from <span class="code">&lt;gendoc&gt;</span> tags 
+			<strong><u>inside the same template document</u></strong></p>
+		<p><span class="code">&lt;fragment&gt;</span> tag can contain the following attributes:</p>
+		<ul>
+			<li><strong>name (Mandatory)</strong> : the name to call to use the fragment</li>
+			<li><strong>importedBundles</strong> (Optional) : the <a href="bundles.html">external bundles</a> 
+				needed in the fragment code (separated by <strong>;</strong>)</li>
+			<li><strong>importedFragments</strong> (Optional) : the fragments needed in 
+				that fragment code (separated by <strong>;</strong>)</li>
+			<li><strong>removeClosingLine</strong>(Optional) : when this attribute is set to 
+				&lsquo;true&rsquo; the line containing the closing tag (<span class="code">&lt;/fragment&gt;</span>) 
+				is removed during the generation</li>
+		</ul>
+		<br/>
+		<table class="xlsx" width="640">
+			<tr>
+				<th></th><th>A</th><th width="20">B</th>
+			</tr>
+			<tr>
+				<th>1</th><td>
+				<span class="blue">&lt;fragment name=&rsquo;displayDiagram&rsquo; importedBundles=&rsquo;commons;gmf;papyrus&rsquo;&gt;<br/>
+				&emsp;&lt;arg name=&rsquo;element&rsquo; type=&rsquo;uml::Element&rsquo;/&gt;</span><br/>
+				&emsp;[for (d:Diagram|element.getPapyrusDiagrams())]&lt;drop/&gt;<br/>
+				</td><td/></tr>
+			</tr>
+			<tr>
+			<tr>
+				<th>2</th>
+				<td>
+				Diagram [d.name/]:
+				</td><td width="20"/>
+			</tr>
+			<tr height="130" valign="top">
+				<th>4</th><td>
+					&lt;image object=&rsquo;[d.getDiagram()/]&rsquo; maxH=&rsquo;true&rsquo;/&gt;
+				</td>
+				<td width="20"/>
+			</tr>
+			<tr>
+				<th>4</th><td>
+				&emsp;[/for]<br/>
+				<span class="blue">&lt;/fragment&gt;</span>&lt;drop/&gt;
+				</td>
+				<td width="20"/>
+			</tr>
+			<tr>
+				<th>5</th><td/><td/>
+			</tr>
+			<tr>
+				<th>6</th><td>
+				&lt;gendoc&gt;<br/>
+				&emsp;[for(p:Package|Package.allInstances())]&lt;drop/&gt;<br/>
+				</td>
+				<td/>
+			</tr>			
+			<tr>
+				<th>7</th><td>
+				[p.name/]
+				</td><td/>
+			</tr>
+			<tr>
+				<th>8</th><td>
+				<span class="blue">[p.displayDiagram()/]</span>
+				</td><td/>
+			</tr>
+			<tr>
+				<th>9</th><td>
+				&emsp;[/for] <br/>
+				&lt;/gendoc&gt; &lt;drop/&gt;
+				</td><td/>
+			</tr>
+		</table>					
+
+   </body>
+</html>

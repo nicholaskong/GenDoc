@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: XLSX Document Parser
+Bundle-SymbolicName: org.eclipse.gendoc.document.parser.xlsx;singleton:=true
+Bundle-Version: 0.6.0.qualifier
+Bundle-Activator: org.eclipse.gendoc.document.parser.xlsx.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.core.resources,
+ org.eclipse.gendoc.documents,
+ org.eclipse.gendoc.document.parser,
+ org.eclipse.gendoc.services
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
+Export-Package: org.eclipse.gendoc.document.parser.xlsx,
+ org.eclipse.gendoc.document.parser.xlsx.helper

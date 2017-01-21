@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.gendoc.documentTypes">
+      <documentType
+            documentService="org.eclipse.gendoc.services.xlsx.XLSXDocumentService"
+            extension="xlsx">
+      </documentType>
+   </extension>
+   <extension
+         point="org.eclipse.gendoc.processes">
+      <process
+            id="XLSXReorderCellProcess"
+            label="XLSX Cell Reordering Process"
+            parallel="false"
+            priority="NORMAL"
+            processor="org.eclipse.gendoc.services.xlsx.XLSXReorderCellProcess">
+         <predecessor
+               ref="generate">
+         </predecessor>
+         <successor
+               ref="drop">
+         </successor>
+      </process>
+   </extension>
+
+</plugin>

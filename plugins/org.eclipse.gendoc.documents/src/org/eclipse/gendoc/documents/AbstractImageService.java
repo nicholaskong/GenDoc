@@ -8,7 +8,10 @@
  * http://www.eclipse.org/legal/epl-v10.html
  * 
  * Contributors:
- * Anne Haugommard (Atos) anne.haugommard@atos.net - Initial API and implementation
+ *  Anne Haugommard (Atos) anne.haugommard@atos.net - 
+ *  	Initial API and implementation
+ * 	Antonio Campesino (Ericsson) antonio.campesino.robles@ericsson.com
+ * 		Adding ResizeImage() function to the Interface 
  * 
  *****************************************************************************/
 package org.eclipse.gendoc.documents;
@@ -64,7 +67,7 @@ public abstract class AbstractImageService extends AbstractService implements II
 	  /* (non-Javadoc)
      * @see org.eclipse.gendoc.services.IAdditionalResourceService#resizeImage(java.lang.String, double, double, boolean, boolean)
      */
-    protected ImageDimension resizeImage(String imagePath, double frameWidth, double frameHeight, boolean keepH, boolean keepW, boolean maxH, boolean maxW) throws AdditionalResourceException
+    public ImageDimension resizeImage(String imagePath, double frameWidth, double frameHeight, boolean keepH, boolean keepW, boolean maxH, boolean maxW) throws AdditionalResourceException
     {
 
         // By default, return frame dimension

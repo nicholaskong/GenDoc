@@ -1,0 +1,163 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+    	<title>Configure the generation: &lt;config&gt; tag</title>
+    	<link rel="stylesheet" type="text/css" href="userguide.css">
+   	</head>
+
+   	<body>
+      	<h2>Configure the generation: &lt;config&gt; tag</h2>
+
+	  	<p>The tag <b><span class="code">&lt;config&gt;</span></b> must be defined 
+	  	<b><u>only once</u></b>, on top of the template document, in a cell in 
+	  	the first rows, in the first worksheet, before any other Gendoc tag.</p>
+	  	<p>This tag defines the path of the output document, and a list of global 
+	  	parameters for the template.</p>
+      
+      	<h2>Define generation output</h2>
+		
+		<p><b><span class="code">&lt;output&gt;</span></b> tag is optional. If not 
+		present, the document is generated at template location, with suffix '_generated'</p>		
+		
+		<p>If defined, the syntax is the following:</p>
+		
+		<div class="codeBox cbBg">		
+			<p class="code">
+				&lt;config&gt;<br/>			
+				&emsp;&emsp;&lt;output path=&lt;&lt;Absolute path of the document to be generated&gt;&gt; /&gt;			
+				&emsp;&emsp;...<br/>			
+				&lt;/config&gt;
+			</p>		
+		</div>
+		
+		<p class=MsoNormal><span lang=EN-US>Global parameters can be used to define a
+		relative path.</span></p>
+		
+		<div class="codeBox cbBg">
+			<p><u>Example</u>: The generated document will belocated in D:/generatedFile.xlsx</p>			
+			<p class="code">
+				&lt;config&gt;<br/>			
+				&emsp;&emsp;&lt;output path='D:/generatedFile.xlsx' /&gt;<br/>
+				&emsp;&emsp;...<br/>			
+				&lt;/config&gt;
+			</p>		
+		</div>
+
+		<a name="_Define_global_parameters"/><h2>Define global parameters for the template</h2>
+		
+		<p >Global parameters for the template can be defined, for example to define model path,
+		folders to use or any other static value to be used in template.</p>
+		
+		<p>Parameters are defined in <b>&lt;config&gt;</b> tag with the following syntax:</p>
+		
+		<div class="codeBox">		
+			<p class="code">&lt;config&gt; <br/>
+				&emsp;&emsp;...<br/>
+				&emsp;&emsp;&lt;param key=&lt;&lt;Parameter1_key&gt;&gt; value=&lt;&lt;Parameter1_value&gt;&gt; /&gt;<br/>
+				&emsp;&emsp;&lt;param key=&lt;&lt;Parameter2_key&gt;&gt; value=&lt;&lt;Parameter2_value&gt;&gt; /&gt;<br/>
+				&emsp;&emsp;&lt;param .../&gt;<br/>		
+				&lt;/config&gt;
+			</p>		
+		</div>
+
+		<p>How to access parameters?</p>
+		<ul>
+			<li><b>${</b><i>paramKey</i><b>}</b> inside <span class="code">&lt;context&gt;</span> 
+			or other <span class="code">&lt;param&gt;</span> , </li>
+			<li> <b>gGet(</b><i>paramKey</i><b>)</b> inside a <span class="code">&lt;gendoc&gt;</span> tag</li>
+		</ul>
+
+		<div class="codeBox cbBg">
+			<p><u>Example</u>:  creation of global parameters
+			for model folder, model path, and path of a specific package inside model and
+			example of usage in &lt;context&gt; tag.</p>
+
+			<p class="code">
+				&lt;config&gt;<br/>
+				&emsp;&emsp;&lt;param key='<span class="blue">model_path</span>' value='D:/Models/Model_v1/My_model.uml'/&gt;<br/>
+				&emsp;&emsp;&lt;param key='<span class="blue">UC_package_path</span>' value='/MyUMLModel/UseCases'/&gt;<br/>
+				&lt;/config&gt;<br/>
+				&lt;context model='<span class="blue">${model_path}</span>' element='<span class="blue">${UC_package_path}</span>'/&gt;
+			</p>
+		</div>
+
+		<h2>Pre-defined parameters</h2>
+
+		<p>Some <b><span class="code">&lt;param&gt;</span></b> are pre-defined in Gendoc and can be used directly in the template.</p>
+		<ul>
+			<li><p><b>${input}</b> is the name of the input template document</p></li>
+		</ul>
+
+		<div class="codeBox cbBg">
+			<p>Example:</p>		
+			<p class="code">
+				&lt;param key='<span class="blue">generation_folder</span>' value='D:/Generated'/&gt;<br/>
+				&lt;output path='<span class="blue">${generation_folder}</span>/<span class="blue">${input}</span>-generated.docx' /&gt;
+			</p>		
+		</div>
+
+		<p >If the input document is named template1.docx, the result file is named
+		template1-generated.docx. </p>
+		
+		<p>The following variables are also ready to be used by default:</p>
+		
+		<ul>
+			<li><b>${date}</b> is the date of the generation. The format of the date is 'yyyy-MM-dd-HHmmss'.</li>
+			<li><b>${input_directory}</b> location directory of the template.</li>
+		</ul>
+		<div class="codeBox cbBg">
+			<p>Example:</p>		
+			<p><b><span class="code">&lt;output	path='<span class="blue">${input_directory}
+			</span>/<span class="blue">${input}</span>-generated-<span class="blue">${date}
+			</span>.docx' /&gt;</span></b></p>		
+			<p>Result file example: template-generated-2014-08-02-093707.docx</p>
+		</div>
+		
+		<h2>Use of variables inside parameters</h2>
+		
+		<p>It is also possible to use variables defined in project of the document.</p>
+		<p>From the project on Project Explorer view, right click 
+		&gt; Properties &gt; Resource &gt; Linked Resources &gt; Path Variables</p>
+		<img src="img/configure_set_variables_dialog.png"/>
+		<p>Predefined variables or user variables can be used in the template. They are NOT case-sensitive.</p>
+		<div class="codeBox cbBg">
+			<p><u>Example</u> :</p>
+			<p><span class="code"><b>&lt;output path='${project_loc}/${input}-generated.docx' /&gt;</b></span></p>		
+		</div>
+
+	<h2>4.5 Variables stored in another file</h2>
+
+	<p>As you may need to put many additional variables inside your project, in order to make the config tag 
+	   more readable and more reusable, you can put the variables in a file with .properties extension. 
+	   To access the content of this file you should add the <span class="code">&lt;properties&gt;</span> 
+	   tag in the following manner:</p>
+	<div class="codeBox cbBg">
+		<p><u>Example</u> :</p>
+		<p class="code">&lt;properties path='<span class="blue">${input_directory}</span>/vars.properties' /&gt;</p>
+	</div>
+	
+	<p>Where the vars.properties may have the content like this:</p>
+	<div class="codeBox cbBg">
+		<p><u>Example</u> :</p>
+		<p class="code">
+			output_generation=${workspace_loc}/generated-${date}.docx<br/>
+			input_model_prop=${input}/model.uml<br/>
+			image_test=${project_loc}/company_logo.jpg
+		<p/>
+	</div>
+	
+	<p>These variables can be used in Gendoc tags :</p>
+	<div class="codeBox cbBg">	
+		<p><u>Example</u> :</p>
+		<p class="code">&lt;output path='<span class="blue">${output_generation}</span>' /&gt;</p>
+	</div>
+	
+	<h2>4.6 Context with CDO models</h2>
+
+	<p>You can use CDO URIs in context tags</p>
+	<div class="codeBox cbBg">	
+		<p><u>Example</u> :</p>
+		<p class="code">&lt;context model=&rsquo;cdo.net4j.tcp://localhost:2036/repository/resource?transactional=true&rsquo; element=&rsquo;{0}&rsquo;/&gt;</p>
+	</div>
+   </body>
+</html>

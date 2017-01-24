@@ -279,6 +279,8 @@ public class DOCXHtmlService extends AbstractService implements IHtmlService {
 	public void setVersion(String version) {
 		if (version != null && version.equals("msw2003")) {
 			use2003Compatibility = true;
+		} else {
+			use2003Compatibility = false;
 		}
 	}
 
@@ -289,12 +291,16 @@ public class DOCXHtmlService extends AbstractService implements IHtmlService {
 	public void setInTable(String inTable) {
 		if (inTable != null && inTable.equals("true")) {
 			isInTable = true;
+		} else {
+			isInTable = false;
 		}
 	}
 
 	public void setIncludePic(String inPic) {
 		if (inPic != null && inPic.equals("true")) {
-			includePic = true;
+			includePic = true;			
+		} else {
+			includePic = false;
 		}
 	}
 

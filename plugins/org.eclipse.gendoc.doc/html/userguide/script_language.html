@@ -1,0 +1,31 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+   <head>
+      <title>Script language</title>
+   	  <link rel="stylesheet" type="text/css" href="userguide.css">
+   </head>
+
+   <body>
+		<h2>Script language</h2>
+		<p>The content of a gendoc tag corresponds to a script written in <a href="http://www.eclipse.org/acceleo">Acceleo</a> language.</p>
+		<p>Acceleo syntax to display names of all packages</p>
+		<div class="codeBox cbBg">
+			<p><u>Example</u>: display names of all packages</p>
+			<p class="code">
+			[for (p:Package | Package.allInstances())]<br/>
+			&emsp;[p.name/]<br/>
+			[/for]</p>
+		</div>
+		<p>Gendoc syntax to display names of all packages</p>
+
+		<div class="codeBox cbBg">
+			<p class="code">
+			&lt;context model='D:/&hellip;/myModel.uml'/&gt;<br/>
+			&lt;gendoc&gt;</br>
+			&emsp;[for (p:Package | Package.allInstances())]<br/>
+			&emsp;&emsp;[p.name/]<br/>
+			&emsp;[/for]<br/>
+			&lt;/gendoc&gt;<br/>
+		</div>
+   </body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+   <head>
+      <title>Text generation</title>
+    	<link rel="stylesheet" type="text/css" href="userguide.css">
+   </head>
+
+   <body>
+		<h2>Text generation</h2>
+		<p>Writing scripts inside a Text editor has a lot of inconveniences but the great advantage is to 
+		benefit from all text edition functionalities, mainly styles and formatting, from the Text editor.</p>
+		
+		<h3>Applying styles to the generation output</h3>
+		
+		<p>The style applied to the script inside template document is kept in the generation output 
+		(color, font, size, alignment,&hellip;).</p>
+		<table class="sample"  width="100%">
+			<tbody>
+				<tr class="heading">
+					<td width="50%"><p><strong>Template content</strong></p></td>
+					<td width="50%"><p><strong>Generation output</strong></p></td>
+				</tr>
+				<tr>
+					<td width="50%">
+						<p class="code">
+							&lt;context model=&lsquo;&hellip;&rsquo;/&gt;<br/>
+							&lt;gendoc&gt;<br/>
+							&emsp;[for (p:Package|self.ownedElement-&gt;filter(Package))]<br/>
+							<strong class="blue" style="font-weight:900;">&emsp;[p.name/]</strong><br/>
+							&emsp;[/for]<br/>
+							&lt;/gendoc&gt;
+						</p>
+					</td>
+					<td width="50%">
+						<p><strong class="blue" style="font-weight:900;">
+							Actors<br/>
+							Use case view<br/>
+							Logical view<br/>
+							Deployment view
+						</strong></p>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		
+		<h3>Using bullets and numbering</h3>
+		
+		<p>With the same example as in the previous paragraph, other style information such as bullets or 
+		 	numbering can be used for generation.</p>
+		<table class="sample" width="100%">
+			<tbody>
+				<tr class="heading">
+					<td width="50%"><p><strong>Template content</strong></p></td>
+					<td width="50%"><p><strong>Generation output</strong></p></td>
+				</tr>
+				<tr>
+					<td width="50%">
+						<p class="code">
+							&lt;context model=&lsquo;&hellip;&rsquo;/&gt;<br/>
+							&lt;gendoc&gt;<br/>
+							&emsp;[for (p:Package|self.ownedElement-&gt;filter(Package))]
+						</p>
+						<ul><li><strong>[p.name/]</strong></li></ul>
+						<p class="code">
+							&emsp;[/for]<br/>
+							&lt;/gendoc&gt;
+						</p>
+					</td>
+					<td width="50%">
+						<ul>
+							<li><strong>Actors</strong></li>
+							<li><strong>Use case view</strong></li>
+							<li><strong>Logical view</strong></li>
+							<li><strong>Deployment view</strong></li>
+						</ul>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<p>&nbsp;</p>
+		<table class="sample" width="100%">
+			<tbody>
+				<tr class="heading">
+					<td width="50%"><p><strong>Template content</strong></p></td>
+					<td width="50%"><p><strong>Generation output</strong></p></td>
+				</tr>
+				<tr>
+					<td width="50%">
+						<p class="code">
+							&lt;context model=&lsquo;&hellip;&rsquo;/&gt;<br/>
+							&lt;gendoc&gt;<br/>
+							&emsp;[for (p:Package|self.ownedElement-&gt;filter(Package))]</p>
+						<strong>
+						<ol style="margin-left:0.1cm;"><li>[p.name/]</li></ol>
+						<p code="code">
+							&emsp;&emsp;[for (p2:Package|p.ownedElement-&gt;filter(Package))]
+						</p>
+						<ol><li class="prev1">[p2.name/]</li></ol>
+						</strong>
+						<p class="code">
+							&emsp;&emsp;[/for]<br/>
+							&emsp;[/for]<br/>
+							&lt;/gendoc&gt;
+						</p>
+					</td>
+					<td width="307">
+						<strong>
+						<ol style="margin-left:0.1cm;" class="cascade">
+							<li>Actors</li>
+							<li>Use case view
+								<ol>
+									<li>Data import</li>
+									<li>Data export</li>
+								</ol>
+							</li>
+							<li>Logical view</li>
+							<li>Deployment view
+								<ol>
+									<li>Server side</li>
+									<li>ClientSide</li>
+								</ol>
+							</li>
+						</ol>
+						<strong>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<p>All other styles from document templates are kept during generation.</p>
+   </body>
+</html>

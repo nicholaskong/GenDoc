@@ -1,0 +1,62 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+   <head>
+      <title>Rich text generation</title>
+		<link rel="stylesheet" type="text/css" href="userguide.css">    
+   </head>
+   <body>
+		<h2>Rich text generation</h2>
+		<p><span class="code">&lt;richText&gt;</span> tag must be defined under a 
+			<span class="code">&lt;gendoc&gt;</span> tag and allows to display rich text 
+			content (HTML or RTF) content inside the generated document.</p>
+		<p>It can contain the following attributes:</p>
+		<ul>
+			<li><strong>format (optional)</strong>: describes file format (RTF, HTML). <br /> 
+				Default value : HMTL.</li>
+			<li><strong>filePath (optional)</strong>: full path of the rich text file to import</li>
+		</ul>
+		<p>Rich text content can come:</p>
+		<ul>
+			<li>from an external file
+				<ul>
+					<li>in HTML format :</li>
+				</ul>
+			</li>
+		</ul>
+		<br/>
+		<div class="codeBox cbBg">
+			<p class="code">&lt;richText filePath=&lsquo;D:/file.html&rsquo; /&gt;</p>
+		</div>
+		<p>equivalent to :</p>
+		<div class="codeBox cbBg">
+			<p class="code">&lt;richText filePath=&lsquo;D:/file.html&rsquo; format=&lsquo;HTML&rsquo;/&gt;</p>
+		</div>
+		<br/>
+		<ul>
+			<li>in RTF format :</li>
+		</ul>
+		<br/>
+		<div class="codeBox cbBg">		
+			<p class="code">&lt;richText filePath=&lsquo;D:/file.rtf&rsquo; format=&lsquo;RTF&rsquo;/&gt;</p>
+		</div>
+		<br/>
+		<ul>
+			<li>from model content<br/><br/>
+				<div class="codeBox">		
+					<p><img src="img/warning.png" style="height:24px;"/>&emsp;<span class="code">&lt;richText&gt;</span> 
+					tag must contain only the script to access the rich text content :<br /> 
+						no additional spaces or line breaks .</p>
+				</div>
+			</li>
+		</ul>
+		<p>For example for UML comment contents in HTML format in the model:</p>
+		<div class="codeBox cbBg code">		
+			<p>&lt;richText format=&lsquo;HTML&rsquo;&gt;[comment._body/]&lt;/richText&gt;</p>
+		</div>
+		<p>It is equivalent to:</p>
+		<div class="codeBox cbBg code">		
+			<p>&lt;richText&gt;[comment._body/]&lt;/richText&gt;</p>
+		</div>
+   </body>
+</html>
+

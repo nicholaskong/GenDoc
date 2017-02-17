@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?NLS TYPE="org.eclipse.help.toc"?>
+
+<toc label="User Guide" link_to="toc.xml#userguide"> 
+	<topic label="Installation Procedure"  href="html/userguide/installation.html"> 
+	</topic>
+ <topic href="html/userguide/default_generation.html" label="Default generation from a Papyrus model">
+ </topic>
+ <topic href="html/userguide/creation_doc_generator.html" label="Creation of a document generator">
+ </topic>
+ <topic href="html/userguide/configure_generation.html" label="Configure the generation : &lt;config&gt; tag">
+ </topic>
+ <topic href="html/userguide/define_execution_context.html" label="Define script execution context : &lt;context&gt; tag">
+ </topic>
+ <topic href="html/userguide/define_script_parts.html" label="Define script parts : &lt;gendoc&gt; tag">
+    <topic href="html/userguide/script_language.html" label="Script language">
+    </topic>
+    <topic href="html/userguide/script_text_generation.html" label="Text generation">
+    </topic>
+    <topic href="html/userguide/script_images_generation.html" label="Images generation">
+    </topic>
+    <topic href="html/userguide/script_table_generation.html" label="Table generation">
+    </topic>
+    <topic href="html/userguide/script_bookmarks_generation.html" label="Bookmarks and hyperlinks generation">
+    </topic>
+    <topic href="html/userguide/script_rich_text_generation.html" label="Rich Text generation">
+    </topic>
+    <topic href="html/userguide/script_external_documents_generation.html" label="Enclose the external document">
+    </topic>
+    <topic href="html/userguide/script_formatting.html" label="Formatting">
+    </topic>
+    <topic href="html/userguide/script_listing.html" label="Listing elements">
+    </topic>
+ </topic>
+ <topic href="html/userguide/reusing_scripts.html" label="Reusing gendoc scripts inside the same document : &lt;fragment&gt; tag">
+ </topic>
+ <topic href="html/userguide/command_line.html" label="Command Line Interface">
+ </topic>
+ <topic href="html/userguide/bundles.html" label="Gendoc Bundles">
+	<topic href="html/userguide/bundles_common.html" label="Common">
+ 	</topic>
+	<topic href="html/userguide/bundles_gmf.html" label="Gmf">
+ 	</topic>
+	<topic href="html/userguide/bundles_papyrus.html" label="Papyrus">
+ 	</topic>
+	<topic href="html/userguide/bundles_capella.html" label="Capella">
+ 	</topic>
+ </topic>
+<topic href="html/userguide/appendix.html" label="Appendix: Overview of all Gendoc tags and attributes">
+</topic>
+</toc>

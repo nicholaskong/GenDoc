@@ -1,0 +1,55 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+   <head>
+		<title>Reusing gendoc scripts inside the same document: &lt;fragment&gt; tag</title>
+		<link rel="stylesheet" type="text/css" href="userguide.css">    
+   </head>
+   <body>
+		<h1>Reusing gendoc scripts inside the same document: <span class="codeHeading">&lt;fragment&gt;</span> tag</h1>
+		<p>If a script section is used several times in a same document template, tag <span class="code">&lt;fragment&gt;</span>
+			 can be used to define the script section and its attributes.</p>
+		<p>It can then be called from <span class="code">&lt;gendoc&gt;</span> tags 
+			<strong><u>inside the same template document</u></strong></p>
+		<p><span class="code">&lt;fragment&gt;</span> tag can contain the following attributes:</p>
+		<ul>
+			<li><strong>name (Mandatory)</strong> : the name to call to use the fragment</li>
+			<li><strong>importedBundles</strong> (Optional) : the <a href="bundles.html">external bundles</a> 
+				needed in the fragment code (separated by <strong>;</strong>)</li>
+			<li><strong>importedFragments</strong> (Optional) : the fragments needed in 
+				that fragment code (separated by <strong>;</strong>)</li>
+			<li><strong>removeClosingLine</strong>(Optional) : when this attribute is set to 
+				&lsquo;true&rsquo; the line containing the closing tag (<span class="code">&lt;/fragment&gt;</span>) 
+				is removed during the generation</li>
+		</ul>
+		<br/>
+		<div class="codeBox">
+			<p>
+				<span class="code">
+				<span class="blue">
+				&lt;fragment name=&rsquo;displayDiagram&rsquo; importedBundles=&rsquo;commons;gmf;papyrus&rsquo;&gt;<br/>
+				&emsp;&lt;arg name=&rsquo;element&rsquo; type=&rsquo;uml::Element&rsquo;/&gt;<br/>
+				</span>
+				&emsp;[for (d:Diagram|element.getPapyrusDiagrams())]&lt;drop/&gt;<br/>
+				</span>
+				Diagram [d.name/]&nbsp;:<br/>
+				<span class="code">
+				&emsp;&emsp;&lt;image object=&rsquo;[d.getDiagram()/]&rsquo; maxW=&rsquo;true&rsquo;&gt;&lt;drop/&gt;<br/>
+				<img src="img/frame.png" width="450"/><br/>
+				&emsp;&emsp;&lt;/image&gt;<br/>
+				&emsp;[/for]&lt;drop/&gt;<br/>
+				<span class="blue">
+				&lt;/fragment&gt;<br/>
+				</span>
+				&lt;gendoc&gt;<br/>
+				&emsp;[for(p:Package|Package.allInstances())]<br/>
+				</span>
+				[p.name/]<br/>
+				[p.displayDiagram()/]<br/>
+				<span class="code">
+				&emsp;[/for]<br/>
+				&lt;/gendoc&gt;
+				</span>
+				</p>
+		</div>
+   </body>
+</html>

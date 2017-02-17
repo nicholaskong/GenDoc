@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?NLS TYPE="org.eclipse.help.toc"?>
+
+<toc label="Gendoc Documentation">
+   <topic label="User Guide">
+      <anchor id="userguide"/>
+   </topic>
+</toc>

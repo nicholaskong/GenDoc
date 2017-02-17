@@ -1,0 +1,134 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+   <head>
+   	   	<title>Table generation</title>
+		<link rel="stylesheet" type="text/css" href="userguide.css">
+   </head>
+
+   <body>
+		<h2>Table generation</h2>
+		<p><span class="code">&lt;table&gt;</span> tag must be defined under a <span class="code">&lt;gendoc&gt;</span> tag</p>
+		<p>The purpose of this tag is to merge all tables found inside tag content into one global table.</p>
+		<table class="sample">
+			<tbody>
+				<tr>
+					<td width="45" class="heading">
+						<p class="vertical" style="height:120px;"><strong>Template content</strong></p>
+					</td>
+					<td width="574">
+						<p class="code">&lt;context model=&rsquo;${project_loc}/Models/TrafficLightManager.uml&rsquo; 
+							element='TrafficLightManager/LogicalView' importedBundles='gmf;papyrus' /&gt;</p>
+						<p>The following elements are described in the Logical view :</p>
+						<p class="code">&lt;gendoc&gt;<br/>
+						   &emsp;<span class="blue">&lt;table&gt;</span></p>
+						<table class="sample">
+							<tbody>
+								<tr class="heading">
+									<td width="163">
+										<p><strong>Name</strong></p>
+									</td>
+									<td width="387">
+										<p><strong>Attributes</strong></p>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<p class="code">[for (c:Class|self.ownedElement-&gt;filter(Class)-&gt;sortedBy(name))]</p>
+						<table>
+							<tbody>
+								<tr>
+									<td width="163">
+										<p><strong>[c.name/]</strong></p>
+									</td>
+									<td width="387">
+										<p class="code">[for (p:Property|c.ownedAttribute)]&lt;drop/&gt;</p>
+										<ul><li><strong>[p.name/]</strong> : [p.type.name/]</li></ul>
+										<p class="code">[/for]</p>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<p>[/for]</p>
+						<p class="code">&emsp;<span class="blue">&lt;/table&gt;</span><br/>
+						&lt;/gendoc&gt;</p>
+					</td>
+				</tr>
+				<tr>
+					<td width="45" class="heading">
+						<p class="vertical"><strong>Output</strong></p>
+					</td>
+					<td width="574">
+						<p>The following elements are described in the Logical view :</p>
+						<table width="546" class="sample">
+							<tbody>
+								<tr class="heading">
+									<td width="163">
+										<p><strong>Name</strong></p>
+									</td>
+									<td width="383">
+										<p><strong>Attributes</strong></p>
+									</td>
+								</tr>
+								<tr>
+									<td width="163">
+										<p><strong>SystemLauncher</strong></p>
+									</td>
+									<td width="383">
+										<ul>
+											<li><strong>x roads ctrl</strong> : XRoadsControler</li>
+											<li><strong>tl group</strong> : TrafficLightGroup</li>
+											<li><strong>tl</strong> : TrafficLight</li>
+											<li><strong>red fire</strong> : RedFire</li>
+											<li><strong>orange fire</strong> : OrangeFire</li>
+											<li><strong>green fire</strong> : GreenFire</li>
+										</ul>
+									</td>
+								</tr>
+								<tr>
+									<td width="163">
+										<p><strong>TrafficLight</strong></li>
+									</td>
+									<td width="383">
+										<ul>
+											<li><strong>traffic light id</strong> : Integer</li>
+											<li><strong>operator maintenance</strong> : Operator maintenance</li>
+											<li><strong>xroadscontroler</strong> : XRoadsControler</li>
+											<li><strong>road</strong> : Road</li>
+										</ul>
+									</td>
+								</tr>
+								<tr>
+									<td width="163">
+										<p><strong>TrafficLightGroup</strong></li>
+									</td>
+									<td width="383">
+										<ul>
+											<li><strong>tl group id</strong> : Integer</li>
+											<li><strong>nb tl</strong> : Integer</li>
+											<li><strong>traffic light</strong> : TrafficLight</li>
+										</ul>
+									</td>
+								</tr>
+								<tr>
+									<td width="163">
+										<p><strong>XRoadsControler</strong></li>
+									</td>
+									<td width="383">
+										<ul>
+											<li><strong>nb tl group</strong> : Integer</li>
+											<li><strong>crossroads domain</strong> : Crossroads Domain</li>
+											<li><strong>operator maintenance</strong> : Operator maintenance</li>
+											<li><strong>trafficlight</strong> : TrafficLight</li>
+										</ul>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<p>If table styles are used in the template document inside a <span class="code">&lt;table&gt;</span> tag,
+		 the style of the output table will be the style of the first table inside <span class="code">&lt;table&gt;</span> tag.</p>
+	</body>
+</html>

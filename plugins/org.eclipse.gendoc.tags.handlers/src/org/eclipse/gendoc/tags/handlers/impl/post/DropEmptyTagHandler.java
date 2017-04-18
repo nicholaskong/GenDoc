@@ -48,7 +48,7 @@ public class DropEmptyTagHandler extends AbstractPrePostTagHandler
 
         IDocumentService documentService = GendocServices.getDefault().getService(IDocumentService.class);
         String cleanValue = documentService.cleanContent("[" + value + "/]", patterns);
-        if ("[/]".equals(cleanValue))
+        if (cleanValue != null && cleanValue.matches("\\[\\s*/\\]"))
         {
             return TagParserConfig.INF + RegisteredTags.DROP + TagParserConfig.SLASH + TagParserConfig.SUP;
         }

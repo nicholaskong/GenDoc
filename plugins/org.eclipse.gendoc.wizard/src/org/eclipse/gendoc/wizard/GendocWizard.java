@@ -138,7 +138,7 @@ public class GendocWizard extends Wizard
     					{
     						IConfigurationService parameter = GendocServices.getDefault().getService(IConfigurationService.class);
     						parameter.addParameter(replacePercentBySpace(page.getSelected().getOutputKey(), 3), replacePercentBySpace(page.getFullOutputPath(), 3));
-    						parameter.addParameter(replacePercentBySpace(page.getSelected().getModelKey(), 3), replacePercentBySpace(page.getModel(), 3));
+    						parameter.addParameter(replacePercentBySpace(page.getSelected().getModelKey(), 3), page.getModel());
     						for(AdditionnalParameterItem item : page.getAdditionnalParameters()) {
     							parameter.addParameter(replacePercentBySpace(item.getParamName(),3), replacePercentBySpace(item.getValue(),3));
     						}

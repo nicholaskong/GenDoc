@@ -10,8 +10,8 @@
  * Contributors:
  *  Tristan FAURE (ATOS ORIGIN INTEGRATION) tristan.faure@atosorigin.com - Initial API and implementation
  *
-  *****************************************************************************/
-package org.eclipse.gendoc.document.parser.documents.xlsx;
+ *****************************************************************************/
+package org.eclipse.gendoc.document.parser.xlsx;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -27,7 +27,6 @@ import org.eclipse.gendoc.document.parser.documents.Document.CONFIGURATION;
  */
 public class XLSXFactory implements DocumentFactory
 {
-
     public XLSXFactory()
     {
     }
@@ -39,12 +38,9 @@ public class XLSXFactory implements DocumentFactory
 
     public Document loadDocument(File documentFile, Map<CONFIGURATION, Boolean> configuration)
     {
-        try
-        {
+        try {
             return loadDocument(documentFile.toURI().toURL(), configuration);
-        }
-        catch (MalformedURLException e)
-        {
+        } catch (MalformedURLException e) {
             e.printStackTrace();
         }
         return null ;

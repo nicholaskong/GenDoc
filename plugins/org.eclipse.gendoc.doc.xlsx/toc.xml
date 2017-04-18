@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?NLS TYPE="org.eclipse.help.toc"?>
+
+<toc label="Gendoc XLSX Documentation">
+   <topic label="XLSX User Guide">
+      <anchor id="xlsx_userguide"/>
+   </topic>
+</toc>

@@ -1,0 +1,189 @@
+body {
+	font-family: Palatino Linotype;
+	font-size: 12pt;
+}
+
+.codeHeading{
+    font-family: monospace;
+    font-weight: 900;
+}
+
+.code {
+    font-family: monospace;
+    font-weight: 900;
+	font-size: 10pt;	    
+}
+
+.codeBox .code {
+	font-size: 10pt;	
+}
+
+.bluehl {
+	background: #0000FF;		
+	color: #C0C0C0;		
+}
+
+.turqhl {
+	background: #00F0FF;		
+	color: #000000;		
+}
+
+.lgbluebk {
+	background: #CFDCF0;		
+}
+
+.blue,h1,h2,h3 {
+	color: #2F5897;		
+}
+
+.red {
+	color: #C00000;		
+}
+
+
+.codeBox {
+	border:solid windowtext 1.0pt;
+	padding:1.0pt 4.0pt 1.0pt 4.0pt; 
+}
+
+.codeBox.cbBg {
+	background:#F2F2F2;	
+}
+
+.codeBox p {
+	margin: 0cm;
+	padding: 0.1cm;
+}
+
+.border {
+	border:solid;
+	border-width:1px;
+	border-color:black;
+}
+
+.vertical {
+    writing-mode:tb-rl;
+    transform: rotate(180deg);
+    white-space:nowrap;
+    text-align: center;
+	bottom:0;
+}
+
+.tab {
+	position:relative;
+	left:60px;
+}
+
+.tab1 {
+	position:absolute;
+	left:60px;
+}
+
+.tab2 {
+	position:absolute;
+	left:120px;
+}
+
+.tab3 {
+	position:absolute;
+	left:180px;
+}
+
+.tab4 {
+	position:absolute;
+	left:240px;
+}
+
+ol {
+  list-style-type: none;
+  counter-reset: item;
+  margin: 0;
+  padding: 0;
+}
+
+ol > li {
+  display: table;
+  counter-increment: item;
+}
+
+ol > li:before {
+  content: counters(item, ".") ". ";
+  display: table-cell;
+  padding-right: 0.6em;    
+}
+
+
+ol > li.prev1:before {
+  content: "1.1";
+}
+
+table.sample {
+	border: solid;
+	border-width: 1px;
+	border-color: black;
+	border-collapse: collapse;
+}
+
+table.sample td {
+	border: solid;
+	border-width: 1px;
+	border-color: black;
+	padding: 0.1cm;
+}
+ 
+table.sample tr.heading,td.heading {
+	background-color: #2F5897;
+	color: white;
+}  
+
+table.sample td p {
+	margin: 0cm;
+	padding: 0.1cm;
+}
+
+ul {
+  margin: 0;
+}
+
+ul.dashed {
+  list-style-type: none;
+}
+
+ul.dashed > li {
+  text-indent: -5px;
+}
+
+ul.dashed > li:before {
+  content: "-";
+  margin-right: 10px;
+}
+
+table.xlsx {
+	border: solid;
+	border-width: 1px;
+	background: white;
+	border-color: gray;
+	border-collapse: collapse;
+}
+
+table.xlsx td {
+	border: solid;
+	border-width: 1px;
+	background: white;
+	border-color: gray;
+	border-collapse: collapse;
+	padding: 0.1cm;
+    font-family: monospace;
+    font-weight: 900;
+	font-size: 10pt;	    
+}
+
+table.xlsx th {
+	border: solid;
+	border-width: 1px;
+	background: #F0F0F0;
+	border-color: gray;
+	border-collapse: collapse;
+	padding-left: 0.3cm;
+	padding-right: 0.3cm;	
+}

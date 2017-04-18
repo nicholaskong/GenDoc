@@ -8,7 +8,10 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *  Tristan FAURE (ATOS ORIGIN INTEGRATION) tristan.faure@atosorigin.com - Initial API and implementation
+ *  Tristan FAURE (ATOS ORIGIN INTEGRATION) tristan.faure@atosorigin.com - 
+ *  	Initial API and implementation
+ *  Antonio Campesino (Ericsson) antonio.campesino.robles@ericsson.com -
+ *  	Some fixes to be able to open XLSXs properly.
  *
  *****************************************************************************/
 package org.eclipse.gendoc.document.parser.documents.helper;
@@ -17,8 +20,10 @@ import java.io.File;
 import java.util.Collection;
 import java.util.LinkedList;
 
+import org.eclipse.gendoc.document.parser.documents.IXMLParserProvider;
 import org.eclipse.gendoc.document.parser.documents.Unzipper;
 import org.eclipse.gendoc.document.parser.documents.XMLParser;
+import org.eclipse.gendoc.document.parser.documents.DefaultXMLParserProvider;
 import org.eclipse.gendoc.document.parser.documents.Document.CONFIGURATION;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -96,6 +101,10 @@ public final class OfficeHelper
 	 */
 	public static void fillCollection(Unzipper unzipper, Collection<XMLParser> headers2, String relationshipsHeader, CONFIGURATION idForDocument, String relsFile, String toSearch)
 	{
+		fillCollection(unzipper, DefaultXMLParserProvider.DEFAULT, headers2, relationshipsHeader, idForDocument, relsFile, toSearch);		
+	}
+
+	public static void fillCollection(Unzipper unzipper, IXMLParserProvider parserProvider, Collection<XMLParser> headers2, String relationshipsHeader, CONFIGURATION idForDocument, String relsFile, String toSearch) {
 		if (headers2 == null)
 		{
 			headers2 = new LinkedList<XMLParser>();
@@ -106,7 +115,8 @@ public final class OfficeHelper
 			XMLParser documentRels = new XMLParser(docRels);
 			do 
 			{
-				if ("Relationship".equals(documentRels.getCurrentNode().getNodeName()))
+				if ("Relationship".equals(documentRels.getCurrentNode().getNodeName()) ||
+					"Relationships".equals(documentRels.getCurrentNode().getNodeName()))
 				{
 					NamedNodeMap attributes = documentRels.getCurrentNode().getAttributes();
 					Node item = attributes.getNamedItem("Type");
@@ -122,7 +132,7 @@ public final class OfficeHelper
 								File f = unzipper.getFile(target.getTextContent());
 								if (f != null && f.exists())
 								{
-									headers2.add(new XMLParser(f,idForDocument));
+									headers2.add(parserProvider.createParser(f, idForDocument));
 									if (toSearch != null)
 									{
 										break ;
@@ -136,7 +146,7 @@ public final class OfficeHelper
 			while (documentRels.next());
 		}
 	}
-
+	
 	private OfficeHelper ()
 	{
 		// DO NOTHING

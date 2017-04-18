@@ -9,22 +9,28 @@
  *
  * Contributors:
  *  Tristan FAURE (ATOS ORIGIN INTEGRATION) tristan.faure@atosorigin.com - Initial API and implementation
+ *  Antonio Campesino (Ericsson) antonio.campesino.robles@ericsson.com - Adding handling of XLSX parts. 
  *
  *****************************************************************************/
-package org.eclipse.gendoc.document.parser.documents.xlsx;
+package org.eclipse.gendoc.document.parser.xlsx;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
 import org.eclipse.gendoc.document.parser.documents.AbstractZipDocument;
 import org.eclipse.gendoc.document.parser.documents.XMLParser;
 import org.eclipse.gendoc.document.parser.documents.helper.OfficeHelper;
-import org.eclipse.gendoc.document.parser.documents.helper.XLSXHelper;
+import org.eclipse.gendoc.document.parser.documents.helper.XMLHelper;
+import org.eclipse.gendoc.document.parser.xlsx.helper.XLSXHelper;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
  * The Class XLSXDocument.
@@ -41,6 +47,8 @@ public class XLSXDocument extends AbstractZipDocument
     private static final String TEXT_VALUE_NODE = "t";//$NON-NLS-1$
 
     private String[] strings = null;
+    private NodeList[] nodes = null;
+	private HashMap<String, XMLParser> subdocuments = new HashMap<String,XMLParser>();
 
     public XLSXDocument(File documentFile) throws IOException
     {
@@ -56,7 +64,18 @@ public class XLSXDocument extends AbstractZipDocument
     public XLSXDocument(URL documentFile, Map<CONFIGURATION, Boolean> configuration)
     {
         super(documentFile,configuration);
-        initStrings();
+    }
+ 
+    public String getSharedString(int ref) {
+    	if (ref < 0 || ref > strings.length)
+    		throw new IllegalArgumentException("Shared String with index '"+ref+"' does not exists.");
+    	return strings[ref];
+    }
+    
+    public NodeList getSharedStringNodes(int ref) {
+    	if (ref < 0 || ref > strings.length)
+    		throw new IllegalArgumentException("Shared String with index '"+ref+"' does not exists.");
+    	return nodes[ref];
     }
 
     /**
@@ -72,6 +91,8 @@ public class XLSXDocument extends AbstractZipDocument
         }
         int nb = Integer.valueOf(item.getTextContent());
         strings = new String[nb];
+        nodes = new NodeList[nb];
+        
         int i = -1;
         do
         {
@@ -79,6 +100,7 @@ public class XLSXDocument extends AbstractZipDocument
             if (NEW_CELL_NODE.equals(nodeName))
             {
                 i++;
+                nodes[i] = parser.getCurrentNode().getChildNodes();
             }
             if (TEXT_VALUE_NODE.equals(nodeName))
             {
@@ -100,11 +122,15 @@ public class XLSXDocument extends AbstractZipDocument
     @Override
     protected Collection<XMLParser> getXmlParsers(CONFIGURATION idForDocument)
     {
+    	if (strings == null)
+    		initStrings();
         Collection<XMLParser> parsers = new LinkedList<XMLParser>();
+        
         switch (idForDocument)
         {
             case content:
-                XMLParser workbook = new XMLParser(getUnzipper().getFile(XLSXHelper.CONTENTS_FILE_NAME), idForDocument);
+            	XLSXParserProvider provider = new XLSXParserProvider(this);
+            	XMLParser workbook = new XMLParser(getUnzipper().getFile(XLSXHelper.WORKBOOK_FILE_NAME), idForDocument);
                 do
                 {
                     if (SHEET_NODE.equals(workbook.getCurrentNode().getNodeName()))
@@ -112,7 +138,7 @@ public class XLSXDocument extends AbstractZipDocument
                         Node item = workbook.getCurrentNode().getAttributes().getNamedItem(XLSXHelper.SHEET_ID);
                         if (item != null)
                         {
-                            OfficeHelper.fillCollection(getUnzipper(), parsers, XLSXHelper.RELATIONSHIPS_SHEETS, idForDocument, XLSXHelper.DOCUMENT_RELS_FILE_NAME, item.getTextContent());
+                            OfficeHelper.fillCollection(getUnzipper(), provider, parsers, XLSXHelper.WORKSHEET_RELATIONSHIP, idForDocument, XLSXHelper.WORKBOOK_RELS_FILE_NAME, item.getTextContent());
                         }
                     }
                 }
@@ -126,9 +152,67 @@ public class XLSXDocument extends AbstractZipDocument
                 // TODO
             default:
         }
+        
         return parsers;
     }
 
+	public String getNextDocumentName(String relpath) {
+		File rel = new File(relpath.replace("/", File.separator));
+		String[] nameParts = rel.getName().split("\\*");
+		File f = new File(getUnzipLocationDocumentFile(),rel.getPath());
+		File folder = f.getParentFile();
+		int index = 0;
+		if (folder.exists()) {
+			String names[] = folder.list();			
+			for (int i=0; names != null && i<names.length; i++) {
+				if (names[i].startsWith(nameParts[0]) && names[i].endsWith(nameParts[1])) {
+					try {
+						index = Math.max(Integer.valueOf(
+								names[i].replace(nameParts[0], "").replace(nameParts[1], "")),index);
+					} catch (NumberFormatException e) {}					
+				}				
+			}
+		}
+		
+		String res = rel.getParent()+File.separator+rel.getName().replace("*",String.valueOf(index+1));
+		return res.replace(File.separator, "/");
+	}
+
+    public XMLParser createSubdocument(String path, CharSequence content) throws IOException {
+		File f = new File(getUnzipLocationDocumentFile(),path.replace("/", File.separator));
+		f.getParentFile().mkdirs();
+    	FileWriter writer = new FileWriter(f);
+    	writer.write(content.toString());
+    	writer.flush();
+    	writer.close();
+    	return getSubdocument(path);
+    }
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public Collection<XMLParser> getSubdocuments() {
+		return (Collection)(subdocuments == null ? 
+				Collections.emptyList() : 
+				subdocuments.values());
+	}
+
+	public XMLParser getSubdocument(String relpath) {
+		if (subdocuments == null)
+			subdocuments = new HashMap<String, XMLParser>();
+		relpath = relpath.replace(File.separatorChar, '/');
+		if (!relpath.startsWith("/"))
+			relpath = "/"+relpath;
+		XMLParser p = subdocuments.get(relpath);
+		if (p != null)
+			return p;
+		
+		File f = new File(getUnzipLocationDocumentFile(),relpath.replace("/", File.separator));
+		if (f.exists()) {
+			p = new XMLParser(f);
+			subdocuments.put(relpath, p);
+		}
+		return p;
+	}   
+    
     public String getStyle()
     {
         return "";
@@ -136,40 +220,79 @@ public class XLSXDocument extends AbstractZipDocument
 
     public String getText()
     {
-        String result = "";
-        Node currentNode = getXMLParser().getCurrentNode();
-        if (XLSXHelper.CELL.equals(currentNode.getNodeName()))
-        {
-            Node item = currentNode.getAttributes().getNamedItem(XLSXHelper.CELL_TYPE);
-            for (int i = 0; i < currentNode.getChildNodes().getLength(); i++)
-            {
-                if (XLSXHelper.CELL_VALUE.equals(currentNode.getChildNodes().item(i).getNodeName()))
-                {
-                    String value = currentNode.getChildNodes().item(i).getTextContent();
-                    if (item != null && XLSXHelper.CELL_VALUE_SHARED_STRING.equals(item.getTextContent()))
-                    {
-                        try
-                        {
-                            int index = Integer.valueOf(value);
-                            if (index < strings.length)
-                            {
-                                result = strings[index];
-                            }
-                        }
-                        catch (NumberFormatException e)
-                        {
-                            // DO NOTHING
-                        }
-                    }
-                    else
-                    {
-                        result = value;
-                    }
-                    break;
-                }
-            }
+    	Node node = getXMLParser().getCurrentNode();
+    	if (XLSXHelper.ROW.equals(node.getNodeName())) {
+        	StringBuffer buf = new StringBuffer();
+        	getTextRow(node, buf);
+        	return buf.toString();
+    	} else if (XLSXHelper.CELL.equals(node.getNodeName())) {
+        	StringBuffer buf = new StringBuffer();
+        	getTextCell(node, buf);
+        	return buf.toString();
+    	} else 
+    		return "";
+    }
+    
+    public Node getTextRow(Node n, StringBuffer buf) {
+    	n = XMLHelper.next(n);
+        while (n != null && XLSXHelper.CELL.equals(n.getNodeName())) {
+        	n = getTextCell(n,buf);
         }
-        return result;
+        return n;
+    }
+
+    // TODO: Refactor it to use getCellText() and getRowText()
+    public Node  getTextCell(Node n, StringBuffer buf) {
+    	String result = "";
+        Node item = n.getAttributes().getNamedItem(XLSXHelper.CELL_TYPE);
+        n = XMLHelper.next(n);
+        while (n != null)
+        {
+        	if (XLSXHelper.CELL_VALUE.equals(n.getNodeName())) {
+                String value = n.getTextContent();
+                if (item != null && XLSXHelper.CELL_VALUE_SHARED_STRING.equals(item.getTextContent()))
+                {
+                    try
+                    {
+                        int index = Integer.valueOf(value);
+                        if (index < strings.length)
+                        {
+                            result = strings[index];
+                        }
+                    }
+                    catch (NumberFormatException e)
+                    {
+                        // DO NOTHING
+                    }
+                }
+                else
+                {
+                    result = value;
+                }
+                break;            		
+        	}
+	        else if (XLSXHelper.CELL_INLINE_STRING.equals(n.getNodeName())) {
+	        	Node is = n; 
+	        	n = XMLHelper.next(n);
+	            StringBuffer s = new StringBuffer("");
+	            while (n != null && XMLHelper.isAncestor(n,is)) {
+	                if (XLSXHelper.CELL_INLINE_STRING_TEXT.equals(n.getNodeName()))
+	                {
+	                    s.append(n.getTextContent());
+	                }
+	            	n = XMLHelper.next(n);
+	            }
+	            result = s.toString();
+	            break;
+	        } else {
+	        	if (XLSXHelper.ROW.equals(n.getNodeName()) || XLSXHelper.CELL.equals(n.getNodeName()))
+	        		break;
+	        	n = XMLHelper.next(n);
+	        }
+        }
+        
+        buf.append(result.replace("\n", ""));
+        return n;
     }
 
     public String getTextCorrespondingToCurrentStyle()
@@ -243,7 +366,6 @@ public class XLSXDocument extends AbstractZipDocument
 
     private int getRowNumber()
     {
-        // TODO Auto-generated method stub
         return 0;
     }
 

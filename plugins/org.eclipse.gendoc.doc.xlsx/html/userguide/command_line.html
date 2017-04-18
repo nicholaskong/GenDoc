@@ -1,0 +1,24 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+   <head>
+		<title>Command Line Interface</title>
+		<link rel="stylesheet" type="text/css" href="userguide.css">    
+   </head>
+
+   <body>
+		<h1>Command Line Interface</h1>
+		<p>To generate the documentation from the command line use the example presented below.</p>
+		<div class="codeBox cbBg code">
+		<p>java -cp "ECLIPSE_PATH\plugins\org.eclipse.equinox.launcher_XXXX.jar" org.eclipse.core.launcher.Main 
+		-application org.eclipse.gendoc.batch.GendocBatchMode -data d:\workspace_directory -idt dir="D:\your_template.xlsx"</p>
+		</div>
+		<p>Where:</p>
+		<ul class="dashed">
+		<li>ECLIPSE_PATH stands for the Eclipse directory</li>
+		<li>eclipse.equinox.launcher_XXXX.jar &ndash; the launcher version</li>
+		<li>d:\workspace_directory is the directory of the workspace you use</li>
+		<li>d:\your_template.xlsx is your template path</li>
+		</ul>
+		<p>All the directory paths are absolute.</p>
+   </body>
+</html>

@@ -50,7 +50,7 @@ public class HtmlServiceFactory implements IExecutableExtensionFactory
         {
             return new ODTHtmlService();
         }
-        return null;
+        return new DefaultHtmlService();
     }
 
 }

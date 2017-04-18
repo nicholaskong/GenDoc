@@ -14,7 +14,9 @@
   	<module>plugins/org.eclipse.gendoc.bundle.acceleo.papyrus</module>
   	<module>plugins/org.eclipse.gendoc.bundle.acceleo.sirius</module>
   	<module>plugins/org.eclipse.gendoc.doc</module>
+  	<module>plugins/org.eclipse.gendoc.doc.xlsx</module>
   	<module>plugins/org.eclipse.gendoc.document.parser</module>
+  	<module>plugins/org.eclipse.gendoc.document.parser.xlsx</module>
   	<module>plugins/org.eclipse.gendoc.documents</module>
   	<module>plugins/org.eclipse.gendoc.documents.metadata</module>
   	<module>plugins/org.eclipse.gendoc.m2t</module>
@@ -24,6 +26,7 @@
   	<module>plugins/org.eclipse.gendoc.services</module>
   	<module>plugins/org.eclipse.gendoc.services.docx</module>
   	<module>plugins/org.eclipse.gendoc.services.odt</module>
+	<module>plugins/org.eclipse.gendoc.services.xlsx</module>
   	<module>plugins/org.eclipse.gendoc.tags</module>
   	<module>plugins/org.eclipse.gendoc.tags.handlers</module>
   	<module>plugins/org.eclipse.gendoc.tags.html</module>
@@ -36,6 +39,7 @@
   	<module>plugins/org.eclipse.gendoc.documents.image.svg</module>
   
 	<module>tests/org.eclipse.gendoc.batch.tests</module>
+	<module>tests/org.eclipse.gendoc.services.xlsx.tests</module>
 	
   	<module>features/org.eclipse.gendoc.feature</module>
   	<module>features/org.eclipse.gendoc.papyrus.feature</module>

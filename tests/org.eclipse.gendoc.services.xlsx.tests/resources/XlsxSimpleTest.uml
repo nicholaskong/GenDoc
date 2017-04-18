@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_6jElsNGkEea0PPaj-cnm0w" name="Gendoc">
+  <packagedElement xmi:type="uml:Model" xmi:id="_IlKAYNGlEea0PPaj-cnm0w" name="Use Case View">
+    <packagedElement xmi:type="uml:Component" xmi:id="_NE6B0NGoEea0PPaj-cnm0w" name="Gendoc" useCase="_eweEoNGoEea0PPaj-cnm0w _gWz64NGpEea0PPaj-cnm0w _1rXdoNGpEea0PPaj-cnm0w">
+      <generalization xmi:type="uml:Generalization" xmi:id="_Yu48sNGoEea0PPaj-cnm0w" general="_iZbPsNGlEea0PPaj-cnm0w"/>
+      <ownedUseCase xmi:type="uml:UseCase" xmi:id="_eweEoNGoEea0PPaj-cnm0w" name="Generate Document" subject="_NE6B0NGoEea0PPaj-cnm0w">
+        <ownedComment xmi:type="uml:Comment" xmi:id="_Z-dzkNG7Eea0PPaj-cnm0w">
+          <body>An &lt;b>automated&lt;/b> system that will use the batch generation process to generate &#xD;
+the documentation of the system contained in the model.</body>
+        </ownedComment>
+      </ownedUseCase>
+      <ownedUseCase xmi:type="uml:UseCase" xmi:id="_gWz64NGpEea0PPaj-cnm0w" name="Generate Document from Eclipse" subject="_NE6B0NGoEea0PPaj-cnm0w">
+        <include xmi:type="uml:Include" xmi:id="_-Kwr0NGpEea0PPaj-cnm0w" addition="_eweEoNGoEea0PPaj-cnm0w"/>
+      </ownedUseCase>
+      <ownedUseCase xmi:type="uml:UseCase" xmi:id="_1rXdoNGpEea0PPaj-cnm0w" name="Batch Document Generation" subject="_NE6B0NGoEea0PPaj-cnm0w">
+        <include xmi:type="uml:Include" xmi:id="__j2lsNGpEea0PPaj-cnm0w" addition="_eweEoNGoEea0PPaj-cnm0w"/>
+      </ownedUseCase>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Actor" xmi:id="_pQnpoNGoEea0PPaj-cnm0w" name="User">
+      <ownedComment xmi:type="uml:Comment" xmi:id="_PtvKoNG7Eea0PPaj-cnm0w">
+        <body>A modeling user that document his model and it use &lt;b>Gendoc&lt;/b> to generate &#xD;
+the documentation of the system contained in the model.</body>
+      </ownedComment>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Actor" xmi:id="_ArnfANGqEea0PPaj-cnm0w" name="Automated User"/>
+    <packagedElement xmi:type="uml:Association" xmi:id="_Jq1cwNGqEea0PPaj-cnm0w" memberEnd="_JrJl0NGqEea0PPaj-cnm0w _JrKM4NGqEea0PPaj-cnm0w">
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_JrFUYNGqEea0PPaj-cnm0w" source="org.eclipse.papyrus">
+        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_JrF7cNGqEea0PPaj-cnm0w" key="nature" value="UML_Nature"/>
+      </eAnnotations>
+      <ownedEnd xmi:type="uml:Property" xmi:id="_JrJl0NGqEea0PPaj-cnm0w" name="generate document from eclipse" type="_gWz64NGpEea0PPaj-cnm0w" association="_Jq1cwNGqEea0PPaj-cnm0w"/>
+      <ownedEnd xmi:type="uml:Property" xmi:id="_JrKM4NGqEea0PPaj-cnm0w" name="user" type="_pQnpoNGoEea0PPaj-cnm0w" association="_Jq1cwNGqEea0PPaj-cnm0w"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_KkBukNGqEea0PPaj-cnm0w" memberEnd="_KkCVotGqEea0PPaj-cnm0w _KkC8sNGqEea0PPaj-cnm0w">
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_KkCVoNGqEea0PPaj-cnm0w" source="org.eclipse.papyrus">
+        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_KkCVodGqEea0PPaj-cnm0w" key="nature" value="UML_Nature"/>
+      </eAnnotations>
+      <ownedEnd xmi:type="uml:Property" xmi:id="_KkCVotGqEea0PPaj-cnm0w" name="batch document generation" type="_1rXdoNGpEea0PPaj-cnm0w" association="_KkBukNGqEea0PPaj-cnm0w"/>
+      <ownedEnd xmi:type="uml:Property" xmi:id="_KkC8sNGqEea0PPaj-cnm0w" name="user" type="_pQnpoNGoEea0PPaj-cnm0w" association="_KkBukNGqEea0PPaj-cnm0w"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_LSPfcNGqEea0PPaj-cnm0w" memberEnd="_LSQGgtGqEea0PPaj-cnm0w _LSQGg9GqEea0PPaj-cnm0w">
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_LSQGgNGqEea0PPaj-cnm0w" source="org.eclipse.papyrus">
+        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_LSQGgdGqEea0PPaj-cnm0w" key="nature" value="UML_Nature"/>
+      </eAnnotations>
+      <ownedEnd xmi:type="uml:Property" xmi:id="_LSQGgtGqEea0PPaj-cnm0w" name="batch document generation" type="_1rXdoNGpEea0PPaj-cnm0w" association="_LSPfcNGqEea0PPaj-cnm0w"/>
+      <ownedEnd xmi:type="uml:Property" xmi:id="_LSQGg9GqEea0PPaj-cnm0w" name="automated user" type="_ArnfANGqEea0PPaj-cnm0w" association="_LSPfcNGqEea0PPaj-cnm0w"/>
+    </packagedElement>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Model" xmi:id="_FiF4ANGlEea0PPaj-cnm0w" name="Logical View"/>
+  <packagedElement xmi:type="uml:Model" xmi:id="_PUtBkNGlEea0PPaj-cnm0w" name="Implementation View">
+    <packagedElement xmi:type="uml:Component" xmi:id="_iZbPsNGlEea0PPaj-cnm0w" name="Gendoc">
+      <ownedComment xmi:type="uml:Comment" xmi:id="_6zSxANG6Eea0PPaj-cnm0w">
+        <body>Gendoc generates documentation from EMF models using document templates &#xD;
+in formats such as &lt;i>OpenOffice Writer&lt;/i> (.odt) or &lt;i>Microsoft Word&lt;/i> (.docx).</body>
+      </ownedComment>
+      <packagedElement xmi:type="uml:Dependency" xmi:id="_qcFekNGlEea0PPaj-cnm0w" client="_iZbPsNGlEea0PPaj-cnm0w" supplier="_jiODwNGlEea0PPaj-cnm0w"/>
+      <packagedElement xmi:type="uml:Dependency" xmi:id="_25KDQNGlEea0PPaj-cnm0w" client="_iZbPsNGlEea0PPaj-cnm0w" supplier="_loGLINGlEea0PPaj-cnm0w"/>
+      <packagedElement xmi:type="uml:Dependency" xmi:id="_DQgacNGmEea0PPaj-cnm0w" client="_iZbPsNGlEea0PPaj-cnm0w" supplier="_ra_94NGlEea0PPaj-cnm0w"/>
+      <packagedElement xmi:type="uml:Dependency" xmi:id="_UucQ8NGmEea0PPaj-cnm0w" client="_iZbPsNGlEea0PPaj-cnm0w" supplier="_AcfasNGmEea0PPaj-cnm0w"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Component" xmi:id="_jiODwNGlEea0PPaj-cnm0w" name="Papyrus">
+      <packagedElement xmi:type="uml:Dependency" xmi:id="_LbZYQNGmEea0PPaj-cnm0w" client="_jiODwNGlEea0PPaj-cnm0w" supplier="_ra_94NGlEea0PPaj-cnm0w"/>
+      <packagedElement xmi:type="uml:Dependency" xmi:id="_MLvQENGmEea0PPaj-cnm0w" client="_jiODwNGlEea0PPaj-cnm0w" supplier="_tWn9ENGlEea0PPaj-cnm0w"/>
+      <packagedElement xmi:type="uml:Dependency" xmi:id="_M_4p0NGmEea0PPaj-cnm0w" client="_jiODwNGlEea0PPaj-cnm0w" supplier="_v9t7INGlEea0PPaj-cnm0w"/>
+      <packagedElement xmi:type="uml:Dependency" xmi:id="_NxJusNGmEea0PPaj-cnm0w" client="_jiODwNGlEea0PPaj-cnm0w" supplier="_-lgq8NGlEea0PPaj-cnm0w"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Component" xmi:id="_loGLINGlEea0PPaj-cnm0w" name="Acceleo">
+      <packagedElement xmi:type="uml:Dependency" xmi:id="_G79YgNGmEea0PPaj-cnm0w" client="_loGLINGlEea0PPaj-cnm0w" supplier="_tWn9ENGlEea0PPaj-cnm0w"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Component" xmi:id="_ra_94NGlEea0PPaj-cnm0w" name="GMF">
+      <packagedElement xmi:type="uml:Dependency" xmi:id="_O3Ol8NGmEea0PPaj-cnm0w" client="_ra_94NGlEea0PPaj-cnm0w" supplier="_tWn9ENGlEea0PPaj-cnm0w"/>
+      <packagedElement xmi:type="uml:Dependency" xmi:id="_PqrcINGmEea0PPaj-cnm0w" client="_ra_94NGlEea0PPaj-cnm0w" supplier="_-lgq8NGlEea0PPaj-cnm0w"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Component" xmi:id="_tWn9ENGlEea0PPaj-cnm0w" name="EMF"/>
+    <packagedElement xmi:type="uml:Component" xmi:id="_v9t7INGlEea0PPaj-cnm0w" name="UML2"/>
+    <packagedElement xmi:type="uml:Component" xmi:id="_-lgq8NGlEea0PPaj-cnm0w" name="GEF"/>
+    <packagedElement xmi:type="uml:Component" xmi:id="_AcfasNGmEea0PPaj-cnm0w" name="Sirius"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Model" xmi:id="_SP7ckNGlEea0PPaj-cnm0w" name="Deployment View"/>
+</uml:Model>

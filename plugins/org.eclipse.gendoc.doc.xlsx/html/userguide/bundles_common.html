@@ -1,0 +1,78 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+   <head>
+      	<title>Title</title>
+		<link rel="stylesheet" type="text/css" href="userguide.css">    
+   </head>
+
+   <body>
+		<h2>Commons</h2>
+		<p>Name: <span class="blue"><strong>commons</strong></span></p>
+		<p>This bundle is installed by default and provides the following services, 
+			available from <span class="code">&lt;gendoc&gt;</span> tags:</p>
+		<ul>
+		<li><strong>clean(stringWithSpecialCharacters&nbsp;: String) : String</strong></li>
+		</ul>
+		<p>Cleans special characters inside the given String. This method needs to be 
+			used if a string to be displayed can contain special characters such as: 
+			&lt;, &gt;, &amp;, &lsquo;, &rdquo;.</p>
+		<ul>
+		<li><strong>cleanAndFormat(stringWithFormattingCharacters : String) : String</strong></li>
+		</ul>
+		<p>Format of the parameter string to display line break or carriage return characters as 
+			line breaks, and tabulation characters as tabulations in output document.</p>
+		<ul>
+		<li><strong>splitNewLine(stringWithMultipleLines : String) : Sequence(String)</strong></li>
+		</ul>
+		<p>Split the specified String on the line separator and return a Set of each line to manage 
+			manually new lines in a text.</p>
+		<ul>
+		<li><strong>gPut (paramKey&nbsp;: OclAny, paramValue&nbsp;: OclAny) : String</strong></li>
+		</ul>
+		<p>Link a value to a specific key. This variable can be used all over the document 
+			(including other gendoc parts) using gGet .</p>
+		<ul>
+		<li><strong>gGet (paramKey&nbsp;: OclAny) : OclAny</strong></li>
+		</ul>
+		<p>Get a value already stored in Gendoc (by gPut or defined in param tags).</p>
+		<ul>
+		<li><strong>getText (modelElement : OclAny) : String</strong></li>
+		</ul>
+		<p>Returns a generic String for the given model element.</p>
+		<ul>
+		<li><strong>getId (modelElement : OclAny) : String</strong></li>
+		</ul>
+		<p>Get a unique id associated to the given model element (to be used for bookmarks for example).</p>
+		<ul>
+		<li><strong>getPluginImage(pluginId : String, path : String) : String</strong></li>
+		</ul>
+		
+		<p>Load an image located in another plugin in order to generated it in the output document. <br /> 
+			This method should be used inside <span class="code">&lt;image&gt;</span> tag with the following syntax:</p>
+		<div class="codeBox cbBg code">
+			<p><strong>&lt;image object='[getPluginImage('org.mycompany.myplugin.id', '/resources/images/myimage.png')/]' &hellip;&gt; </strong></p>
+			<p><strong>&hellip;</strong></p>
+			<p><strong>&lt;/image&gt;</strong></p>
+		</div>
+		<h3>9.1.1 Advanced services from bundle &ldquo;commons&rdquo;</h3>
+		<p>Several services allow to load other models in order to be able to use their elements inside scripts.</p>
+		<ul>
+		<li><strong>load(modelElement : OclAny, extensionReplacement : String) : String</strong></li>
+		</ul>
+		<p>Load a model located next to the model where the modelElement comes from. <br /> For example, 
+			for a Package p contained in the file located at file://c:/test/file.uml, the call: 
+			p.load('notation') will load the file located at file://c:/test/file.notation</p>
+		<ul>
+		<li><strong>loadRelative(modeleElement : OclAny, relativePath : String) : String</strong></li>
+		</ul>
+		<p>Load a model located with a relative path to the model where the modelElement comes from. 
+			For example, for a Package p contained in the file located at file://c:/test/file.uml, the call: 
+			p.load('../file2.notation') will load the file located at file://c:/file2.notation.</p>
+		<ul>
+		<li><strong>loadURI(uri : String) : String</strong></li>
+		</ul>
+		<p>Load a model from its URI. For example, the call : p.load('file://c:/test/file.notation') will load 
+			the file located at file://c:/test/file.notation.</p>
+		<p>Loading another model in order to be able to use its elements in script.</p>   
+   </body>
+</html>

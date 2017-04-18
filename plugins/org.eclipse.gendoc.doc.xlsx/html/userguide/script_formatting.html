@@ -1,0 +1,719 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+   <head>
+		<title>Formatting</title>
+		<link rel="stylesheet" type="text/css" href="userguide.css">    
+   </head>
+
+   <body>
+		<h2>Formatting</h2>
+		<h3>Removing extra lines</h3>
+		<p>All characters inside scripts are used for generation output, including spaces, line breaks, or carriage return characters.</p>
+		<table class="sample">
+			<tbody>
+				<tr class="heading">
+					<td width="281">
+						<p><strong>Template content</strong></p>
+					</td>
+					<td width="151">
+						<p><strong>Actual output</strong></p>
+					</td>
+					<td width="187">
+						<p><strong>Expected output</strong></p>
+					</td>
+				</tr>
+				<tr>					
+					<td width="281" valign="top">
+						<table class="xlsx code">
+							<tr>
+								<th></th><th>A</th><th width="20">B</th>
+							</tr>
+							<tr>
+								<th>1</th>
+								<td>
+								&lt;gendoc&gt;&para;
+								</td>
+								<td/>
+							</tr>
+							<tr>
+								<th>2</th>
+								<td>
+								..[for (p:Package|self.ownedElement-&gt;filter(Package)-&gt;sortedBy(name))].&para;
+								</td>
+								<td/>
+							</tr>
+							<tr>
+								<th>3</th>
+								<td><strong style="font-weight:900;">[p.name/].&para;</strong><br/></td>
+								<td/>
+							</tr>
+							<tr>
+								<th>4</th>
+								<td>
+								..[/for].&para;
+								</td>
+								<td width="40"/>
+							</tr>
+							<tr>
+								<th>5</th>
+								<td>
+								&lt;/gendoc&gt;&para;
+								</td>
+								<td width="40"/>
+							</tr>
+						</table>									
+					</td>
+				<td width="151" valign="top">
+					<table class="xlsx code">
+						<tr>
+							<th></th><th>A</th><th width="20">B</th>
+						</tr>
+						<tr>
+							<th>1</th>
+							<td>
+							&para;
+							</td>
+							<td/>
+						</tr>						
+						<tr>
+							<th>2</th>
+							<td>
+							...&para;
+							</td>
+							<td/>
+						</tr>						
+						<tr>
+							<th>3</th>
+							<td>
+							<strong>Allocations.&para;</strong>
+							</td>
+							<td/>
+						</tr>						
+						<tr>
+							<th>4</th>
+							<td>
+							...&para;
+							</td>
+							<td/>
+						</tr>						
+						<tr>
+							<th>5</th>
+							<td>
+							<strong>Context.&para;</strong>
+							</td>
+							<td/>
+						</tr>						
+						<tr>
+							<th>6</th>
+							<td>
+							...&para;
+							</td>
+							<td/>
+						</tr>						
+						<tr>
+							<th>7</th>
+							<td>
+							<strong>LogicalView.&para;</strong>
+							</td>
+							<td/>
+						</tr>						
+						<tr>
+							<th>8</th>
+							<td>
+							...&para;
+							</td>
+							<td/>
+						</tr>						
+						<tr>
+							<th>9</th>
+							<td>
+							<strong>PhysicalView.&para;</strong>
+							</td>
+							<td/>
+						</tr>						
+						<tr>
+							<th>10</th>
+							<td>
+							...&para;
+							</td>
+							<td/>
+						</tr>						
+						<tr>
+							<th>11</th>
+							<td>
+							<strong>UseCases.&para;</strong>
+							</td>
+							<td/>
+						</tr>						
+						<tr>
+							<th>12</th>
+							<td>
+							...&para;
+							</td>
+							<td/>
+						</tr>						
+						<tr>
+							<th>13</th>
+							<td>
+							&para;
+							</td>
+							<td/>
+						</tr>						
+					</table>			
+				</td>
+				<td width="187" valign="top">
+					<table class="xlsx code">
+						<tr>
+							<th></th><th>A</th><th width="20">B</th>
+						</tr>
+						<tr>
+							<th>1</th>
+							<td>
+								<strong>Allocations.&para;</strong><br/>
+							</td>
+							<td/>
+						</tr>
+						<tr>
+							<th>2</th>
+							<td>
+								<strong>Context.&para;</strong><br/>
+							</td>
+							<td/>
+						</tr>
+						<tr>
+							<th>3</th>
+							<td>
+								<strong>LogicalView.&para;</strong><br/>
+							</td>
+							<td/>
+						</tr>
+						<tr>
+							<th>4</th>
+							<td>
+								<strong>PhysicalView.&para;</strong><br/>
+							</td>
+							<td/>
+						</tr>
+						<tr>
+							<th>5</th>
+							<td>
+								<strong>UseCases.&para;</strong>
+							</td>
+							<td/>
+						</tr>
+					</table>
+				</td>
+				</tr>
+			</tbody>
+		</table>
+		<p><span class="code">&lt;drop/&gt;</span> tag allows to remove extra <strong>rows.</strong></p>
+		<p>Document generation is internally performed in two steps and <span class="code">&lt;drop/&gt;</span> 
+			tag removes the <strong><u>WHOLE</u></strong> row in which it is contained so it must be 
+			handled with care.</p>
+		<p>First step is to analyze the lines to get as output to understand where the extra lines 
+			come from in the template and where the &lt;drop/&gt; tags should be located.</p>
+		<table class="sample">
+			<tbody>
+				<tr class="heading">
+					<td width="281">
+						<p><strong>Template content</strong></p>
+					</td>
+					<td colspan="2" width="338">
+						<p><strong>Output</strong></p>
+					</td>
+				</tr>
+				<tr>
+					<td width="281" valign="top">
+						<table class="xlsx code">
+							<tr>
+								<th></th><th>A</th><th width="20">B</th>
+							</tr>
+							<tr>
+								<th>1</th>
+								<td>
+								&lt;gendoc&gt;<span style="background:#00FFFF;">&para;</span>
+								</td>
+								<td/>
+							</tr>
+							<tr>
+								<th>2</th>
+								<td>
+								<span style="background:yellow;">..</span>[for (p:Package|self.ownedElement-&gt;filter(Package)-&gt;sortedBy(name))]<span style="background:#00FF00;">.&para;</span>
+								</td>
+								<td/>
+							</tr>
+							<tr>
+								<th>3</th>
+								<td><strong style="font-weight:900;">[p.name/].&para;</strong><br/></td>
+								<td/>
+							</tr>
+							<tr>
+								<th>4</th>
+								<td>
+								<span style="background:pink;">..</span>[/for]<span style="background:red;">.&para;</span>
+								</td>
+								<td width="40"/>
+							</tr>
+							<tr>
+								<th>5</th>
+								<td>
+								&lt;/gendoc&gt;<span style="background:#00FFFF;">&para;</span>
+								</td>
+								<td width="40"/>
+							</tr>
+						</table>									
+					</td>
+					<td colspan="2" width="338">
+					<table class="xlsx code">
+						<tr>
+							<th></th><th>A</th><th width="20">B</th>
+						</tr>
+						<tr>
+							<th>1</th>
+							<td>
+							<span style="background:#00FFFF;">&para;</span>
+							</td>
+							<td/>
+						</tr>						
+						<tr>
+							<th>2</th>
+							<td>
+							<span style="background:yellow;">..</span><span style="background:#00FF00;">.&para;</span>
+							</td>
+							<td/>
+						</tr>						
+						<tr>
+							<th>3</th>
+							<td>
+							<strong>Allocations.&para;</strong>
+							</td>
+							<td/>
+						</tr>						
+						<tr>
+							<th>4</th>
+							<td>
+							<span style="background:pink;">..</span><span style="background:#00FF00;">.&para;</span>
+							</td>
+							<td/>
+						</tr>						
+						<tr>
+							<th>5</th>
+							<td>
+							<strong>Context.&para;</strong>
+							</td>
+							<td/>
+						</tr>						
+						<tr>
+							<th>6</th>
+							<td>
+							<span style="background:pink;">..</span><span style="background:#00FF00;">.&para;</span>
+							</td>
+							<td/>
+						</tr>						
+						<tr>
+							<th>7</th>
+							<td>
+							<strong>LogicalView.&para;</strong>
+							</td>
+							<td/>
+						</tr>						
+						<tr>
+							<th>8</th>
+							<td>
+							<span style="background:pink;">..</span><span style="background:#00FF00;">.&para;</span>
+							</td>
+							<td/>
+						</tr>						
+						<tr>
+							<th>9</th>
+							<td>
+							<strong>PhysicalView.&para;</strong>
+							</td>
+							<td/>
+						</tr>						
+						<tr>
+							<th>10</th>
+							<td>
+							<span style="background:pink;">..</span><span style="background:#00FF00;">.&para;</span>
+							</td>
+							<td/>
+						</tr>						
+						<tr>
+							<th>11</th>
+							<td>
+							<strong>UseCases.&para;</strong>
+							</td>
+							<td/>
+						</tr>						
+						<tr>
+							<th>12</th>
+							<td>
+							<span style="background:pink;">..</span><span style="background:red;">.&para;</span>
+							</td>
+							<td/>
+						</tr>						
+						<tr>
+							<th>13</th>
+							<td>
+							<span style="background:#00FFFF;">&para;</span>
+							</td>
+							<td/>
+						</tr>						
+					</table>			
+					</td>
+				</tr>
+				<tr>
+					<td class="heading">					
+						<p><strong>Template content</strong></p>
+					</td>
+					<td width="198" class="heading">
+						<p><strong>before &lt;drop/&gt; handling</strong></p>
+					</td>
+					<td width="139" class="heading">
+						<p><strong>Final output</strong></p>
+					</td>
+				</tr>
+				<tr>					
+					<td width="281" valign="top">
+						<table class="xlsx code">
+							<tr>
+								<th></th><th>A</th><th width="20">B</th>
+							</tr>
+							<tr>
+								<th>1</th>
+								<td>
+								&lt;gendoc&gt;&lt;drop/&gt;&para;
+								</td>
+								<td/>
+							</tr>
+							<tr>
+								<th>2</th>
+								<td>
+								..[for (p:Package|self.ownedElement-&gt;filter(Package)-&gt;sortedBy(name))].&lt;drop/&gt;&para;
+								</td>
+								<td/>
+							</tr>
+							<tr>
+								<th>3</th>
+								<td><strong style="font-weight:900;">[p.name/].&para;</strong><br/></td>
+								<td/>
+							</tr>
+							<tr>
+								<th>4</th>
+								<td>
+								..[/for].&lt;drop/&gt;&para;
+								</td>
+								<td width="40"/>
+							</tr>
+							<tr>
+								<th>5</th>
+								<td>
+								&lt;/gendoc&gt;&lt;drop/&gt;&para;
+								</td>
+								<td width="40"/>
+							</tr>
+						</table>									
+					</td>
+					<td width="151" valign="top">
+						<table class="xlsx code">
+							<tr>
+								<th></th><th>A</th><th width="20">B</th>
+							</tr>
+							<tr>
+								<th>1</th>
+								<td>
+								&lt;drop/&gt;&para;
+								</td>
+								<td/>
+							</tr>						
+							<tr>
+								<th>2</th>
+								<td>
+								...&lt;drop/&gt;&para;
+								</td>
+								<td/>
+							</tr>						
+							<tr>
+								<th>3</th>
+								<td>
+								<strong>Allocations.&para;</strong>
+								</td>
+								<td/>
+							</tr>						
+							<tr>
+								<th>4</th>
+								<td>
+								...&lt;drop/&gt;&para;
+								</td>
+								<td/>
+							</tr>						
+							<tr>
+								<th>5</th>
+								<td>
+								<strong>Context.&para;</strong>
+								</td>
+								<td/>
+							</tr>						
+							<tr>
+								<th>6</th>
+								<td>
+								...&lt;drop/&gt;&para;
+								</td>
+								<td/>
+							</tr>						
+							<tr>
+								<th>7</th>
+								<td>
+								<strong>LogicalView.&para;</strong>
+								</td>
+								<td/>
+							</tr>						
+							<tr>
+								<th>8</th>
+								<td>
+								...&lt;drop/&gt;&para;
+								</td>
+								<td/>
+							</tr>						
+							<tr>
+								<th>9</th>
+								<td>
+								<strong>PhysicalView.&para;</strong>
+								</td>
+								<td/>
+							</tr>						
+							<tr>
+								<th>10</th>
+								<td>
+								...&lt;drop/&gt;&para;
+								</td>
+								<td/>
+							</tr>						
+							<tr>
+								<th>11</th>
+								<td>
+								<strong>UseCases.&para;</strong>
+								</td>
+								<td/>
+							</tr>						
+							<tr>
+								<th>12</th>
+								<td>
+								...&lt;drop/&gt;&para;
+								</td>
+								<td/>
+							</tr>						
+							<tr>
+								<th>13</th>
+								<td>
+								&lt;drop/&gt;&para;
+								</td>
+								<td/>
+							</tr>						
+						</table>			
+					</td>
+					<td width="187" valign="top">
+						<table class="xlsx code">
+							<tr>
+								<th></th><th>A</th><th width="20">B</th>
+							</tr>
+							<tr>
+								<th>1</th>
+								<td>
+									<strong>Allocations.&para;</strong><br/>
+								</td>
+								<td/>
+							</tr>
+							<tr>
+								<th>2</th>
+								<td>
+									<strong>Context.&para;</strong><br/>
+								</td>
+								<td/>
+							</tr>
+							<tr>
+								<th>3</th>
+								<td>
+									<strong>LogicalView.&para;</strong><br/>
+								</td>
+								<td/>
+							</tr>
+							<tr>
+								<th>4</th>
+								<td>
+									<strong>PhysicalView.&para;</strong><br/>
+								</td>
+								<td/>
+							</tr>
+							<tr>
+								<th>5</th>
+								<td>
+									<strong>UseCases.&para;</strong>
+								</td>
+								<td/>
+							</tr>
+						</table>
+					</td>
+				</tr>			
+			</tbody>
+		</table>
+		<h3>Removing lines with empty content</h3>
+		<p>Tag <span class="code">&lt;dropEmpty/&gt;</span> drop a paragraph if the tag content is empty.</p>
+		<p>The two following examples are equivalent:</p>
+
+		<table class="xlsx code">
+			<tr>
+				<th></th><th>A</th><th width="20">B</th>
+			</tr>
+			<tr>
+				<th>1</th>
+				<td><span class="code">&lt;context model=&rsquo;${model_path}&rsquo;/&gt;<br/>
+				&lt;gendoc&gt;&lt;drop/&gt;</td>
+				<td/>
+			</tr>
+			<tr>
+				<th>2</th>
+				<td>All comments on packages:</td>
+				<td/>
+			</tr>
+			<tr>
+				<th>3</th>
+				<td>
+				<span class="code">&emsp;[for (p:Package|Package.allInstances()-&gt;sortedBy(name))]<br/>
+				&emsp;&emsp;[for (c:Comment| p.ownedComment)]&lt;drop/&gt;</span>
+				</td>
+				<td width="40"/>
+			</tr>
+			<tr>
+				<th>4</th>
+				<td>
+				- Comment for package [p.name/]: <strong><span class="blue">&lt;dropEmpty&gt;</span></strong>[c._body/]<strong><span class="blue">&lt;/dropEmpty&gt;</span></strong>
+				</td>
+				<td width="40"/>
+			</tr>
+			<tr>
+				<th>5</th>
+				<td>
+				<span class="code">&emsp;&emsp;[/for]<br/>
+				&emsp;[/for]<br/>
+				&lt;/gendoc&gt;&lt;drop/&gt;</span>				
+				</td>
+				<td width="40"/>
+			</tr>
+		</table>									
+		<br/><br/>
+		<table class="xlsx code">
+			<tr>
+				<th></th><th>A</th><th width="20">B</th>
+			</tr>
+			<tr>
+				<th>1</th>
+				<td><span class="code">&lt;context model=&rsquo;${model_path}&rsquo;/&gt;<br/>
+				&lt;gendoc&gt;&lt;drop/&gt;</td>
+				<td/>
+			</tr>
+			<tr>
+				<th>2</th>
+				<td>All comments on packages:</td>
+				<td/>
+			</tr>
+			<tr>
+				<th>3</th>
+				<td>
+				<span class="code">&emsp;[for (p:Package|Package.allInstances()-&gt;sortedBy(name))]<br/>
+				&emsp;&emsp;[for (c:Comment| p.ownedComment)]<br/>
+				<span class="blue">				
+				&emsp;&emsp;&emsp;[if (not(c._body.oclIsUndefined()))]
+				</span>
+				&lt;drop/&gt;
+				</span>
+				</td>
+				<td width="40"/>
+			</tr>
+			<tr>
+				<th>4</th>
+				<td>
+				- Comment for package [p.name/]: [c._body/]<br/>
+				</td>
+				<td width="40"/>
+			</tr>
+			<tr>
+				<th>5</th>
+				<td>
+				<span class="code">
+				<span class="blue">
+				&emsp;&emsp;&emsp;[/if]<br/>
+				</span>
+				&emsp;&emsp;[/for]<br/>
+				&emsp;[/for]<br/>
+				&lt;/gendoc&gt;&lt;drop/&gt;</span>				
+				</td>
+				<td width="40"/>
+			</tr>
+		</table>									
+		<!--  
+		<h3>Removing line breaks</h3>
+		<p>Using tag &lt;nobr/&gt; allows to make template scripts easier to maintain, because 
+			code can be written on several paragraphs without displaying line breaks in output document, 
+			such as in the following example.</p>
+		<table class="sample">
+			<tbody>
+				<tr class="heading">
+					<td width="307">
+						<p><strong>Template content</strong></p>
+					</td>
+					<td width="307">
+						<p><strong>Output</strong></p>
+					</td>
+				</tr>
+				<tr>
+					<td width="307">
+						<p>
+							<span class="code">
+							<strong>&lt;gendoc&gt;</strong><br/>
+							<strong>[for (p:Package| &hellip; )]&lt;drop/&gt;&para;</strong><br/>
+							</span>
+							Name:<strong> <span class="blue">&lt;nobr/&gt;&para;</span></strong><br/>
+							<span class="code">
+							&emsp;<strong> [if ( &hellip; )]&lt;drop/&gt;&para;</strong><br/>
+							</span>
+							&emsp;[p.name/]<strong>&para;</strong><br/>
+							<span class="code">
+							&emsp;<strong> [else]&lt;drop/&gt;&para;</strong><br/>
+							</span>
+							&emsp;Not found<strong>&para;</strong><br/>
+							<span class="code">
+							&emsp;<strong> [/if]&lt;drop/&gt; &para;</strong><br/>
+							</span>
+							&lt;&lt;Other info on package&gt;&gt;<strong>&para;</strong><br/>
+							<strong>&para;</strong><br/>
+							<span class="code">
+							<strong>[/for]&lt;drop/&gt;&para;</strong><br/>
+							<strong>&lt;/gendoc&gt;&para;</strong>
+							</span>
+						</p>
+					</td>
+					<td width="307">
+						<p>
+							Name: Actors<br/>
+							Name: DeploymentView<br/>
+							Name: Actors<strong>&para;</strong><br/>
+							&lt;&lt;Other info on package&gt;&gt;<strong>&para;</strong><br/>
+							<strong>&para;</strong><br/>
+							Name: LogicalView<strong>&para;</strong><br/>
+							&lt;&lt;Other info on package&gt;&gt;<strong>&para;</strong><br/>
+							<strong>&para;</strong><br/>
+							Name: UseCaseView<strong>&para;</strong><br/>
+							&lt;&lt;Other info on package&gt;&gt;<strong>&para;</strong><br/>
+							<strong>&para;</strong><br/>
+							Name: Not found<strong>&para;</strong><br/>
+							&lt;&lt;Other info on package&gt;&gt;<strong>&para;</strong><br/>
+							<strong>&para;</strong>
+						</p>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		-->
+   </body>
+</html>

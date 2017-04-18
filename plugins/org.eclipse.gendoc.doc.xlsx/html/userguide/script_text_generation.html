@@ -1,0 +1,79 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+   <head>
+      <title>Text generation</title>
+    	<link rel="stylesheet" type="text/css" href="userguide.css">
+   </head>
+
+   <body>
+		<h2>Text generation</h2>
+		<p>Writing scripts inside a worksheet has a lot of inconveniences but the great advantage is to 
+		benefit from all edition functionality, mainly column, row and cell formats.</p>
+		
+		<h3>Applying styles to the generation output</h3>
+		
+		<p>The style applied to the cell, row or column containing the script inside the template document is kept in the generation output 
+		(color, font, size, alignments).</p>
+		<table class="sample" width="650px">
+			<tbody>
+				<tr class="heading">
+					<td width="50%"><p><strong>Template content</strong></p></td>
+					<td width="50%"><p><strong>Generation output</strong></p></td>
+				</tr>
+				<tr valign="top">
+					<td align="center">
+						<table class="xlsx" width="290">
+							<tr>
+								<th></th><th>A</th><th width="40">B</th>
+							</tr>
+							<tr>
+								<th>1</th>
+								<td>&lt;context model='D:/&hellip;/myModel.uml'/&gt;
+									&lt;gendoc&gt;</br>
+									&emsp;[for (p:Package | Package.allInstances())]</td>
+								<td width="40"/>
+							</tr>
+							<tr>
+								<th>2</th>
+								<td><strong class="blue" style="font-weight:900;">[p.name/]</strong><br/></td>
+								<td/>
+							</tr>
+							<tr>
+								<th>3</th>
+								<td>&emsp;[/for]<br/>
+									&lt;gendoc&gt;</td>
+								<td width="40"/>
+							</tr>
+						</table>					
+					</td>
+					<td align="center">
+						<table class="xlsx" width="290">
+							<tr>
+								<th></th><th>A</th><th width="40">B</th>
+							</tr>
+							<tr>
+								<th>1</th><td></td><td width="40"/>
+							</tr>
+							<tr>
+								<th>2</th><td><strong class="blue" style="font-weight:900;">Actors</strong><br/></td><td/>
+							</tr>
+							<tr>
+								<th>3</th><td><strong class="blue" style="font-weight:900;">Use case view</strong><br/></td><td/>
+							</tr>
+							<tr>
+								<th>4</th><td><strong class="blue" style="font-weight:900;">Logical view</strong><br/></td><td/>
+							</tr>
+							<tr>
+								<th>5</th><td><strong class="blue" style="font-weight:900;">Deployment view</strong><br/></td><td/>
+							</tr>
+							<tr>
+								<th>6</th><td></td><td width="40"/>
+							</tr>
+						</table>					
+					</td>
+				</tr>
+			</tbody>
+		</table>		
+		<p>All other styles from document templates are kept during generation.</p>
+   </body>
+</html>

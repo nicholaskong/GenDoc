@@ -1,5 +1,4 @@
 #!/bin/bash
-WORKSPACE=/cygdrive/c/Projects/GenDoc4E/git/org.eclipse.gendoc/
 p2UpdateSite=$WORKSPACE/releng/org.eclipse.gendoc.update-site/target
 updateSite=$WORKSPACE
 nightlyDownloadSrc=$WORKSPACE/releng/toolkit/downloads/updates/nightly/latest

@@ -6,6 +6,6 @@
 		<property name="p2.timestamp" value="!!__TIMESTAMP__!!" />
 	</properties>
 	<children size="1">
-		<child location="https://hudson.eclipse.org/gendoc/job/Gendoc/lastSuccessfulBuild/artifact/repository" />
+		<child location="https://hudson.eclipse.org/gendoc/job/Gendoc-nightly/lastSuccessfulBuild/artifact/repository" />
 	</children>
 </repository>
